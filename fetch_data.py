@@ -58,6 +58,10 @@ def export_pronounces(outputs):
 def main():
     input = get_data()
     hanzis = list(dict.fromkeys(list(input)))  # 重複を削除
+    if not os.path.isfile("tmp/pronounces.csv"):
+        f = open("tmp/pronounces.csv", "w")
+        f.write("")
+        f.close()
     with open("tmp/pronounces.csv", "r") as f:
         reader = csv.reader(f)
         data = dict([row for row in reader])

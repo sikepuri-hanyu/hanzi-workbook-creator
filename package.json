@@ -4,9 +4,10 @@
   "description": "",
   "scripts": {
     "setup": "mkdir tmp && cp style.css tmp/style.css",
-    "build": "make",
-    "watch": "watch -n 10 python3 make_html.py",
-    "preview": "vivliostyle preview tmp/main.html -s a4"
+    "python": "python3 fetch_data.py && python3 make_html.py",
+    "build": "npm run python && vivliostyle build tmp/main.html -s a3 -o output.pdf",
+    "watch": "watch -n 10 npm run python",
+    "preview": "npm run python && vivliostyle preview tmp/main.html -s a3"
   },
   "author": "",
   "license": "MIT",
