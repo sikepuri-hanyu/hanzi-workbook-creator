@@ -1,5 +1,7 @@
 # 漢字練習帳
 
+![screen](https://user-images.githubusercontent.com/104971044/200125503-329f3031-42aa-4f3f-b497-badf8f91b1f2.jpg)
+
 `input.txt` に書かれた文字から重複するものを消して、漢字練習帳を自動生成します。
 
 ## 環境構築
