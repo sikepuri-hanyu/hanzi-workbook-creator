@@ -10,7 +10,7 @@ f = open("tmp/main.html", "w")
 f.write('<head><link rel="stylesheet" href="./style.css" /></head>')
 for input in inputs:
     hanzi = input[0]
-    files = sorted(glob.glob(f"tmp/{hanzi}*.png"))
+    files = sorted(glob.glob(f"tmp/{hanzi}*.svg"))
     f.write('<div class="char">')
     f.write('<div class = "title" lang = "zh-cmn-Hans" >')
     f.write(f'<div class="pinyin">{input[1]}</div>')
@@ -19,8 +19,10 @@ for input in inputs:
     f.write('<div class = "wrapper">')
     f.write('<div class = "strokes" >')
     for file in files:
-        f.write(
-            f'<img src = "{file.replace("tmp/","")}" alt = "{file.replace("tmp/","").replace(".png","")}" / >')
+        svg = open(file, "r")
+        data = svg.read()
+        f.write(str(data))
+        svg.close()
     f.write('</div>')
     f.write('<div class = "playgrounds" >')
     f.write(
