@@ -10,7 +10,7 @@ f = open("tmp/main.html", "w")
 f.write('<head><link rel="stylesheet" href="./style.css" /></head>')
 for input in inputs:
     hanzi = input[0]
-    files = glob.glob(f"tmp/{hanzi}*.png")
+    files = sorted(glob.glob(f"tmp/{hanzi}*.png"))
     f.write('<div class="char">')
     f.write('<div class = "title" lang = "zh-cmn-Hans" >')
     f.write(f'<div class="pinyin">{input[1]}</div>')
