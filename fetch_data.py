@@ -38,7 +38,7 @@ def get_svgs(hanzi):
     soup = BeautifulSoup(r.content, "html.parser")
     svgs = soup("svg")
     for i, svg in enumerate(svgs):
-        f = open(f"tmp/{hanzi}{i+1}.svg", "w")
+        f = open(f"tmp/{hanzi}{i+1:02}.svg", "w")
         f.write(str(svgs[i]))
 
 
