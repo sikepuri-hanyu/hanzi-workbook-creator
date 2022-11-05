@@ -46,7 +46,15 @@ def get_pronounce(hanzi):
     r = requests.get(get_page_url(hanzi))
     soup = BeautifulSoup(r.content, "html.parser")
     bolds = soup("b")
-    return bolds[0].text
+    text_bolds = list(map(lambda bold: bold.text, bolds))
+    index = text_bolds.index("基本释义")
+    pronounce = ""
+    for i, text_bold in enumerate(text_bolds):
+        if i < index:
+            if pronounce != "":
+                pronounce += " "
+            pronounce += text_bold
+    return pronounce
 
 
 def export_pronounces(outputs):
