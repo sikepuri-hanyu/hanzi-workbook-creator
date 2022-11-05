@@ -1,7 +1,7 @@
 # from reportlab.graphics import renderPM
 # from svglib.svglib import svg2rlg
 import csv
-# import os
+import os
 import requests
 from bs4 import BeautifulSoup
 
@@ -57,14 +57,19 @@ def export_pronounces(outputs):
 
 def main():
     input = get_data()
-    # 重複を削除
-    hanzis = list(dict.fromkeys(list(input)))
+    hanzis = list(dict.fromkeys(list(input)))  # 重複を削除
+    with open("tmp/pronounces.csv", "r") as f:
+        reader = csv.reader(f)
+        data = dict([row for row in reader])
     outputs = []
     for hanzi in hanzis:
-        # if not os.path.isfile(f"tmp/{kanji}1.svg"):
-        outputs.append([hanzi, get_pronounce(hanzi)])
-        # get_gif(kanji)
-        get_svgs(hanzi)
+        if hanzi in data.keys():
+            outputs.append([hanzi, data[hanzi]])
+        else:
+            outputs.append([hanzi, get_pronounce(hanzi)])
+            # get_gif(hanzi)
+            if not os.path.isfile(f"tmp/{hanzi}1.svg"):
+                get_svgs(hanzi)
     export_pronounces(outputs)
 
 
