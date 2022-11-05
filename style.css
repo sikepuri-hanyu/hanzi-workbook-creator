@@ -55,8 +55,3 @@ img {
   margin: 6px;
   /* text-decoration: line-through dotted lightskyblue; */
 }
-
-body {
-  display: flex;
-  flex-direction: column;
-}
