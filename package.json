@@ -1,0 +1,18 @@
+{
+  "name": "hanzi_practice",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "setup": "mkdir tmp && cp style.css tmp/style.css",
+    "build": "make",
+    "watch": "watch -n 10 python3 make_html.py",
+    "preview": "vivliostyle preview tmp/main.html -s a4"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@vivliostyle/cli": "^5.8.1",
+    "glob": "^8.0.3",
+    "sharp": "^0.31.2"
+  }
+}
