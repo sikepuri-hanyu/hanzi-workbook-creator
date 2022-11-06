@@ -1,5 +1,3 @@
-# from reportlab.graphics import renderPM
-# from svglib.svglib import svg2rlg
 import csv
 import os
 import requests
@@ -61,19 +59,34 @@ def export_pronounces(outputs):
     with open("tmp/pronounces.csv", "w") as f:
         writer = csv.writer(f)
         writer.writerows(outputs)
+    f.close()
 
 
 def main():
     input = get_data()
     hanzis = list(dict.fromkeys(list(input)))  # 重複を削除
+    # ファイル作成
     if not os.path.isfile("tmp/pronounces.csv"):
         f = open("tmp/pronounces.csv", "w")
         f.write("")
         f.close()
+
     with open("tmp/pronounces.csv", "r") as f:
         reader = csv.reader(f)
         data = dict([row for row in reader])
-    outputs = []
+    
+    # データ取得
+    outputs=list(zip(data.keys(),data.values()))
+    for hanzi in hanzis:
+        if not hanzi in data.keys():
+            outputs.append([hanzi, get_pronounce(hanzi)])
+            # get_gif(hanzi)
+            if not os.path.isfile(f"tmp/{hanzi}1.svg"):
+                get_svgs(hanzi)
+        export_pronounces(outputs)
+
+    # もう一度取得
+    outputs=[]
     for hanzi in hanzis:
         if hanzi in data.keys():
             outputs.append([hanzi, data[hanzi]])
@@ -86,7 +99,3 @@ def main():
 
 
 main()
-
-
-# drawing = svg2rlg("test.svg")
-# renderPM.drawToFile(drawing, "test.png", fmt="PNG")
