@@ -61,17 +61,27 @@ def export_pronounces(outputs):
         writer.writerows(outputs)
     f.close()
 
+def add_to_database(outputs):
+    with open("tmp/pronounces_database.csv", "w") as f:
+        writer = csv.writer(f)
+        writer.writerows(outputs)
+    f.close()
+
 
 def main():
     input = get_data()
     hanzis = list(dict.fromkeys(list(input)))  # 重複を削除
     # ファイル作成
+    if not os.path.isfile("tmp/pronounces_database.csv"):
+        f = open("tmp/pronounces.csv", "w")
+        f.write("")
+        f.close()
     if not os.path.isfile("tmp/pronounces.csv"):
         f = open("tmp/pronounces.csv", "w")
         f.write("")
         f.close()
 
-    with open("tmp/pronounces.csv", "r") as f:
+    with open("tmp/pronounces_database.csv", "r") as f:
         reader = csv.reader(f)
         data = dict([row for row in reader])
     
@@ -83,7 +93,7 @@ def main():
             # get_gif(hanzi)
             if not os.path.isfile(f"tmp/{hanzi}1.svg"):
                 get_svgs(hanzi)
-        export_pronounces(outputs)
+        add_to_database(outputs)
 
     # もう一度取得
     outputs=[]
