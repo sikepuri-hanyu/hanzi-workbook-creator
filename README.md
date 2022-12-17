@@ -8,16 +8,20 @@
 
 ## 環境構築
 
+npm パッケージのインストール
+
 ```shell
 npm ci
 ```
 
+Poetry のインストール
+
 ```shell
-pip install pipenv
+curl -sSL https://install.python-poetry.org | python3 -
 ```
 
 ```shell
-pipenv sync --dev
+poetry install
 ```
 
 ```shell
