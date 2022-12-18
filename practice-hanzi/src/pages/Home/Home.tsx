@@ -56,7 +56,7 @@ export default function Home() {
             <th>熟語</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody lang="zh-cmn-Hans">
           {inputDatas.map((inputData, i) => (
             <tr key={i}>
               {edittingNumber === i ? (

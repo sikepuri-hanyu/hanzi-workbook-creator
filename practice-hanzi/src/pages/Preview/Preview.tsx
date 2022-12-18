@@ -120,7 +120,9 @@ function PlayGround({ hanziData }: { hanziData: HanziData }) {
 function PinyinComponent({ pinyin }: { pinyin: Pinyin }) {
   return (
     <>
-      <div className={styles["title-pinyin"]}>{pinyin}</div>
+      <div lang="zh-cmn-Hans" className={styles["title-pinyin"]}>
+        {pinyin}
+      </div>
     </>
   );
 }
@@ -134,7 +136,9 @@ function HanziCompoundComponent({
     <>
       <div className={styles["hanzi-compound"]}>
         熟語:
-        <div style={{ marginLeft: "10px" }}>{hanziCompound}</div>
+        <div lang="zh-cmn-Hans" style={{ marginLeft: "10px" }}>
+          {hanziCompound}
+        </div>
       </div>
     </>
   );
