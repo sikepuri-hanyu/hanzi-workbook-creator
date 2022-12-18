@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { InputData } from "../../components/hanziData";
 import pinyin from "pinyin";
@@ -12,9 +12,7 @@ function Description() {
         これは、漢字練習帳の自動作成ツールです。使い方は、次のようになります。
       </p>
       <ul>
-        <li>
-          下の入力ボックスに必要な情報を入力してください。※現在はリロードすると、データが消えるのでこまめにデータをダウンロードしてください。
-        </li>
+        <li>下の入力ボックスに必要な情報を入力してください。</li>
         <li>ダウンロードボタンから、データをダウンロードしてください。</li>
         <li>
           プレビューページに移動して、先程ダウンロードしたデータを読み込ませてください。
@@ -47,6 +45,15 @@ export default function Home() {
   };
   const [newData, setNewData] = useState<InputData>(initialData);
   const [edittingNumber, setEdittingNumber] = useState<number>(-1);
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      localStorage.setItem("savedBackupData", JSON.stringify(inputDatas));
+      console.log("hello");
+    }, 60000);
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [inputDatas]);
   return (
     <>
       <Description />
@@ -215,6 +222,52 @@ export default function Home() {
           </tr>
         </tbody>
       </table>
+      <button
+        onClick={() => {
+          localStorage.setItem("savedData", JSON.stringify(inputDatas));
+        }}
+      >
+        ブラウザに保存
+      </button>
+      <button
+        onClick={() => {
+          const response = localStorage.getItem("savedData");
+          if (response === null) alert("There is no data!");
+          else {
+            const tmp = [];
+            for (const item of JSON.parse(response)) {
+              tmp.push(item);
+            }
+            setInputDatas(tmp);
+          }
+        }}
+      >
+        保存データから復元
+      </button>
+      <button
+        onClick={() => {
+          const response = localStorage.getItem("savedBackupData");
+          if (response === null) alert("There is no data!");
+          else {
+            const tmp = [];
+            for (const item of JSON.parse(response)) {
+              tmp.push(item);
+            }
+            setInputDatas(tmp);
+          }
+        }}
+      >
+        1分前の自動バックアップデータから復元
+      </button>
+      <button
+        onClick={() => {
+          localStorage.removeItem("savedData");
+          localStorage.removeItem("savedBackupData");
+        }}
+      >
+        バックアップデータをすべて削除
+      </button>
+      <br />
       <button
         onClick={() => {
           const blob = new Blob([JSON.stringify(inputDatas)], {

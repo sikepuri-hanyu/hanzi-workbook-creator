@@ -157,22 +157,44 @@ function App() {
       setHanziDatas(tmp);
     })();
   }, [inputDatas]);
+  useEffect(() => {
+    const response = localStorage.getItem("savedData");
+    if (response !== null) {
+      const tmp = [];
+      for (const item of JSON.parse(response)) {
+        tmp.push(item);
+      }
+      setInputDatas(tmp);
+    }
+  }, []);
+  const [shouldDeleteButton, setShouldDeleteButton] = useState<boolean>(false);
   return (
     <>
-      <input
-        type="file"
-        accept="json"
-        onChange={async (e) => {
-          if (e.target.files !== null) {
-            const reader = new FileReader();
-            const file = e.target.files[0];
-            reader.readAsText(file, "utf-8");
-            reader.onload = () => {
-              setInputDatas(JSON.parse(reader.result as string));
-            };
-          }
-        }}
-      />
+      {!shouldDeleteButton && (
+        <>
+          <input
+            type="file"
+            accept="json"
+            onChange={async (e) => {
+              if (e.target.files !== null) {
+                const reader = new FileReader();
+                const file = e.target.files[0];
+                reader.readAsText(file, "utf-8");
+                reader.onload = () => {
+                  setInputDatas(JSON.parse(reader.result as string));
+                };
+              }
+            }}
+          />
+          <button
+            onClick={() => {
+              setShouldDeleteButton(true);
+            }}
+          >
+            参照ボタンを消す
+          </button>
+        </>
+      )}
       {inputDatas.map((inputData, i) => (
         <React.Fragment key={i}>
           {hanziDatas[i] !== undefined && (
