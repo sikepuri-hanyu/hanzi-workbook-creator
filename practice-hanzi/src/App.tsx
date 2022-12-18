@@ -1,12 +1,17 @@
-import React from "react";
-import { ReactComponent as Svg } from "./hanzi/19969.svg";
+import React, { useState } from "react";
 import "./App.css";
+import Hanzi from "./Hanzi";
 
 function App() {
+  const [hanzi, setHanzi] = useState<string[]>(["一", "丁"]);
+  console.log(hanzi[0].codePointAt(0));
   return (
     <>
-      <Svg width="100px" height="100px" />
-      <div>Hello World!</div>
+      <Hanzi
+        hanziNumber={hanzi[1].codePointAt(0)!}
+        width="100px"
+        height="100px"
+      ></Hanzi>
     </>
   );
 }
