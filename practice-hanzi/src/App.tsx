@@ -72,6 +72,30 @@ function TitleHanzi({
   );
 }
 
+function StrokeOrder({ hanziData }: { hanziData: HanziData }) {
+  return (
+    <>
+      {hanziData.strokesData.map((stroke, i) => (
+        <svg
+          key={`${hanziData.hanziCode}order${i}`}
+          className="acjk"
+          viewBox="0 0 1024 1024"
+          width="50px"
+          height="50px"
+        >
+          {hanziData.strokesData.map((stroke, j) => (
+            <path
+              key={`${hanziData.hanziCode}order${i}d${j + 1}`}
+              d={stroke}
+              fill={i === j ? "red" : i > j ? "black" : "#ccc"}
+            />
+          ))}
+        </svg>
+      ))}
+    </>
+  );
+}
+
 function App() {
   const [inputDatas, setInputDatas] = useState<InputData[]>([
     { hanzi: "一", pinyin: "yi1", emphStrokeNumbers: [1] },
@@ -99,6 +123,7 @@ function App() {
                 hanziData={hanziDatas[i]}
                 emphStrokeNumbers={inputData.emphStrokeNumbers}
               />
+              <StrokeOrder hanziData={hanziDatas[i]} />
             </>
           )}
         </React.Fragment>
