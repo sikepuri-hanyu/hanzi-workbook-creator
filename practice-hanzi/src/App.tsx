@@ -157,20 +157,7 @@ function HanziCompoundComponent({
 }
 
 function App() {
-  const [inputDatas, setInputDatas] = useState<InputData[]>([
-    {
-      hanzi: "一",
-      pinyin: "yi1",
-      emphStrokeNumbers: [1],
-      hanziCompound: "一次",
-    },
-    {
-      hanzi: "你",
-      pinyin: "ni3",
-      emphStrokeNumbers: [1, 2],
-      hanziCompound: "你好",
-    },
-  ]);
+  const [inputDatas, setInputDatas] = useState<InputData[]>([]);
   const [hanziDatas, setHanziDatas] = useState<HanziData[]>([]);
   useEffect(() => {
     (async () => {
@@ -183,6 +170,20 @@ function App() {
   }, [inputDatas]);
   return (
     <>
+      <input
+        type="file"
+        accept="json"
+        onChange={async (e) => {
+          if (e.target.files !== null) {
+            const reader = new FileReader();
+            const file = e.target.files[0];
+            reader.readAsText(file, "utf-8");
+            reader.onload = () => {
+              setInputDatas(JSON.parse(reader.result as string));
+            };
+          }
+        }}
+      />
       {inputDatas.map((inputData, i) => (
         <React.Fragment key={i}>
           {hanziDatas[i] !== undefined && (
