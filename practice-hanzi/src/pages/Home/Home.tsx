@@ -56,6 +56,16 @@ export default function Home() {
       clearInterval(timerId);
     };
   }, [inputDatas]);
+  useEffect(() => {
+    const response = localStorage.getItem("savedData");
+    if (response !== null) {
+      const tmp = [];
+      for (const item of JSON.parse(response)) {
+        tmp.push(item);
+      }
+      setInputDatas(tmp);
+    }
+  }, []);
   return (
     <>
       <Description />
