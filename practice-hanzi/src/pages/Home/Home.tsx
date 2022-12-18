@@ -43,7 +43,7 @@ export default function Home() {
     hanziCompound: "",
   };
   const [newData, setNewData] = useState<InputData>(initialData);
-  //   const [edittingNumber, setEdittingNumber] = useState<number>(-1);
+  const [edittingNumber, setEdittingNumber] = useState<number>(-1);
   return (
     <>
       <Description />
@@ -59,11 +59,70 @@ export default function Home() {
         <tbody>
           {inputDatas.map((inputData, i) => (
             <tr key={i}>
-              <td>{inputData.hanzi}</td>
-              <td>{inputData.pinyin}</td>
-              <td>{inputData.emphStrokeNumbers}</td>
-              <td>{inputData.hanziCompound}</td>
-              <td>{/* <button onClick={}>編集</button> */}</td>
+              {edittingNumber === i ? (
+                ["hanzi", "pinyin", "emphStrokeNumbers", "hanziCompound"].map(
+                  (item) => (
+                    <td key={item}>
+                      <input
+                        type="text"
+                        value={
+                          item === "hanzi"
+                            ? inputDatas[i].hanzi
+                            : item === "pinyin"
+                            ? inputDatas[i].pinyin
+                            : item === "emphStrokeNumbers"
+                            ? inputDatas[i].emphStrokeNumbers.toString()
+                            : inputDatas[i].hanziCompound
+                        }
+                        onChange={(e) => {
+                          const tmp = [...inputDatas];
+                          switch (item) {
+                            case "hanzi":
+                              tmp[i].hanzi = e.target.value;
+                              break;
+                            case "pinyin":
+                              tmp[i].pinyin = e.target.value;
+                              break;
+                            case "emphStrokeNumbers":
+                              tmp[i].emphStrokeNumbers = [];
+                              break;
+                            case "hanziCompound":
+                              tmp[i].hanziCompound = e.target.value;
+                              break;
+                          }
+                          setInputDatas(tmp);
+                        }}
+                      />
+                    </td>
+                  )
+                )
+              ) : (
+                <>
+                  <td>{inputData.hanzi}</td>
+                  <td>{inputData.pinyin}</td>
+                  <td>{inputData.emphStrokeNumbers}</td>
+                  <td>{inputData.hanziCompound}</td>
+                </>
+              )}
+              <td>
+                {edittingNumber === i ? (
+                  <button
+                    onClick={() => {
+                      setEdittingNumber(-1);
+                    }}
+                  >
+                    確定
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setEdittingNumber(i);
+                    }}
+                  >
+                    編集
+                  </button>
+                )}
+              </td>
             </tr>
           ))}
           <tr>
