@@ -39,6 +39,34 @@ type StrokeNumber = number;
 type StrokeNumbers = [...StrokeNumber[]];
 type InputData = { hanzi: Hanzi; emphStrokeNumbers: StrokeNumbers };
 
+function TitleHanzi({
+  hanziData,
+  emphStrokeNumbers,
+}: {
+  hanziData: HanziData;
+  emphStrokeNumbers: StrokeNumbers;
+}): JSX.Element {
+  return (
+    <>
+      <svg
+        key={`${hanziData.hanziCode}`}
+        className="acjk"
+        viewBox="0 0 1024 1024"
+        width="100px"
+        height="100px"
+      >
+        {hanziData.strokesData.map((stroke, j) => (
+          <path
+            key={`${hanziData.hanziCode}d${j + 1}`}
+            d={stroke}
+            fill={emphStrokeNumbers.includes(j + 1) ? "red" : "black"}
+          />
+        ))}
+      </svg>
+    </>
+  );
+}
+
 function App() {
   const [inputDatas, setInputDatas] = useState<InputData[]>([
     { hanzi: "一", emphStrokeNumbers: [1] },
@@ -57,25 +85,11 @@ function App() {
   return (
     <>
       {hanziDatas.map((hanziData, i) => (
-        <svg
-          key={`${hanziData.hanziCode}`}
-          className="acjk"
-          viewBox="0 0 1024 1024"
-          width="100px"
-          height="100px"
-        >
-          {hanziData.strokesData.map((stroke, j) => (
-            <path
-              key={`${hanziData.hanziCode}d${j + 1}`}
-              d={stroke}
-              fill={
-                inputDatas[i].emphStrokeNumbers.includes(j + 1)
-                  ? "red"
-                  : "black"
-              }
-            />
-          ))}
-        </svg>
+        <TitleHanzi
+          key={i}
+          hanziData={hanziData}
+          emphStrokeNumbers={inputDatas[i].emphStrokeNumbers}
+        />
       ))}
     </>
   );
