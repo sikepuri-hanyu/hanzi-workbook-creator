@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
+import {
+  StrokeNumbers,
+  Pinyin,
+  HanziCompound,
+  InputData,
+} from "../../components/hanziData";
 
-type Hanzi = string;
 type HanziCode = number;
 type StrokeData = string;
 type StrokesData = [...StrokeData[]];
@@ -34,17 +39,6 @@ async function getStrokesData(hanziCode: HanziCode) {
     });
   return result;
 }
-
-type StrokeNumber = number;
-type StrokeNumbers = [...StrokeNumber[]];
-type Pinyin = string;
-type HanziCompound = string;
-type InputData = {
-  hanzi: Hanzi;
-  pinyin: Pinyin;
-  emphStrokeNumbers: StrokeNumbers;
-  hanziCompound: HanziCompound;
-};
 
 function TitleHanzi({
   hanziData,
