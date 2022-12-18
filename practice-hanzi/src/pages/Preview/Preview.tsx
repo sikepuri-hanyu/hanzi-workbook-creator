@@ -6,6 +6,7 @@ import {
   HanziCompound,
   InputData,
 } from "../../components/hanziData";
+import toneConvert from "../../components/pinyinToneConvert";
 
 type HanziCode = number;
 type StrokeData = string;
@@ -121,7 +122,7 @@ function PinyinComponent({ pinyin }: { pinyin: Pinyin }) {
   return (
     <>
       <div lang="zh-cmn-Hans" className={styles["title-pinyin"]}>
-        {pinyin}
+        {toneConvert(pinyin)}
       </div>
     </>
   );

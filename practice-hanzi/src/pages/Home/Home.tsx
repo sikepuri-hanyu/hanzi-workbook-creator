@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { InputData } from "../../components/hanziData";
+import pinyin from "pinyin";
+// @ts-ignore
+import toneConvert from "../../components/pinyinToneConvert";
 
 function Description() {
   return (
@@ -79,6 +82,9 @@ export default function Home() {
                           switch (item) {
                             case "hanzi":
                               tmp[i].hanzi = e.target.value;
+                              tmp[i].pinyin = pinyin(e.target.value, {
+                                style: pinyin.STYLE_TONE2,
+                              }).join("");
                               break;
                             case "pinyin":
                               tmp[i].pinyin = e.target.value;
@@ -99,7 +105,7 @@ export default function Home() {
               ) : (
                 <>
                   <td>{inputData.hanzi}</td>
-                  <td>{inputData.pinyin}</td>
+                  <td>{toneConvert(inputData.pinyin)}</td>
                   <td>{inputData.emphStrokeNumbers}</td>
                   <td>{inputData.hanziCompound}</td>
                 </>
@@ -171,6 +177,9 @@ export default function Home() {
                       switch (item) {
                         case "hanzi":
                           tmp.hanzi = e.target.value;
+                          tmp.pinyin = pinyin(e.target.value, {
+                            style: pinyin.STYLE_TONE2,
+                          }).join("");
                           break;
                         case "pinyin":
                           tmp.pinyin = e.target.value;
