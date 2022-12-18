@@ -37,14 +37,16 @@ export default function Home() {
       hanziCompound: "你好",
     },
   ]);
-  const initialData: InputData = {
+  const initialData = {
     hanzi: "",
     pinyin: "",
-    emphStrokeNumbers: [],
+    emphStrokeNumbers: "",
     hanziCompound: "",
   };
-  const [newData, setNewData] = useState<InputData>(initialData);
+  // const [newData, setNewData] = useState<InputData>(initialData);
+  const [newData, setNewData] = useState(initialData);
   const [edittingNumber, setEdittingNumber] = useState<number>(-1);
+  const [emphTmp, setEmphTemp] = useState<string>("");
   useEffect(() => {
     const timerId = setInterval(() => {
       localStorage.setItem("savedBackupData", JSON.stringify(inputDatas));
@@ -81,7 +83,7 @@ export default function Home() {
                             : item === "pinyin"
                             ? inputDatas[i].pinyin
                             : item === "emphStrokeNumbers"
-                            ? inputDatas[i].emphStrokeNumbers.toString()
+                            ? emphTmp
                             : inputDatas[i].hanziCompound
                         }
                         onChange={(e) => {
@@ -97,7 +99,7 @@ export default function Home() {
                               tmp[i].pinyin = e.target.value;
                               break;
                             case "emphStrokeNumbers":
-                              tmp[i].emphStrokeNumbers = [];
+                              setEmphTemp(e.target.value);
                               break;
                             case "hanziCompound":
                               tmp[i].hanziCompound = e.target.value;
@@ -113,7 +115,7 @@ export default function Home() {
                 <>
                   <td>{inputData.hanzi}</td>
                   <td>{toneConvert(inputData.pinyin)}</td>
-                  <td>{inputData.emphStrokeNumbers}</td>
+                  <td>{inputData.emphStrokeNumbers.join(",")}</td>
                   <td>{inputData.hanziCompound}</td>
                 </>
               )}
@@ -121,6 +123,10 @@ export default function Home() {
                 {edittingNumber === i ? (
                   <button
                     onClick={() => {
+                      const tmp = [...inputDatas];
+                      tmp[i].emphStrokeNumbers = emphTmp
+                        .split(",")
+                        .map((item) => Number(item));
                       setEdittingNumber(-1);
                     }}
                   >
@@ -130,6 +136,7 @@ export default function Home() {
                   <button
                     onClick={() => {
                       setEdittingNumber(i);
+                      setEmphTemp(inputDatas[i].emphStrokeNumbers.toString());
                     }}
                   >
                     編集
@@ -192,7 +199,7 @@ export default function Home() {
                           tmp.pinyin = e.target.value;
                           break;
                         case "emphStrokeNumbers":
-                          tmp.emphStrokeNumbers = [];
+                          tmp.emphStrokeNumbers = e.target.value;
                           break;
                         case "hanziCompound":
                           tmp.hanziCompound = e.target.value;
@@ -212,7 +219,17 @@ export default function Home() {
             <td>
               <button
                 onClick={() => {
-                  setInputDatas([...inputDatas, newData]);
+                  setInputDatas([
+                    ...inputDatas,
+                    {
+                      hanzi: newData.hanzi,
+                      pinyin: newData.pinyin,
+                      emphStrokeNumbers: newData.emphStrokeNumbers
+                        .split(",")
+                        .map((item) => Number(item)),
+                      hanziCompound: newData.hanziCompound,
+                    },
+                  ]);
                   setNewData(initialData);
                 }}
               >
