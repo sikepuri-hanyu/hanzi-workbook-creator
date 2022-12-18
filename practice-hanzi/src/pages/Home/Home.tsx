@@ -243,7 +243,7 @@ export default function Home() {
                   setNewData(initialData);
                 }}
               >
-                確定
+                追加
               </button>
             </td>
           </tr>
