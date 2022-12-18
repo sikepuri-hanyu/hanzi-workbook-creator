@@ -38,10 +38,12 @@ async function getStrokesData(hanziCode: HanziCode) {
 type StrokeNumber = number;
 type StrokeNumbers = [...StrokeNumber[]];
 type Pinyin = string;
+type HanziCompound = string;
 type InputData = {
   hanzi: Hanzi;
   pinyin: Pinyin;
   emphStrokeNumbers: StrokeNumbers;
+  hanziCompound: HanziCompound;
 };
 
 function TitleHanzi({
@@ -134,10 +136,40 @@ function PlayGround({ hanziData }: { hanziData: HanziData }) {
   );
 }
 
+function PinyinComponent({ pinyin }: { pinyin: Pinyin }) {
+  return (
+    <>
+      <div>{pinyin}</div>
+    </>
+  );
+}
+
+function HanziCompoundComponent({
+  hanziCompound,
+}: {
+  hanziCompound: HanziCompound;
+}) {
+  return (
+    <>
+      <div>{hanziCompound}</div>
+    </>
+  );
+}
+
 function App() {
   const [inputDatas, setInputDatas] = useState<InputData[]>([
-    { hanzi: "一", pinyin: "yi1", emphStrokeNumbers: [1] },
-    { hanzi: "你", pinyin: "ni3", emphStrokeNumbers: [1, 2] },
+    {
+      hanzi: "一",
+      pinyin: "yi1",
+      emphStrokeNumbers: [1],
+      hanziCompound: "一次",
+    },
+    {
+      hanzi: "你",
+      pinyin: "ni3",
+      emphStrokeNumbers: [1, 2],
+      hanziCompound: "你好",
+    },
   ]);
   const [hanziDatas, setHanziDatas] = useState<HanziData[]>([]);
   useEffect(() => {
@@ -155,12 +187,13 @@ function App() {
         <React.Fragment key={i}>
           {hanziDatas[i] !== undefined && (
             <>
-              <div>{inputData.pinyin}</div>
+              <PinyinComponent pinyin={inputData.pinyin} />
               <TitleHanzi
                 key={i}
                 hanziData={hanziDatas[i]}
                 emphStrokeNumbers={inputData.emphStrokeNumbers}
               />
+              <HanziCompoundComponent hanziCompound={inputData.hanziCompound} />
               <StrokeOrder hanziData={hanziDatas[i]} />
               <PlayGround hanziData={hanziDatas[i]} />
             </>
