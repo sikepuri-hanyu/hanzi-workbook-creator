@@ -122,6 +122,32 @@ export default function Home() {
                     編集
                   </button>
                 )}
+                {i !== 0 && (
+                  <button
+                    onClick={() => {
+                      const copiedInputDatas = [...inputDatas];
+                      const tmp = copiedInputDatas[i - 1];
+                      copiedInputDatas[i - 1] = copiedInputDatas[i];
+                      copiedInputDatas[i] = tmp;
+                      setInputDatas(copiedInputDatas);
+                    }}
+                  >
+                    ↑
+                  </button>
+                )}
+                {i !== inputDatas.length - 1 && (
+                  <button
+                    onClick={() => {
+                      const copiedInputDatas = [...inputDatas];
+                      const tmp = copiedInputDatas[i];
+                      copiedInputDatas[i] = copiedInputDatas[i + 1];
+                      copiedInputDatas[i + 1] = tmp;
+                      setInputDatas(copiedInputDatas);
+                    }}
+                  >
+                    ↓
+                  </button>
+                )}
               </td>
             </tr>
           ))}
