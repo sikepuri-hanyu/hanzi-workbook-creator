@@ -48,16 +48,7 @@ export default function Home() {
   const [edittingNumber, setEdittingNumber] = useState<number>(-1);
   const [emphTmp, setEmphTemp] = useState<string>("");
   useEffect(() => {
-    const timerId = setInterval(() => {
-      localStorage.setItem("savedBackupData", JSON.stringify(inputDatas));
-      console.log("hello");
-    }, 60000);
-    return () => {
-      clearInterval(timerId);
-    };
-  }, [inputDatas]);
-  useEffect(() => {
-    const response = localStorage.getItem("savedData");
+    const response = localStorage.getItem("savedBackupData");
     if (response !== null) {
       const tmp = [];
       for (const item of JSON.parse(response)) {
@@ -66,6 +57,15 @@ export default function Home() {
       setInputDatas(tmp);
     }
   }, []);
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      localStorage.setItem("savedBackupData", JSON.stringify(inputDatas));
+      console.log("hello");
+    }, 1000);
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [inputDatas]);
   return (
     <>
       <Description />
@@ -270,21 +270,6 @@ export default function Home() {
         }}
       >
         保存データから復元
-      </button>
-      <button
-        onClick={() => {
-          const response = localStorage.getItem("savedBackupData");
-          if (response === null) alert("There is no data!");
-          else {
-            const tmp = [];
-            for (const item of JSON.parse(response)) {
-              tmp.push(item);
-            }
-            setInputDatas(tmp);
-          }
-        }}
-      >
-        1分前の自動バックアップデータから復元
       </button>
       <button
         onClick={() => {

@@ -158,7 +158,7 @@ function App() {
     })();
   }, [inputDatas]);
   useEffect(() => {
-    const response = localStorage.getItem("savedData");
+    const response = localStorage.getItem("savedBackupData");
     if (response !== null) {
       const tmp = [];
       for (const item of JSON.parse(response)) {
@@ -186,6 +186,21 @@ function App() {
               }
             }}
           />
+          <button
+            onClick={() => {
+              const response = localStorage.getItem("savedData");
+              if (response === null) alert("There is no data!");
+              else {
+                const tmp = [];
+                for (const item of JSON.parse(response)) {
+                  tmp.push(item);
+                }
+                setInputDatas(tmp);
+              }
+            }}
+          >
+            ブラウザへの保存データから復元
+          </button>
           <button
             onClick={() => {
               setShouldDeleteButton(true);
