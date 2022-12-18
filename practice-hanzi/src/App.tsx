@@ -96,6 +96,44 @@ function StrokeOrder({ hanziData }: { hanziData: HanziData }) {
   );
 }
 
+function PlayGround({ hanziData }: { hanziData: HanziData }) {
+  return (
+    <>
+      <div style={{ display: "flex" }}>
+        {[0, 1, 2, 3, 4, 5].map((index) => (
+          <div
+            key={index}
+            style={{
+              width: "100px",
+              height: "100px",
+              border: "solid 4px lightskyblue",
+              margin: "6px",
+            }}
+          >
+            {index === 0 && (
+              <svg
+                key={`playground${hanziData.hanziCode}`}
+                className="acjk"
+                viewBox="0 0 1024 1024"
+                width="100%"
+                height="100%"
+              >
+                {hanziData.strokesData.map((stroke, j) => (
+                  <path
+                    key={`playground${hanziData.hanziCode}d${j + 1}`}
+                    d={stroke}
+                    fill="#ccc"
+                  />
+                ))}
+              </svg>
+            )}
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
 function App() {
   const [inputDatas, setInputDatas] = useState<InputData[]>([
     { hanzi: "一", pinyin: "yi1", emphStrokeNumbers: [1] },
@@ -124,6 +162,7 @@ function App() {
                 emphStrokeNumbers={inputData.emphStrokeNumbers}
               />
               <StrokeOrder hanziData={hanziDatas[i]} />
+              <PlayGround hanziData={hanziDatas[i]} />
             </>
           )}
         </React.Fragment>
