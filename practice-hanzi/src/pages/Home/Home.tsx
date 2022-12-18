@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { InputData } from "../../components/hanziData";
 
 function Description() {
@@ -134,6 +135,8 @@ export default function Home() {
       >
         ダウンロード
       </button>
+      <br />
+      <Link to="/preview">プレビューページ</Link>
     </>
   );
 }
