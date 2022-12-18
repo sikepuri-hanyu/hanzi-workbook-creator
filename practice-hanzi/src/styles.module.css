@@ -1,0 +1,58 @@
+.hanzi {
+  display: flex;
+  flex-direction: row;
+  margin: 50px 10px;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  margin-right: 40px;
+}
+
+.title-pinyin {
+  text-align: center;
+}
+
+.title-hanzi {
+  width: 100px;
+  height: 100px;
+  border: solid 4px lightskyblue;
+  margin-top: 10px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+}
+
+.hanzi-compound {
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+}
+
+.stroke-orders {
+  margin-left: 20px;
+}
+
+.stroke-order {
+  width: 50px;
+  height: 50px;
+}
+
+.playgrounds {
+  display: flex;
+}
+
+.playground {
+  width: 80px;
+  height: 80px;
+  border: solid 4px lightskyblue;
+  margin: 6px;
+}

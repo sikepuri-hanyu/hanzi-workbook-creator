@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
+import styles from "./styles.module.css";
 
 type Hanzi = string;
 type HanziCode = number;
@@ -57,10 +57,8 @@ function TitleHanzi({
     <>
       <svg
         key={`${hanziData.hanziCode}`}
-        className="acjk"
+        className={styles["title-hanzi"]}
         viewBox="0 0 1024 1024"
-        width="100px"
-        height="100px"
       >
         {hanziData.strokesData.map((stroke, j) => (
           <path
@@ -76,14 +74,12 @@ function TitleHanzi({
 
 function StrokeOrder({ hanziData }: { hanziData: HanziData }) {
   return (
-    <>
+    <div className={styles["stroke-orders"]}>
       {hanziData.strokesData.map((stroke, i) => (
         <svg
           key={`${hanziData.hanziCode}order${i}`}
-          className="acjk"
+          className={styles["stroke-order"]}
           viewBox="0 0 1024 1024"
-          width="50px"
-          height="50px"
         >
           {hanziData.strokesData.map((stroke, j) => (
             <path
@@ -94,28 +90,19 @@ function StrokeOrder({ hanziData }: { hanziData: HanziData }) {
           ))}
         </svg>
       ))}
-    </>
+    </div>
   );
 }
 
 function PlayGround({ hanziData }: { hanziData: HanziData }) {
   return (
     <>
-      <div style={{ display: "flex" }}>
+      <div className={styles.playgrounds}>
         {[0, 1, 2, 3, 4, 5].map((index) => (
-          <div
-            key={index}
-            style={{
-              width: "100px",
-              height: "100px",
-              border: "solid 4px lightskyblue",
-              margin: "6px",
-            }}
-          >
+          <div key={index} className={styles.playground}>
             {index === 0 && (
               <svg
                 key={`playground${hanziData.hanziCode}`}
-                className="acjk"
                 viewBox="0 0 1024 1024"
                 width="100%"
                 height="100%"
@@ -139,7 +126,7 @@ function PlayGround({ hanziData }: { hanziData: HanziData }) {
 function PinyinComponent({ pinyin }: { pinyin: Pinyin }) {
   return (
     <>
-      <div>{pinyin}</div>
+      <div className={styles["title-pinyin"]}>{pinyin}</div>
     </>
   );
 }
@@ -151,7 +138,10 @@ function HanziCompoundComponent({
 }) {
   return (
     <>
-      <div>{hanziCompound}</div>
+      <div className={styles["hanzi-compound"]}>
+        熟語:
+        <div style={{ marginLeft: "10px" }}>{hanziCompound}</div>
+      </div>
     </>
   );
 }
@@ -187,17 +177,25 @@ function App() {
       {inputDatas.map((inputData, i) => (
         <React.Fragment key={i}>
           {hanziDatas[i] !== undefined && (
-            <>
-              <PinyinComponent pinyin={inputData.pinyin} />
-              <TitleHanzi
-                key={i}
-                hanziData={hanziDatas[i]}
-                emphStrokeNumbers={inputData.emphStrokeNumbers}
-              />
-              <HanziCompoundComponent hanziCompound={inputData.hanziCompound} />
-              <StrokeOrder hanziData={hanziDatas[i]} />
-              <PlayGround hanziData={hanziDatas[i]} />
-            </>
+            <div className={styles.hanzi}>
+              <div className={styles.title}>
+                <PinyinComponent pinyin={inputData.pinyin} />
+                <TitleHanzi
+                  key={i}
+                  hanziData={hanziDatas[i]}
+                  emphStrokeNumbers={inputData.emphStrokeNumbers}
+                />
+              </div>
+              <div className={styles.content}>
+                <div className={styles.info}>
+                  <HanziCompoundComponent
+                    hanziCompound={inputData.hanziCompound}
+                  />
+                  <StrokeOrder hanziData={hanziDatas[i]} />
+                </div>
+                <PlayGround hanziData={hanziDatas[i]} />
+              </div>
+            </div>
           )}
         </React.Fragment>
       ))}
