@@ -25,15 +25,15 @@ function Description() {
 export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputData[]>([
     {
-      hanzi: "一",
-      pinyin: "yi1",
-      emphStrokeNumbers: [1],
-      hanziCompound: "一次",
-    },
-    {
       hanzi: "你",
       pinyin: "ni3",
       emphStrokeNumbers: [1, 2],
+      hanziCompound: "你好",
+    },
+    {
+      hanzi: "好",
+      pinyin: "hao3",
+      emphStrokeNumbers: [2, 3, 4],
       hanziCompound: "你好",
     },
   ]);
