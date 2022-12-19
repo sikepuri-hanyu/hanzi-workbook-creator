@@ -130,6 +130,13 @@ export default function Home() {
                 </>
               )}
               <td>
+                <button
+                  onClick={() => {
+                    setInputDatas(inputDatas.filter((inputData, j) => i !== j));
+                  }}
+                >
+                  削除
+                </button>
                 {edittingNumber === i ? (
                   <button
                     onClick={() => {
