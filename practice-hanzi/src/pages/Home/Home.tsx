@@ -60,7 +60,6 @@ export default function Home() {
   useEffect(() => {
     const timerId = setInterval(() => {
       localStorage.setItem("savedBackupData", JSON.stringify(inputDatas));
-      console.log("hello");
     }, 1000);
     return () => {
       clearInterval(timerId);
@@ -282,9 +281,10 @@ export default function Home() {
         onClick={() => {
           localStorage.removeItem("savedData");
           localStorage.removeItem("savedBackupData");
+          setInputDatas([]);
         }}
       >
-        バックアップデータをすべて削除
+        データをすべて削除
       </button>
       <br />
       <button
