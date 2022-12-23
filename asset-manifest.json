@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/hanzi-workbook-creator/static/css/main.0e1b3506.css",
-    "main.js": "/hanzi-workbook-creator/static/js/main.2b557f18.js",
+    "main.js": "/hanzi-workbook-creator/static/js/main.f9a2f173.js",
     "static/js/787.841c817b.chunk.js": "/hanzi-workbook-creator/static/js/787.841c817b.chunk.js",
     "index.html": "/hanzi-workbook-creator/index.html",
     "main.0e1b3506.css.map": "/hanzi-workbook-creator/static/css/main.0e1b3506.css.map",
-    "main.2b557f18.js.map": "/hanzi-workbook-creator/static/js/main.2b557f18.js.map",
+    "main.f9a2f173.js.map": "/hanzi-workbook-creator/static/js/main.f9a2f173.js.map",
     "787.841c817b.chunk.js.map": "/hanzi-workbook-creator/static/js/787.841c817b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0e1b3506.css",
-    "static/js/main.2b557f18.js"
+    "static/js/main.f9a2f173.js"
   ]
 }
