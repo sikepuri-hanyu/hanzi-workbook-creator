@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { InputData } from "../../components/hanziData";
 import pinyin from "pinyin";
-// @ts-ignore
 import toneConvert from "../../components/pinyinToneConvert";
 
 function Description() {
