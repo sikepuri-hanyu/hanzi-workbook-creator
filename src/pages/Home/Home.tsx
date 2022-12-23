@@ -29,12 +29,14 @@ export default function Home() {
       pinyin: "ni3",
       emphStrokeNumbers: [1, 2],
       hanziCompound: "你好",
+      note: "sample note",
     },
     {
       hanzi: "好",
       pinyin: "hao3",
       emphStrokeNumbers: [2, 3, 4],
       hanziCompound: "你好",
+      note: "sample note",
     },
   ]);
   const initialData = {
@@ -42,6 +44,7 @@ export default function Home() {
     pinyin: "",
     emphStrokeNumbers: "",
     hanziCompound: "",
+    note: "",
   };
   // const [newData, setNewData] = useState<InputData>(initialData);
   const [newData, setNewData] = useState(initialData);
@@ -75,57 +78,67 @@ export default function Home() {
             <th>ピンイン</th>
             <th>強調する画数</th>
             <th>熟語</th>
+            <th>メモ</th>
           </tr>
         </thead>
         <tbody lang="zh-cmn-Hans">
           {inputDatas.map((inputData, i) => (
             <tr key={i}>
               {edittingNumber === i ? (
-                ["hanzi", "pinyin", "emphStrokeNumbers", "hanziCompound"].map(
-                  (item) => (
-                    <td key={item}>
-                      <input
-                        type="text"
-                        value={
-                          item === "hanzi"
-                            ? inputDatas[i].hanzi
-                            : item === "pinyin"
-                            ? inputDatas[i].pinyin
-                            : item === "emphStrokeNumbers"
-                            ? emphTmp
-                            : inputDatas[i].hanziCompound
+                [
+                  "hanzi",
+                  "pinyin",
+                  "emphStrokeNumbers",
+                  "hanziCompound",
+                  "note",
+                ].map((item) => (
+                  <td key={item}>
+                    <input
+                      type="text"
+                      value={
+                        item === "hanzi"
+                          ? inputDatas[i].hanzi
+                          : item === "pinyin"
+                          ? inputDatas[i].pinyin
+                          : item === "emphStrokeNumbers"
+                          ? emphTmp
+                          : item === "hanziCompond"
+                          ? inputDatas[i].hanziCompound
+                          : inputDatas[i].note
+                      }
+                      onChange={(e) => {
+                        const tmp = [...inputDatas];
+                        switch (item) {
+                          case "hanzi":
+                            tmp[i].hanzi = e.target.value;
+                            tmp[i].pinyin = pinyin(e.target.value, {
+                              style: pinyin.STYLE_TONE2,
+                            }).join("");
+                            break;
+                          case "pinyin":
+                            tmp[i].pinyin = e.target.value;
+                            break;
+                          case "emphStrokeNumbers":
+                            setEmphTemp(e.target.value);
+                            break;
+                          case "hanziCompound":
+                            tmp[i].hanziCompound = e.target.value;
+                            break;
+                          case "note":
+                            tmp[i].note = e.target.value;
                         }
-                        onChange={(e) => {
-                          const tmp = [...inputDatas];
-                          switch (item) {
-                            case "hanzi":
-                              tmp[i].hanzi = e.target.value;
-                              tmp[i].pinyin = pinyin(e.target.value, {
-                                style: pinyin.STYLE_TONE2,
-                              }).join("");
-                              break;
-                            case "pinyin":
-                              tmp[i].pinyin = e.target.value;
-                              break;
-                            case "emphStrokeNumbers":
-                              setEmphTemp(e.target.value);
-                              break;
-                            case "hanziCompound":
-                              tmp[i].hanziCompound = e.target.value;
-                              break;
-                          }
-                          setInputDatas(tmp);
-                        }}
-                      />
-                    </td>
-                  )
-                )
+                        setInputDatas(tmp);
+                      }}
+                    />
+                  </td>
+                ))
               ) : (
                 <>
                   <td>{inputData.hanzi}</td>
                   <td>{toneConvert(inputData.pinyin)}</td>
                   <td>{inputData.emphStrokeNumbers.join(",")}</td>
                   <td>{inputData.hanziCompound}</td>
+                  <td>{inputData.note}</td>
                 </>
               )}
               <td>
@@ -188,50 +201,59 @@ export default function Home() {
             </tr>
           ))}
           <tr>
-            {["hanzi", "pinyin", "emphStrokeNumbers", "hanziCompound"].map(
-              (item, i) => (
-                <td key={item}>
-                  <input
-                    type="text"
-                    value={
-                      item === "hanzi"
-                        ? newData.hanzi
-                        : item === "pinyin"
-                        ? newData.pinyin
-                        : item === "emphStrokeNumbers"
-                        ? newData.emphStrokeNumbers.toString()
-                        : newData.hanziCompound
+            {[
+              "hanzi",
+              "pinyin",
+              "emphStrokeNumbers",
+              "hanziCompound",
+              "note",
+            ].map((item, i) => (
+              <td key={item}>
+                <input
+                  type="text"
+                  value={
+                    item === "hanzi"
+                      ? newData.hanzi
+                      : item === "pinyin"
+                      ? newData.pinyin
+                      : item === "emphStrokeNumbers"
+                      ? newData.emphStrokeNumbers.toString()
+                      : item === "hanziCompound"
+                      ? newData.hanziCompound
+                      : newData.note
+                  }
+                  onChange={(e) => {
+                    const tmp = newData;
+                    switch (item) {
+                      case "hanzi":
+                        tmp.hanzi = e.target.value;
+                        tmp.pinyin = pinyin(e.target.value, {
+                          style: pinyin.STYLE_TONE2,
+                        }).join("");
+                        break;
+                      case "pinyin":
+                        tmp.pinyin = e.target.value;
+                        break;
+                      case "emphStrokeNumbers":
+                        tmp.emphStrokeNumbers = e.target.value;
+                        break;
+                      case "hanziCompound":
+                        tmp.hanziCompound = e.target.value;
+                        break;
+                      case "note":
+                        tmp.note = e.target.value;
                     }
-                    onChange={(e) => {
-                      const tmp = newData;
-                      switch (item) {
-                        case "hanzi":
-                          tmp.hanzi = e.target.value;
-                          tmp.pinyin = pinyin(e.target.value, {
-                            style: pinyin.STYLE_TONE2,
-                          }).join("");
-                          break;
-                        case "pinyin":
-                          tmp.pinyin = e.target.value;
-                          break;
-                        case "emphStrokeNumbers":
-                          tmp.emphStrokeNumbers = e.target.value;
-                          break;
-                        case "hanziCompound":
-                          tmp.hanziCompound = e.target.value;
-                          break;
-                      }
-                      setNewData({
-                        hanzi: tmp.hanzi,
-                        pinyin: tmp.pinyin,
-                        emphStrokeNumbers: tmp.emphStrokeNumbers,
-                        hanziCompound: tmp.hanziCompound,
-                      });
-                    }}
-                  />
-                </td>
-              )
-            )}
+                    setNewData({
+                      hanzi: tmp.hanzi,
+                      pinyin: tmp.pinyin,
+                      emphStrokeNumbers: tmp.emphStrokeNumbers,
+                      hanziCompound: tmp.hanziCompound,
+                      note: tmp.note,
+                    });
+                  }}
+                />
+              </td>
+            ))}
             <td>
               <button
                 onClick={() => {
@@ -244,6 +266,7 @@ export default function Home() {
                         .split(",")
                         .map((item) => Number(item)),
                       hanziCompound: newData.hanziCompound,
+                      note: newData.note,
                     },
                   ]);
                   setNewData(initialData);

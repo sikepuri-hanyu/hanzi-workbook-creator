@@ -3,9 +3,11 @@ type StrokeNumber = number;
 export type StrokeNumbers = [...StrokeNumber[]];
 export type Pinyin = string;
 export type HanziCompound = string;
+export type Note = string;
 export type InputData = {
   hanzi: Hanzi;
   pinyin: Pinyin;
   emphStrokeNumbers: StrokeNumbers;
   hanziCompound: HanziCompound;
+  note: Note;
 };

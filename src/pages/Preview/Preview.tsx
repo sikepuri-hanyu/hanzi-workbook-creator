@@ -4,6 +4,7 @@ import {
   StrokeNumbers,
   Pinyin,
   HanziCompound,
+  Note,
   InputData,
 } from "../../components/hanziData";
 import toneConvert from "../../components/pinyinToneConvert";
@@ -128,6 +129,14 @@ function PinyinComponent({ pinyin }: { pinyin: Pinyin }) {
   );
 }
 
+function NoteComponent({ note }: { note: Note }) {
+  return (
+    <>
+      <div className={styles.note}>{note}</div>
+    </>
+  );
+}
+
 function HanziCompoundComponent({
   hanziCompound,
 }: {
@@ -224,10 +233,13 @@ function App() {
               </div>
               <div className={styles.content}>
                 <div className={styles.info}>
-                  <HanziCompoundComponent
-                    hanziCompound={inputData.hanziCompound}
-                  />
-                  <StrokeOrder hanziData={hanziDatas[i]} />
+                  <div className={styles.info1}>
+                    <HanziCompoundComponent
+                      hanziCompound={inputData.hanziCompound}
+                    />
+                    <StrokeOrder hanziData={hanziDatas[i]} />
+                  </div>
+                  <NoteComponent note={inputData.note} />
                 </div>
                 <PlayGround hanziData={hanziDatas[i]} />
               </div>
