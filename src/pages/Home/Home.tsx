@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import {
   InputData,
@@ -45,6 +45,35 @@ function Description() {
           プレビューページに移動してください。先程入力したデータを基に漢字練習帳ができているはずです。
         </li>
       </ul>
+    </>
+  );
+}
+
+/**
+ * remove button
+ * @param inputDatas
+ * @param setInputDatas
+ * @param index The index of this element
+ * @returns
+ */
+function RemoveButton({
+  inputDatas,
+  setInputDatas,
+  index,
+}: {
+  inputDatas: InputDatas;
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+  index: number;
+}): JSX.Element {
+  return (
+    <>
+      <button
+        onClick={() => {
+          setInputDatas(inputDatas.filter((inputData, i) => index !== i));
+        }}
+      >
+        削除
+      </button>
     </>
   );
 }
@@ -146,13 +175,11 @@ export default function Home() {
                 </>
               )}
               <td>
-                <button
-                  onClick={() => {
-                    setInputDatas(inputDatas.filter((inputData, j) => i !== j));
-                  }}
-                >
-                  削除
-                </button>
+                <RemoveButton
+                  inputDatas={inputDatas}
+                  setInputDatas={setInputDatas}
+                  index={i}
+                />
                 {edittingNumber === i ? (
                   <button
                     onClick={() => {
