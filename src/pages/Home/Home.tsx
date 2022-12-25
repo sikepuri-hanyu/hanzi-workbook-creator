@@ -113,6 +113,37 @@ function UpButton({
   );
 }
 
+/**
+ * down button
+ */
+function DownButton({
+  inputDatas,
+  setInputDatas,
+  index,
+}: {
+  inputDatas: InputDatas;
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+  index: number;
+}): JSX.Element {
+  return (
+    <>
+      {index !== inputDatas.length - 1 && (
+        <button
+          onClick={() => {
+            const copiedInputDatas = [...inputDatas];
+            const tmp = copiedInputDatas[index];
+            copiedInputDatas[index] = copiedInputDatas[index + 1];
+            copiedInputDatas[index + 1] = tmp;
+            setInputDatas(copiedInputDatas);
+          }}
+        >
+          ↓
+        </button>
+      )}
+    </>
+  );
+}
+
 export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(initialDatas);
   const [newData, setNewData] = useState<InputStringData>(initialData);
@@ -242,19 +273,11 @@ export default function Home() {
                   setInputDatas={setInputDatas}
                   index={i}
                 />
-                {i !== inputDatas.length - 1 && (
-                  <button
-                    onClick={() => {
-                      const copiedInputDatas = [...inputDatas];
-                      const tmp = copiedInputDatas[i];
-                      copiedInputDatas[i] = copiedInputDatas[i + 1];
-                      copiedInputDatas[i + 1] = tmp;
-                      setInputDatas(copiedInputDatas);
-                    }}
-                  >
-                    ↓
-                  </button>
-                )}
+                <DownButton
+                  inputDatas={inputDatas}
+                  setInputDatas={setInputDatas}
+                  index={i}
+                />
               </td>
             </tr>
           ))}
