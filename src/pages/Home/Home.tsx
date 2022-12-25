@@ -150,58 +150,49 @@ function RowItem({
   index,
   edittingNumber,
   setEdittingNumber,
-  emphTmp,
-  setEmphTemp,
+  edittingData,
+  setEdittingData,
 }: {
   inputDatas: InputDatas;
   setInputDatas: Dispatch<SetStateAction<InputDatas>>;
   index: number;
   edittingNumber: number;
   setEdittingNumber: Dispatch<SetStateAction<number>>;
-  emphTmp: string;
-  setEmphTemp: Dispatch<SetStateAction<string>>;
+  edittingData: InputStringData;
+  setEdittingData: Dispatch<SetStateAction<InputStringData>>;
 }) {
   const inputData: InputData = inputDatas[index];
   return (
     <>
       {edittingNumber === index ? (
-        Object.keys(inputData).map((key) => (
+        Object.keys(edittingData).map((key) => (
           <td key={key}>
             <input
               type="text"
-              value={
-                key === "hanzi"
-                  ? inputDatas[index][key]
-                  : key === "pinyin"
-                  ? inputDatas[index][key]
-                  : key === "emphStrokeNumbers"
-                  ? emphTmp
-                  : key === "hanziCompound"
-                  ? inputDatas[index][key]
-                  : inputDatas[index].note
-              }
+              // @ts-ignore
+              value={edittingData[key]}
               onChange={(e) => {
-                const tmp = [...inputDatas];
+                const tmp = edittingData;
                 switch (key) {
                   case "hanzi":
-                    tmp[index].hanzi = e.target.value;
-                    tmp[index].pinyin = pinyin(e.target.value, {
+                    tmp.hanzi = e.target.value;
+                    tmp.pinyin = pinyin(e.target.value, {
                       style: pinyin.STYLE_TONE2,
                     }).join("");
                     break;
                   case "pinyin":
-                    tmp[index].pinyin = e.target.value;
+                    tmp.pinyin = e.target.value;
                     break;
                   case "emphStrokeNumbers":
-                    setEmphTemp(e.target.value);
+                    tmp.emphStrokeNumbers = e.target.value;
                     break;
                   case "hanziCompound":
-                    tmp[index].hanziCompound = e.target.value;
+                    tmp.hanziCompound = e.target.value;
                     break;
                   case "note":
-                    tmp[index].note = e.target.value;
+                    tmp.note = e.target.value;
                 }
-                setInputDatas(tmp);
+                setEdittingData(tmp);
               }}
             />
           </td>
@@ -225,9 +216,10 @@ function RowItem({
           <button
             onClick={() => {
               const tmp = [...inputDatas];
-              tmp[index].emphStrokeNumbers = emphTmp
+              tmp[index].emphStrokeNumbers = edittingData.emphStrokeNumbers
                 .split(",")
                 .map((item) => Number(item));
+              setInputDatas(tmp);
               setEdittingNumber(-1);
             }}
           >
@@ -237,7 +229,13 @@ function RowItem({
           <button
             onClick={() => {
               setEdittingNumber(index);
-              setEmphTemp(inputDatas[index].emphStrokeNumbers.toString());
+              setEdittingData({
+                hanzi: inputData.hanzi,
+                pinyin: inputData.pinyin,
+                emphStrokeNumbers: inputData.emphStrokeNumbers.toString(),
+                hanziCompound: inputData.hanziCompound,
+                note: inputData.note,
+              });
             }}
           >
             編集
@@ -370,7 +368,8 @@ export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(initialDatas);
   const [newData, setNewData] = useState<InputStringData>(initialData);
   const [edittingNumber, setEdittingNumber] = useState<number>(-1);
-  const [emphTmp, setEmphTemp] = useState<string>("");
+  const [edittingData, setEdittingData] =
+    useState<InputStringData>(initialData);
   useEffect(() => {
     const response = localStorage.getItem("savedBackupData");
     if (response !== null) {
@@ -411,8 +410,8 @@ export default function Home() {
                 index={i}
                 edittingNumber={edittingNumber}
                 setEdittingNumber={setEdittingNumber}
-                emphTmp={emphTmp}
-                setEmphTemp={setEmphTemp}
+                edittingData={edittingData}
+                setEdittingData={setEdittingData}
               />
             </tr>
           ))}
