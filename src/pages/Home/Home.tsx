@@ -260,6 +260,93 @@ function RowItem({
   );
 }
 
+function AddRow({
+  inputDatas,
+  setInputDatas,
+  newData,
+  setNewData,
+}: {
+  inputDatas: InputDatas;
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+  newData: InputStringData;
+  setNewData: Dispatch<SetStateAction<InputStringData>>;
+}) {
+  return (
+    <>
+      {["hanzi", "pinyin", "emphStrokeNumbers", "hanziCompound", "note"].map(
+        (item, i) => (
+          <td key={item}>
+            <input
+              type="text"
+              value={
+                item === "hanzi"
+                  ? newData.hanzi
+                  : item === "pinyin"
+                  ? newData.pinyin
+                  : item === "emphStrokeNumbers"
+                  ? newData.emphStrokeNumbers.toString()
+                  : item === "hanziCompound"
+                  ? newData.hanziCompound
+                  : newData.note
+              }
+              onChange={(e) => {
+                const tmp = newData;
+                switch (item) {
+                  case "hanzi":
+                    tmp.hanzi = e.target.value;
+                    tmp.pinyin = pinyin(e.target.value, {
+                      style: pinyin.STYLE_TONE2,
+                    }).join("");
+                    break;
+                  case "pinyin":
+                    tmp.pinyin = e.target.value;
+                    break;
+                  case "emphStrokeNumbers":
+                    tmp.emphStrokeNumbers = e.target.value;
+                    break;
+                  case "hanziCompound":
+                    tmp.hanziCompound = e.target.value;
+                    break;
+                  case "note":
+                    tmp.note = e.target.value;
+                }
+                setNewData({
+                  hanzi: tmp.hanzi,
+                  pinyin: tmp.pinyin,
+                  emphStrokeNumbers: tmp.emphStrokeNumbers,
+                  hanziCompound: tmp.hanziCompound,
+                  note: tmp.note,
+                });
+              }}
+            />
+          </td>
+        )
+      )}
+      <td>
+        <button
+          onClick={() => {
+            setInputDatas([
+              ...inputDatas,
+              {
+                hanzi: newData.hanzi,
+                pinyin: newData.pinyin,
+                emphStrokeNumbers: newData.emphStrokeNumbers
+                  .split(",")
+                  .map((item) => Number(item)),
+                hanziCompound: newData.hanziCompound,
+                note: newData.note,
+              },
+            ]);
+            setNewData(initialData);
+          }}
+        >
+          追加
+        </button>
+      </td>
+    </>
+  );
+}
+
 export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(initialDatas);
   const [newData, setNewData] = useState<InputStringData>(initialData);
@@ -311,80 +398,12 @@ export default function Home() {
             </tr>
           ))}
           <tr>
-            {[
-              "hanzi",
-              "pinyin",
-              "emphStrokeNumbers",
-              "hanziCompound",
-              "note",
-            ].map((item, i) => (
-              <td key={item}>
-                <input
-                  type="text"
-                  value={
-                    item === "hanzi"
-                      ? newData.hanzi
-                      : item === "pinyin"
-                      ? newData.pinyin
-                      : item === "emphStrokeNumbers"
-                      ? newData.emphStrokeNumbers.toString()
-                      : item === "hanziCompound"
-                      ? newData.hanziCompound
-                      : newData.note
-                  }
-                  onChange={(e) => {
-                    const tmp = newData;
-                    switch (item) {
-                      case "hanzi":
-                        tmp.hanzi = e.target.value;
-                        tmp.pinyin = pinyin(e.target.value, {
-                          style: pinyin.STYLE_TONE2,
-                        }).join("");
-                        break;
-                      case "pinyin":
-                        tmp.pinyin = e.target.value;
-                        break;
-                      case "emphStrokeNumbers":
-                        tmp.emphStrokeNumbers = e.target.value;
-                        break;
-                      case "hanziCompound":
-                        tmp.hanziCompound = e.target.value;
-                        break;
-                      case "note":
-                        tmp.note = e.target.value;
-                    }
-                    setNewData({
-                      hanzi: tmp.hanzi,
-                      pinyin: tmp.pinyin,
-                      emphStrokeNumbers: tmp.emphStrokeNumbers,
-                      hanziCompound: tmp.hanziCompound,
-                      note: tmp.note,
-                    });
-                  }}
-                />
-              </td>
-            ))}
-            <td>
-              <button
-                onClick={() => {
-                  setInputDatas([
-                    ...inputDatas,
-                    {
-                      hanzi: newData.hanzi,
-                      pinyin: newData.pinyin,
-                      emphStrokeNumbers: newData.emphStrokeNumbers
-                        .split(",")
-                        .map((item) => Number(item)),
-                      hanziCompound: newData.hanziCompound,
-                      note: newData.note,
-                    },
-                  ]);
-                  setNewData(initialData);
-                }}
-              >
-                追加
-              </button>
-            </td>
+            <AddRow
+              inputDatas={inputDatas}
+              setInputDatas={setInputDatas}
+              newData={newData}
+              setNewData={setNewData}
+            />
           </tr>
         </tbody>
       </table>
