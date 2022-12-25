@@ -260,6 +260,42 @@ function RowItem({
   );
 }
 
+function AddButton({
+  inputDatas,
+  setInputDatas,
+  newData,
+  setNewData,
+}: {
+  inputDatas: InputDatas;
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+  newData: InputStringData;
+  setNewData: Dispatch<SetStateAction<InputStringData>>;
+}): JSX.Element {
+  return (
+    <>
+      <button
+        onClick={() => {
+          setInputDatas([
+            ...inputDatas,
+            {
+              hanzi: newData.hanzi,
+              pinyin: newData.pinyin,
+              emphStrokeNumbers: newData.emphStrokeNumbers
+                .split(",")
+                .map((item) => Number(item)),
+              hanziCompound: newData.hanziCompound,
+              note: newData.note,
+            },
+          ]);
+          setNewData(initialData);
+        }}
+      >
+        追加
+      </button>
+    </>
+  );
+}
+
 function AddRow({
   inputDatas,
   setInputDatas,
@@ -323,25 +359,12 @@ function AddRow({
         )
       )}
       <td>
-        <button
-          onClick={() => {
-            setInputDatas([
-              ...inputDatas,
-              {
-                hanzi: newData.hanzi,
-                pinyin: newData.pinyin,
-                emphStrokeNumbers: newData.emphStrokeNumbers
-                  .split(",")
-                  .map((item) => Number(item)),
-                hanziCompound: newData.hanziCompound,
-                note: newData.note,
-              },
-            ]);
-            setNewData(initialData);
-          }}
-        >
-          追加
-        </button>
+        <AddButton
+          inputDatas={inputDatas}
+          setInputDatas={setInputDatas}
+          newData={newData}
+          setNewData={setNewData}
+        />
       </td>
     </>
   );
