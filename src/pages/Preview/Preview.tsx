@@ -6,6 +6,7 @@ import {
   HanziCompound,
   Note,
   InputData,
+  InputDatas,
 } from "../../components/hanziData";
 import toneConvert from "../../components/pinyinToneConvert";
 
@@ -155,7 +156,7 @@ function HanziCompoundComponent({
 }
 
 function App() {
-  const [inputDatas, setInputDatas] = useState<InputData[]>([]);
+  const [inputDatas, setInputDatas] = useState<InputDatas>([]);
   const [hanziDatas, setHanziDatas] = useState<HanziData[]>([]);
   useEffect(() => {
     (async () => {

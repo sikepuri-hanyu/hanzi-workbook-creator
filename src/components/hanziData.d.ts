@@ -11,6 +11,7 @@ export type InputData = {
   hanziCompound: HanziCompound;
   note: Note;
 };
+export type InputDatas = InputData[];
 export type InputStringData = {
   hanzi: Hanzi;
   pinyin: Pinyin;

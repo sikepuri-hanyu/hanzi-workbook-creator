@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { InputData, InputStringData } from "../../components/hanziData";
+import {
+  InputData,
+  InputDatas,
+  InputStringData,
+} from "../../components/hanziData";
 import pinyin from "pinyin";
 import toneConvert from "../../components/pinyinToneConvert";
 
-const initialDatas: InputData[] = [
+const initialDatas: InputDatas = [
   {
     hanzi: "你",
     pinyin: "ni3",
@@ -46,7 +50,7 @@ function Description() {
 }
 
 export default function Home() {
-  const [inputDatas, setInputDatas] = useState<InputData[]>(initialDatas);
+  const [inputDatas, setInputDatas] = useState<InputDatas>(initialDatas);
   const [newData, setNewData] = useState<InputStringData>(initialData);
   const [edittingNumber, setEdittingNumber] = useState<number>(-1);
   const [emphTmp, setEmphTemp] = useState<string>("");
