@@ -1,8 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { InputData } from "../../components/hanziData";
+import { InputData, InputStringData } from "../../components/hanziData";
 import pinyin from "pinyin";
 import toneConvert from "../../components/pinyinToneConvert";
+
+const initialDatas: InputData[] = [
+  {
+    hanzi: "你",
+    pinyin: "ni3",
+    emphStrokeNumbers: [1, 2],
+    hanziCompound: "你好",
+    note: "sample note",
+  },
+  {
+    hanzi: "好",
+    pinyin: "hao3",
+    emphStrokeNumbers: [2, 3, 4],
+    hanziCompound: "你好",
+    note: "sample note",
+  },
+];
+
+const initialData: InputStringData = {
+  hanzi: "",
+  pinyin: "",
+  emphStrokeNumbers: "",
+  hanziCompound: "",
+  note: "",
+};
 
 function Description() {
   return (
@@ -21,31 +46,8 @@ function Description() {
 }
 
 export default function Home() {
-  const [inputDatas, setInputDatas] = useState<InputData[]>([
-    {
-      hanzi: "你",
-      pinyin: "ni3",
-      emphStrokeNumbers: [1, 2],
-      hanziCompound: "你好",
-      note: "sample note",
-    },
-    {
-      hanzi: "好",
-      pinyin: "hao3",
-      emphStrokeNumbers: [2, 3, 4],
-      hanziCompound: "你好",
-      note: "sample note",
-    },
-  ]);
-  const initialData = {
-    hanzi: "",
-    pinyin: "",
-    emphStrokeNumbers: "",
-    hanziCompound: "",
-    note: "",
-  };
-  // const [newData, setNewData] = useState<InputData>(initialData);
-  const [newData, setNewData] = useState(initialData);
+  const [inputDatas, setInputDatas] = useState<InputData[]>(initialDatas);
+  const [newData, setNewData] = useState<InputStringData>(initialData);
   const [edittingNumber, setEdittingNumber] = useState<number>(-1);
   const [emphTmp, setEmphTemp] = useState<string>("");
   useEffect(() => {

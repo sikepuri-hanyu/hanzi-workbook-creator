@@ -11,3 +11,10 @@ export type InputData = {
   hanziCompound: HanziCompound;
   note: Note;
 };
+export type InputStringData = {
+  hanzi: Hanzi;
+  pinyin: Pinyin;
+  emphStrokeNumbers: string;
+  hanziCompound: HanziCompound;
+  note: Note;
+};
