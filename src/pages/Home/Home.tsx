@@ -144,6 +144,122 @@ function DownButton({
   );
 }
 
+function RowItem({
+  inputDatas,
+  setInputDatas,
+  index,
+  edittingNumber,
+  setEdittingNumber,
+  emphTmp,
+  setEmphTemp,
+}: {
+  inputDatas: InputDatas;
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+  index: number;
+  edittingNumber: number;
+  setEdittingNumber: Dispatch<SetStateAction<number>>;
+  emphTmp: string;
+  setEmphTemp: Dispatch<SetStateAction<string>>;
+}) {
+  const inputData = inputDatas[index];
+  return (
+    <>
+      {edittingNumber === index ? (
+        ["hanzi", "pinyin", "emphStrokeNumbers", "hanziCompound", "note"].map(
+          (item) => (
+            <td key={item}>
+              <input
+                type="text"
+                value={
+                  item === "hanzi"
+                    ? inputDatas[index].hanzi
+                    : item === "pinyin"
+                    ? inputDatas[index].pinyin
+                    : item === "emphStrokeNumbers"
+                    ? emphTmp
+                    : item === "hanziCompond"
+                    ? inputDatas[index].hanziCompound
+                    : inputDatas[index].note
+                }
+                onChange={(e) => {
+                  const tmp = [...inputDatas];
+                  switch (item) {
+                    case "hanzi":
+                      tmp[index].hanzi = e.target.value;
+                      tmp[index].pinyin = pinyin(e.target.value, {
+                        style: pinyin.STYLE_TONE2,
+                      }).join("");
+                      break;
+                    case "pinyin":
+                      tmp[index].pinyin = e.target.value;
+                      break;
+                    case "emphStrokeNumbers":
+                      setEmphTemp(e.target.value);
+                      break;
+                    case "hanziCompound":
+                      tmp[index].hanziCompound = e.target.value;
+                      break;
+                    case "note":
+                      tmp[index].note = e.target.value;
+                  }
+                  setInputDatas(tmp);
+                }}
+              />
+            </td>
+          )
+        )
+      ) : (
+        <>
+          <td>{inputData.hanzi}</td>
+          <td>{toneConvert(inputData.pinyin)}</td>
+          <td>{inputData.emphStrokeNumbers.join(",")}</td>
+          <td>{inputData.hanziCompound}</td>
+          <td>{inputData.note}</td>
+        </>
+      )}
+      <td>
+        <RemoveButton
+          inputDatas={inputDatas}
+          setInputDatas={setInputDatas}
+          index={index}
+        />
+        {edittingNumber === index ? (
+          <button
+            onClick={() => {
+              const tmp = [...inputDatas];
+              tmp[index].emphStrokeNumbers = emphTmp
+                .split(",")
+                .map((item) => Number(item));
+              setEdittingNumber(-1);
+            }}
+          >
+            確定
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              setEdittingNumber(index);
+              setEmphTemp(inputDatas[index].emphStrokeNumbers.toString());
+            }}
+          >
+            編集
+          </button>
+        )}
+        <UpButton
+          inputDatas={inputDatas}
+          setInputDatas={setInputDatas}
+          index={index}
+        />
+        <DownButton
+          inputDatas={inputDatas}
+          setInputDatas={setInputDatas}
+          index={index}
+        />
+      </td>
+    </>
+  );
+}
+
 export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(initialDatas);
   const [newData, setNewData] = useState<InputStringData>(initialData);
@@ -183,102 +299,15 @@ export default function Home() {
         <tbody lang="zh-cmn-Hans">
           {inputDatas.map((inputData, i) => (
             <tr key={i}>
-              {edittingNumber === i ? (
-                [
-                  "hanzi",
-                  "pinyin",
-                  "emphStrokeNumbers",
-                  "hanziCompound",
-                  "note",
-                ].map((item) => (
-                  <td key={item}>
-                    <input
-                      type="text"
-                      value={
-                        item === "hanzi"
-                          ? inputDatas[i].hanzi
-                          : item === "pinyin"
-                          ? inputDatas[i].pinyin
-                          : item === "emphStrokeNumbers"
-                          ? emphTmp
-                          : item === "hanziCompond"
-                          ? inputDatas[i].hanziCompound
-                          : inputDatas[i].note
-                      }
-                      onChange={(e) => {
-                        const tmp = [...inputDatas];
-                        switch (item) {
-                          case "hanzi":
-                            tmp[i].hanzi = e.target.value;
-                            tmp[i].pinyin = pinyin(e.target.value, {
-                              style: pinyin.STYLE_TONE2,
-                            }).join("");
-                            break;
-                          case "pinyin":
-                            tmp[i].pinyin = e.target.value;
-                            break;
-                          case "emphStrokeNumbers":
-                            setEmphTemp(e.target.value);
-                            break;
-                          case "hanziCompound":
-                            tmp[i].hanziCompound = e.target.value;
-                            break;
-                          case "note":
-                            tmp[i].note = e.target.value;
-                        }
-                        setInputDatas(tmp);
-                      }}
-                    />
-                  </td>
-                ))
-              ) : (
-                <>
-                  <td>{inputData.hanzi}</td>
-                  <td>{toneConvert(inputData.pinyin)}</td>
-                  <td>{inputData.emphStrokeNumbers.join(",")}</td>
-                  <td>{inputData.hanziCompound}</td>
-                  <td>{inputData.note}</td>
-                </>
-              )}
-              <td>
-                <RemoveButton
-                  inputDatas={inputDatas}
-                  setInputDatas={setInputDatas}
-                  index={i}
-                />
-                {edittingNumber === i ? (
-                  <button
-                    onClick={() => {
-                      const tmp = [...inputDatas];
-                      tmp[i].emphStrokeNumbers = emphTmp
-                        .split(",")
-                        .map((item) => Number(item));
-                      setEdittingNumber(-1);
-                    }}
-                  >
-                    確定
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      setEdittingNumber(i);
-                      setEmphTemp(inputDatas[i].emphStrokeNumbers.toString());
-                    }}
-                  >
-                    編集
-                  </button>
-                )}
-                <UpButton
-                  inputDatas={inputDatas}
-                  setInputDatas={setInputDatas}
-                  index={i}
-                />
-                <DownButton
-                  inputDatas={inputDatas}
-                  setInputDatas={setInputDatas}
-                  index={i}
-                />
-              </td>
+              <RowItem
+                inputDatas={inputDatas}
+                setInputDatas={setInputDatas}
+                index={i}
+                edittingNumber={edittingNumber}
+                setEdittingNumber={setEdittingNumber}
+                emphTmp={emphTmp}
+                setEmphTemp={setEmphTemp}
+              />
             </tr>
           ))}
           <tr>
