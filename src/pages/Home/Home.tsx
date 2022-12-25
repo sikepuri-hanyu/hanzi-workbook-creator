@@ -78,6 +78,41 @@ function RemoveButton({
   );
 }
 
+/**
+ * up button
+ * @param inputDatas
+ * @param setInputDatas
+ * @param index The index of this element
+ * @returns
+ */
+function UpButton({
+  inputDatas,
+  setInputDatas,
+  index,
+}: {
+  inputDatas: InputDatas;
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+  index: number;
+}): JSX.Element {
+  return (
+    <>
+      {index !== 0 && (
+        <button
+          onClick={() => {
+            const copiedInputDatas = [...inputDatas];
+            const tmp = copiedInputDatas[index - 1];
+            copiedInputDatas[index - 1] = copiedInputDatas[index];
+            copiedInputDatas[index] = tmp;
+            setInputDatas(copiedInputDatas);
+          }}
+        >
+          ↑
+        </button>
+      )}
+    </>
+  );
+}
+
 export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(initialDatas);
   const [newData, setNewData] = useState<InputStringData>(initialData);
@@ -202,19 +237,11 @@ export default function Home() {
                     編集
                   </button>
                 )}
-                {i !== 0 && (
-                  <button
-                    onClick={() => {
-                      const copiedInputDatas = [...inputDatas];
-                      const tmp = copiedInputDatas[i - 1];
-                      copiedInputDatas[i - 1] = copiedInputDatas[i];
-                      copiedInputDatas[i] = tmp;
-                      setInputDatas(copiedInputDatas);
-                    }}
-                  >
-                    ↑
-                  </button>
-                )}
+                <UpButton
+                  inputDatas={inputDatas}
+                  setInputDatas={setInputDatas}
+                  index={i}
+                />
                 {i !== inputDatas.length - 1 && (
                   <button
                     onClick={() => {
