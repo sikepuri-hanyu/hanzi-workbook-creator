@@ -217,6 +217,47 @@ function EditButton({
   );
 }
 
+/**
+ * confirm button
+ */
+function ConfirmButton({
+  inputDatas,
+  setInputDatas,
+  edittingData,
+  setEdittingData,
+  setEdittingNumber,
+  index,
+}: {
+  inputDatas: InputDatas;
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+  edittingData: InputStringData;
+  setEdittingData: Dispatch<SetStateAction<InputStringData>>;
+  setEdittingNumber: Dispatch<SetStateAction<number>>;
+  index: number;
+}) {
+  return (
+    <>
+      <button
+        onClick={() => {
+          const tmp = [...inputDatas];
+          tmp[index].hanzi = edittingData.hanzi;
+          tmp[index].pinyin = edittingData.pinyin;
+          tmp[index].emphStrokeNumbers = edittingData.emphStrokeNumbers
+            .split(",")
+            .map((item) => Number(item));
+          tmp[index].hanziCompound = edittingData.hanziCompound;
+          tmp[index].note = edittingData.note;
+          setInputDatas(tmp);
+          setEdittingNumber(-1);
+          setEdittingData({ ...initialStringData });
+        }}
+      >
+        確定
+      </button>
+    </>
+  );
+}
+
 function RowItem({
   inputDatas,
   setInputDatas,
@@ -287,23 +328,14 @@ function RowItem({
           index={index}
         />
         {edittingNumber === index ? (
-          <button
-            onClick={() => {
-              const tmp = [...inputDatas];
-              tmp[index].hanzi = edittingData.hanzi;
-              tmp[index].pinyin = edittingData.pinyin;
-              tmp[index].emphStrokeNumbers = edittingData.emphStrokeNumbers
-                .split(",")
-                .map((item) => Number(item));
-              tmp[index].hanziCompound = edittingData.hanziCompound;
-              tmp[index].note = edittingData.note;
-              setInputDatas(tmp);
-              setEdittingNumber(-1);
-              setEdittingData({ ...initialStringData });
-            }}
-          >
-            確定
-          </button>
+          <ConfirmButton
+            inputDatas={inputDatas}
+            setInputDatas={setInputDatas}
+            edittingData={edittingData}
+            setEdittingData={setEdittingData}
+            setEdittingNumber={setEdittingNumber}
+            index={index}
+          />
         ) : (
           <EditButton
             inputData={inputData}
