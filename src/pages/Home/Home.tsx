@@ -25,7 +25,7 @@ const initialDatas: InputDatas = [
   },
 ];
 
-const initialData: InputStringData = {
+const initialStringData: InputStringData = {
   hanzi: "",
   pinyin: "",
   emphStrokeNumbers: "",
@@ -191,6 +191,7 @@ function RowItem({
                     break;
                   case "note":
                     tmp.note = e.target.value;
+                    break;
                 }
                 setEdittingData(tmp);
               }}
@@ -221,6 +222,7 @@ function RowItem({
                 .map((item) => Number(item));
               setInputDatas(tmp);
               setEdittingNumber(-1);
+              setEdittingData({ ...initialStringData });
             }}
           >
             確定
@@ -283,7 +285,7 @@ function AddButton({
               note: newData.note,
             },
           ]);
-          setNewData(initialData);
+          setNewData({ ...initialStringData });
         }}
       >
         追加
@@ -365,11 +367,16 @@ function AddRow({
 }
 
 export default function Home() {
-  const [inputDatas, setInputDatas] = useState<InputDatas>(initialDatas);
-  const [newData, setNewData] = useState<InputStringData>(initialData);
+  const [inputDatas, setInputDatas] = useState<InputDatas>(
+    initialDatas.map((initialData) => ({ ...initialData }))
+  );
+  const [newData, setNewData] = useState<InputStringData>({
+    ...initialStringData,
+  });
   const [edittingNumber, setEdittingNumber] = useState<number>(-1);
-  const [edittingData, setEdittingData] =
-    useState<InputStringData>(initialData);
+  const [edittingData, setEdittingData] = useState<InputStringData>({
+    ...initialStringData,
+  });
   useEffect(() => {
     const response = localStorage.getItem("savedBackupData");
     if (response !== null) {
