@@ -1,5 +1,4 @@
 import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
-import { Link } from "react-router-dom";
 import {
   InputData,
   InputDatas,
@@ -7,7 +6,17 @@ import {
 } from "../../components/hanziData";
 import pinyin from "pinyin";
 import toneConvert from "../../components/pinyinToneConvert";
-import { IconButton } from "@mui/material";
+import {
+  TextField,
+  IconButton,
+  Paper,
+  Box,
+  BottomNavigation,
+  BottomNavigationAction,
+  Table,
+  TableRow,
+  TableCell,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
@@ -18,7 +27,8 @@ import SaveIcon from "@mui/icons-material/Save";
 import RestoreIcon from "@mui/icons-material/Restore";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import { TextField } from "@mui/material";
+import PreviewIcon from "@mui/icons-material/Preview";
+import CreateIcon from "@mui/icons-material/Create";
 
 const initialDatas: InputDatas = [
   {
@@ -288,7 +298,7 @@ function HanziInputField({
 }): JSX.Element {
   return (
     <>
-      <td>
+      <TableCell lang="zh-cmn-Hans">
         <TextField
           label="漢字"
           variant="standard"
@@ -302,8 +312,8 @@ function HanziInputField({
             setData(tmp);
           }}
         />
-      </td>
-      <td>
+      </TableCell>
+      <TableCell lang="zh-cmn-Hans">
         <TextField
           label="ピンイン"
           variant="standard"
@@ -314,8 +324,8 @@ function HanziInputField({
             setData(tmp);
           }}
         />
-      </td>
-      <td>
+      </TableCell>
+      <TableCell lang="zh-cmn-Hans">
         <TextField
           label="強調する画数"
           variant="standard"
@@ -326,8 +336,8 @@ function HanziInputField({
             setData(tmp);
           }}
         />
-      </td>
-      <td>
+      </TableCell>
+      <TableCell lang="zh-cmn-Hans">
         <TextField
           label="熟語"
           variant="standard"
@@ -338,8 +348,8 @@ function HanziInputField({
             setData(tmp);
           }}
         />
-      </td>
-      <td>
+      </TableCell>
+      <TableCell>
         <TextField
           label="メモ"
           variant="standard"
@@ -350,7 +360,7 @@ function HanziInputField({
             setData(tmp);
           }}
         />
-      </td>
+      </TableCell>
     </>
   );
 }
@@ -365,11 +375,13 @@ function HanziOutputField({
 }): JSX.Element {
   return (
     <>
-      <td>{inputData.hanzi}</td>
-      <td>{toneConvert(inputData.pinyin)}</td>
-      <td>{inputData.emphStrokeNumbers.join(",")}</td>
-      <td>{inputData.hanziCompound}</td>
-      <td>{inputData.note}</td>
+      <TableCell lang="zh-cmn-Hans">{inputData.hanzi}</TableCell>
+      <TableCell lang="zh-cmn-Hans">{toneConvert(inputData.pinyin)}</TableCell>
+      <TableCell lang="zh-cmn-Hans">
+        {inputData.emphStrokeNumbers.join(",")}
+      </TableCell>
+      <TableCell lang="zh-cmn-Hans">{inputData.hanziCompound}</TableCell>
+      <TableCell>{inputData.note}</TableCell>
     </>
   );
 }
@@ -406,7 +418,7 @@ function Row({
           <HanziOutputField inputData={inputData} />
         </>
       )}
-      <td>
+      <TableCell sx={{ minWidth: 200 }}>
         {edittingNumber === index ? (
           <ConfirmButton
             inputDatas={inputDatas}
@@ -439,7 +451,7 @@ function Row({
           setInputDatas={setInputDatas}
           index={index}
         />
-      </td>
+      </TableCell>
     </>
   );
 }
@@ -461,14 +473,14 @@ function AddRow({
   return (
     <>
       <HanziInputField data={newData} setData={setNewData} />
-      <td>
+      <TableCell sx={{ minWidth: 200 }}>
         <AddButton
           inputDatas={inputDatas}
           setInputDatas={setInputDatas}
           newData={newData}
           setNewData={setNewData}
         />
-      </td>
+      </TableCell>
     </>
   );
 }
@@ -497,31 +509,29 @@ function InputFields({
 }): JSX.Element {
   return (
     <>
-      <table>
-        <tbody lang="zh-cmn-Hans">
-          {inputDatas.map((inputData, i) => (
-            <tr key={i}>
-              <Row
-                inputDatas={inputDatas}
-                setInputDatas={setInputDatas}
-                index={i}
-                edittingNumber={edittingNumber}
-                setEdittingNumber={setEdittingNumber}
-                edittingData={edittingData}
-                setEdittingData={setEdittingData}
-              />
-            </tr>
-          ))}
-          <tr>
-            <AddRow
+      <Table>
+        {inputDatas.map((inputData, i) => (
+          <TableRow key={i}>
+            <Row
               inputDatas={inputDatas}
               setInputDatas={setInputDatas}
-              newData={newData}
-              setNewData={setNewData}
+              index={i}
+              edittingNumber={edittingNumber}
+              setEdittingNumber={setEdittingNumber}
+              edittingData={edittingData}
+              setEdittingData={setEdittingData}
             />
-          </tr>
-        </tbody>
-      </table>
+          </TableRow>
+        ))}
+        <TableRow>
+          <AddRow
+            inputDatas={inputDatas}
+            setInputDatas={setInputDatas}
+            newData={newData}
+            setNewData={setNewData}
+          />
+        </TableRow>
+      </Table>
     </>
   );
 }
@@ -658,23 +668,40 @@ export default function Home() {
   }, [inputDatas]);
   return (
     <>
-      <Description />
-      <InputFields
-        inputDatas={inputDatas}
-        setInputDatas={setInputDatas}
-        edittingNumber={edittingNumber}
-        setEdittingNumber={setEdittingNumber}
-        edittingData={edittingData}
-        setEdittingData={setEdittingData}
-        newData={newData}
-        setNewData={setNewData}
-      />
-      <SaveButton inputDatas={inputDatas} />
-      <RestoreButton setInputDatas={setInputDatas} />
-      <ClearAllButton setInputDatas={setInputDatas} />
-      <FileDownloadButton inputDatas={inputDatas} />
-      <br />
-      <Link to="/preview">プレビューページ</Link>
+      <Box sx={{ pb: 7 }}>
+        <Description />
+        <InputFields
+          inputDatas={inputDatas}
+          setInputDatas={setInputDatas}
+          edittingNumber={edittingNumber}
+          setEdittingNumber={setEdittingNumber}
+          edittingData={edittingData}
+          setEdittingData={setEdittingData}
+          newData={newData}
+          setNewData={setNewData}
+        />
+        <SaveButton inputDatas={inputDatas} />
+        <RestoreButton setInputDatas={setInputDatas} />
+        <ClearAllButton setInputDatas={setInputDatas} />
+        <FileDownloadButton inputDatas={inputDatas} />
+        <Paper
+          sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+          elevation={3}
+        >
+          <BottomNavigation showLabels>
+            <BottomNavigationAction
+              href="/"
+              label="エディター"
+              icon={<CreateIcon />}
+            />
+            <BottomNavigationAction
+              href="/preview"
+              label="プレビュー"
+              icon={<PreviewIcon />}
+            />
+          </BottomNavigation>
+        </Paper>
+      </Box>
     </>
   );
 }
