@@ -17,6 +17,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import SaveIcon from "@mui/icons-material/Save";
 import RestoreIcon from "@mui/icons-material/Restore";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { TextField } from "@mui/material";
 
 const initialDatas: InputDatas = [
@@ -597,6 +598,35 @@ function ClearAllButton({
   );
 }
 
+/**
+ * download json file
+ */
+function FileDownloadButton({
+  inputDatas,
+}: {
+  inputDatas: InputDatas;
+}): JSX.Element {
+  return (
+    <>
+      <IconButton
+        aria-label="download json file"
+        onClick={() => {
+          const blob = new Blob([JSON.stringify(inputDatas)], {
+            type: "application/json",
+          });
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = "hanzi_data.json";
+          a.click();
+          URL.revokeObjectURL(a.href);
+        }}
+      >
+        <FileDownloadIcon />
+      </IconButton>
+    </>
+  );
+}
+
 export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(
     initialDatas.map((initialData) => ({ ...initialData }))
@@ -642,21 +672,7 @@ export default function Home() {
       <SaveButton inputDatas={inputDatas} />
       <RestoreButton setInputDatas={setInputDatas} />
       <ClearAllButton setInputDatas={setInputDatas} />
-      <br />
-      <button
-        onClick={() => {
-          const blob = new Blob([JSON.stringify(inputDatas)], {
-            type: "application/json",
-          });
-          const a = document.createElement("a");
-          a.href = URL.createObjectURL(blob);
-          a.download = "hanzi_data.json";
-          a.click();
-          URL.revokeObjectURL(a.href);
-        }}
-      >
-        ダウンロード
-      </button>
+      <FileDownloadButton inputDatas={inputDatas} />
       <br />
       <Link to="/preview">プレビューページ</Link>
     </>
