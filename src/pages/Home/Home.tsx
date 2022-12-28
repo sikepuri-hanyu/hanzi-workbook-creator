@@ -172,7 +172,7 @@ function RowItem({
               // @ts-ignore
               value={edittingData[key]}
               onChange={(e) => {
-                const tmp = edittingData;
+                const tmp = { ...edittingData };
                 switch (key) {
                   case "hanzi":
                     tmp.hanzi = e.target.value;
@@ -217,9 +217,13 @@ function RowItem({
           <button
             onClick={() => {
               const tmp = [...inputDatas];
+              tmp[index].hanzi = edittingData.hanzi;
+              tmp[index].pinyin = edittingData.pinyin;
               tmp[index].emphStrokeNumbers = edittingData.emphStrokeNumbers
                 .split(",")
                 .map((item) => Number(item));
+              tmp[index].hanziCompound = edittingData.hanziCompound;
+              tmp[index].note = edittingData.note;
               setInputDatas(tmp);
               setEdittingNumber(-1);
               setEdittingData({ ...initialStringData });
