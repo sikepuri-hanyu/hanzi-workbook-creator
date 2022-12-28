@@ -16,6 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import SaveIcon from "@mui/icons-material/Save";
 import RestoreIcon from "@mui/icons-material/Restore";
+import ClearAllIcon from "@mui/icons-material/ClearAll";
 import { TextField } from "@mui/material";
 
 const initialDatas: InputDatas = [
@@ -572,6 +573,30 @@ function RestoreButton({
   );
 }
 
+/**
+ * clear all button
+ */
+function ClearAllButton({
+  setInputDatas,
+}: {
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+}): JSX.Element {
+  return (
+    <>
+      <IconButton
+        aria-label="clear all"
+        onClick={() => {
+          localStorage.removeItem("savedData");
+          localStorage.removeItem("savedBackupData");
+          setInputDatas([]);
+        }}
+      >
+        <ClearAllIcon />
+      </IconButton>
+    </>
+  );
+}
+
 export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(
     initialDatas.map((initialData) => ({ ...initialData }))
@@ -616,15 +641,7 @@ export default function Home() {
       />
       <SaveButton inputDatas={inputDatas} />
       <RestoreButton setInputDatas={setInputDatas} />
-      <button
-        onClick={() => {
-          localStorage.removeItem("savedData");
-          localStorage.removeItem("savedBackupData");
-          setInputDatas([]);
-        }}
-      >
-        データをすべて削除
-      </button>
+      <ClearAllButton setInputDatas={setInputDatas} />
       <br />
       <button
         onClick={() => {
