@@ -144,6 +144,45 @@ function DownButton({
   );
 }
 
+/**
+ * add button
+ */
+function AddButton({
+  inputDatas,
+  setInputDatas,
+  newData,
+  setNewData,
+}: {
+  inputDatas: InputDatas;
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+  newData: InputStringData;
+  setNewData: Dispatch<SetStateAction<InputStringData>>;
+}): JSX.Element {
+  return (
+    <>
+      <button
+        onClick={() => {
+          setInputDatas([
+            ...inputDatas,
+            {
+              hanzi: newData.hanzi,
+              pinyin: newData.pinyin,
+              emphStrokeNumbers: newData.emphStrokeNumbers
+                .split(",")
+                .map((item) => Number(item)),
+              hanziCompound: newData.hanziCompound,
+              note: newData.note,
+            },
+          ]);
+          setNewData({ ...initialStringData });
+        }}
+      >
+        追加
+      </button>
+    </>
+  );
+}
+
 function RowItem({
   inputDatas,
   setInputDatas,
@@ -258,42 +297,6 @@ function RowItem({
           index={index}
         />
       </td>
-    </>
-  );
-}
-
-function AddButton({
-  inputDatas,
-  setInputDatas,
-  newData,
-  setNewData,
-}: {
-  inputDatas: InputDatas;
-  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
-  newData: InputStringData;
-  setNewData: Dispatch<SetStateAction<InputStringData>>;
-}): JSX.Element {
-  return (
-    <>
-      <button
-        onClick={() => {
-          setInputDatas([
-            ...inputDatas,
-            {
-              hanzi: newData.hanzi,
-              pinyin: newData.pinyin,
-              emphStrokeNumbers: newData.emphStrokeNumbers
-                .split(",")
-                .map((item) => Number(item)),
-              hanziCompound: newData.hanziCompound,
-              note: newData.note,
-            },
-          ]);
-          setNewData({ ...initialStringData });
-        }}
-      >
-        追加
-      </button>
     </>
   );
 }
