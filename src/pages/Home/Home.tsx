@@ -7,6 +7,14 @@ import {
 } from "../../components/hanziData";
 import pinyin from "pinyin";
 import toneConvert from "../../components/pinyinToneConvert";
+import { IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from "@mui/icons-material/Check";
+import { TextField } from "@mui/material";
 
 const initialDatas: InputDatas = [
   {
@@ -67,13 +75,14 @@ function RemoveButton({
 }): JSX.Element {
   return (
     <>
-      <button
+      <IconButton
+        aria-label="delete"
         onClick={() => {
           setInputDatas(inputDatas.filter((inputData, i) => index !== i));
         }}
       >
-        削除
-      </button>
+        <DeleteIcon />
+      </IconButton>
     </>
   );
 }
@@ -97,7 +106,8 @@ function UpButton({
   return (
     <>
       {index !== 0 && (
-        <button
+        <IconButton
+          aria-label="move up"
           onClick={() => {
             const copiedInputDatas = [...inputDatas];
             const tmp = copiedInputDatas[index - 1];
@@ -106,8 +116,8 @@ function UpButton({
             setInputDatas(copiedInputDatas);
           }}
         >
-          ↑
-        </button>
+          <ArrowUpwardIcon />
+        </IconButton>
       )}
     </>
   );
@@ -128,7 +138,8 @@ function DownButton({
   return (
     <>
       {index !== inputDatas.length - 1 && (
-        <button
+        <IconButton
+          aria-label="move down"
           onClick={() => {
             const copiedInputDatas = [...inputDatas];
             const tmp = copiedInputDatas[index];
@@ -137,8 +148,8 @@ function DownButton({
             setInputDatas(copiedInputDatas);
           }}
         >
-          ↓
-        </button>
+          <ArrowDownwardIcon />
+        </IconButton>
       )}
     </>
   );
@@ -160,7 +171,8 @@ function AddButton({
 }): JSX.Element {
   return (
     <>
-      <button
+      <IconButton
+        aria-label="add"
         onClick={() => {
           setInputDatas([
             ...inputDatas,
@@ -177,8 +189,8 @@ function AddButton({
           setNewData({ ...initialStringData });
         }}
       >
-        追加
-      </button>
+        <AddIcon />
+      </IconButton>
     </>
   );
 }
@@ -199,7 +211,8 @@ function EditButton({
 }): JSX.Element {
   return (
     <>
-      <button
+      <IconButton
+        aria-label="edit"
         onClick={() => {
           setEdittingNumber(index);
           setEdittingData({
@@ -211,8 +224,8 @@ function EditButton({
           });
         }}
       >
-        編集
-      </button>
+        <EditIcon />
+      </IconButton>
     </>
   );
 }
@@ -237,7 +250,8 @@ function ConfirmButton({
 }) {
   return (
     <>
-      <button
+      <IconButton
+        aria-label="confirm"
         onClick={() => {
           const tmp = [...inputDatas];
           tmp[index].hanzi = edittingData.hanzi;
@@ -252,8 +266,106 @@ function ConfirmButton({
           setEdittingData({ ...initialStringData });
         }}
       >
-        確定
-      </button>
+        <CheckIcon />
+      </IconButton>
+    </>
+  );
+}
+
+/**
+ * input field of hanzi data
+ */
+function HanziInputField({
+  edittingData,
+  setEdittingData,
+}: {
+  edittingData: InputStringData;
+  setEdittingData: Dispatch<SetStateAction<InputStringData>>;
+}): JSX.Element {
+  return (
+    <>
+      <td>
+        <TextField
+          label="漢字"
+          variant="standard"
+          value={edittingData.hanzi}
+          onChange={(e) => {
+            const tmp = { ...edittingData };
+            tmp.hanzi = e.target.value;
+            tmp.pinyin = pinyin(e.target.value, {
+              style: pinyin.STYLE_TONE2,
+            }).join("");
+            setEdittingData(tmp);
+          }}
+        />
+      </td>
+      <td>
+        <TextField
+          label="ピンイン"
+          variant="standard"
+          value={edittingData.pinyin}
+          onChange={(e) => {
+            const tmp = { ...edittingData };
+            tmp.pinyin = e.target.value;
+            setEdittingData(tmp);
+          }}
+        />
+      </td>
+      <td>
+        <TextField
+          label="強調する画数"
+          variant="standard"
+          value={edittingData.emphStrokeNumbers}
+          onChange={(e) => {
+            const tmp = { ...edittingData };
+            tmp.emphStrokeNumbers = e.target.value;
+            setEdittingData(tmp);
+          }}
+        />
+      </td>
+      <td>
+        <TextField
+          label="熟語"
+          variant="standard"
+          value={edittingData.hanziCompound}
+          onChange={(e) => {
+            const tmp = { ...edittingData };
+            tmp.hanziCompound = e.target.value;
+            setEdittingData(tmp);
+          }}
+        />
+      </td>
+      <td>
+        <TextField
+          label="メモ"
+          variant="standard"
+          value={edittingData.note}
+          onChange={(e) => {
+            const tmp = { ...edittingData };
+            tmp.note = e.target.value;
+            setEdittingData(tmp);
+          }}
+        />
+      </td>
+    </>
+  );
+}
+
+/**
+ * output field of hanzi data
+ */
+function HanziOutputField({
+  inputData,
+}: {
+  inputData: InputData;
+}): JSX.Element {
+  return (
+    <>
+      <td>{inputData.hanzi}</td>
+      <td>{toneConvert(inputData.pinyin)}</td>
+      <td>{inputData.emphStrokeNumbers.join(",")}</td>
+      <td>{inputData.hanziCompound}</td>
+      <td>{inputData.note}</td>
     </>
   );
 }
@@ -279,46 +391,15 @@ function RowItem({
   return (
     <>
       {edittingNumber === index ? (
-        Object.keys(edittingData).map((key) => (
-          <td key={key}>
-            <input
-              type="text"
-              // @ts-ignore
-              value={edittingData[key]}
-              onChange={(e) => {
-                const tmp = { ...edittingData };
-                switch (key) {
-                  case "hanzi":
-                    tmp.hanzi = e.target.value;
-                    tmp.pinyin = pinyin(e.target.value, {
-                      style: pinyin.STYLE_TONE2,
-                    }).join("");
-                    break;
-                  case "pinyin":
-                    tmp.pinyin = e.target.value;
-                    break;
-                  case "emphStrokeNumbers":
-                    tmp.emphStrokeNumbers = e.target.value;
-                    break;
-                  case "hanziCompound":
-                    tmp.hanziCompound = e.target.value;
-                    break;
-                  case "note":
-                    tmp.note = e.target.value;
-                    break;
-                }
-                setEdittingData(tmp);
-              }}
-            />
-          </td>
-        ))
+        <>
+          <HanziInputField
+            edittingData={edittingData}
+            setEdittingData={setEdittingData}
+          />
+        </>
       ) : (
         <>
-          <td>{inputData.hanzi}</td>
-          <td>{toneConvert(inputData.pinyin)}</td>
-          <td>{inputData.emphStrokeNumbers.join(",")}</td>
-          <td>{inputData.hanziCompound}</td>
-          <td>{inputData.note}</td>
+          <HanziOutputField inputData={inputData} />
         </>
       )}
       <td>
