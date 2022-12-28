@@ -322,11 +322,6 @@ function RowItem({
         </>
       )}
       <td>
-        <RemoveButton
-          inputDatas={inputDatas}
-          setInputDatas={setInputDatas}
-          index={index}
-        />
         {edittingNumber === index ? (
           <ConfirmButton
             inputDatas={inputDatas}
@@ -344,6 +339,11 @@ function RowItem({
             index={index}
           />
         )}
+        <RemoveButton
+          inputDatas={inputDatas}
+          setInputDatas={setInputDatas}
+          index={index}
+        />
         <UpButton
           inputDatas={inputDatas}
           setInputDatas={setInputDatas}
