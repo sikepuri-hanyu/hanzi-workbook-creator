@@ -276,11 +276,11 @@ function ConfirmButton({
  * input field of hanzi data
  */
 function HanziInputField({
-  edittingData,
-  setEdittingData,
+  data,
+  setData,
 }: {
-  edittingData: InputStringData;
-  setEdittingData: Dispatch<SetStateAction<InputStringData>>;
+  data: InputStringData;
+  setData: Dispatch<SetStateAction<InputStringData>>;
 }): JSX.Element {
   return (
     <>
@@ -288,14 +288,14 @@ function HanziInputField({
         <TextField
           label="漢字"
           variant="standard"
-          value={edittingData.hanzi}
+          value={data.hanzi}
           onChange={(e) => {
-            const tmp = { ...edittingData };
+            const tmp = { ...data };
             tmp.hanzi = e.target.value;
             tmp.pinyin = pinyin(e.target.value, {
               style: pinyin.STYLE_TONE2,
             }).join("");
-            setEdittingData(tmp);
+            setData(tmp);
           }}
         />
       </td>
@@ -303,11 +303,11 @@ function HanziInputField({
         <TextField
           label="ピンイン"
           variant="standard"
-          value={edittingData.pinyin}
+          value={data.pinyin}
           onChange={(e) => {
-            const tmp = { ...edittingData };
+            const tmp = { ...data };
             tmp.pinyin = e.target.value;
-            setEdittingData(tmp);
+            setData(tmp);
           }}
         />
       </td>
@@ -315,11 +315,11 @@ function HanziInputField({
         <TextField
           label="強調する画数"
           variant="standard"
-          value={edittingData.emphStrokeNumbers}
+          value={data.emphStrokeNumbers}
           onChange={(e) => {
-            const tmp = { ...edittingData };
+            const tmp = { ...data };
             tmp.emphStrokeNumbers = e.target.value;
-            setEdittingData(tmp);
+            setData(tmp);
           }}
         />
       </td>
@@ -327,11 +327,11 @@ function HanziInputField({
         <TextField
           label="熟語"
           variant="standard"
-          value={edittingData.hanziCompound}
+          value={data.hanziCompound}
           onChange={(e) => {
-            const tmp = { ...edittingData };
+            const tmp = { ...data };
             tmp.hanziCompound = e.target.value;
-            setEdittingData(tmp);
+            setData(tmp);
           }}
         />
       </td>
@@ -339,11 +339,11 @@ function HanziInputField({
         <TextField
           label="メモ"
           variant="standard"
-          value={edittingData.note}
+          value={data.note}
           onChange={(e) => {
-            const tmp = { ...edittingData };
+            const tmp = { ...data };
             tmp.note = e.target.value;
-            setEdittingData(tmp);
+            setData(tmp);
           }}
         />
       </td>
@@ -392,10 +392,7 @@ function RowItem({
     <>
       {edittingNumber === index ? (
         <>
-          <HanziInputField
-            edittingData={edittingData}
-            setEdittingData={setEdittingData}
-          />
+          <HanziInputField data={edittingData} setData={setEdittingData} />
         </>
       ) : (
         <>
@@ -453,53 +450,7 @@ function AddRow({
 }) {
   return (
     <>
-      {Object.keys(inputDatas[0]).map((item, i) => (
-        <td key={item}>
-          <input
-            type="text"
-            value={
-              item === "hanzi"
-                ? newData.hanzi
-                : item === "pinyin"
-                ? newData.pinyin
-                : item === "emphStrokeNumbers"
-                ? newData.emphStrokeNumbers.toString()
-                : item === "hanziCompound"
-                ? newData.hanziCompound
-                : newData.note
-            }
-            onChange={(e) => {
-              const tmp = newData;
-              switch (item) {
-                case "hanzi":
-                  tmp.hanzi = e.target.value;
-                  tmp.pinyin = pinyin(e.target.value, {
-                    style: pinyin.STYLE_TONE2,
-                  }).join("");
-                  break;
-                case "pinyin":
-                  tmp.pinyin = e.target.value;
-                  break;
-                case "emphStrokeNumbers":
-                  tmp.emphStrokeNumbers = e.target.value;
-                  break;
-                case "hanziCompound":
-                  tmp.hanziCompound = e.target.value;
-                  break;
-                case "note":
-                  tmp.note = e.target.value;
-              }
-              setNewData({
-                hanzi: tmp.hanzi,
-                pinyin: tmp.pinyin,
-                emphStrokeNumbers: tmp.emphStrokeNumbers,
-                hanziCompound: tmp.hanziCompound,
-                note: tmp.note,
-              });
-            }}
-          />
-        </td>
-      ))}
+      <HanziInputField data={newData} setData={setNewData} />
       <td>
         <AddButton
           inputDatas={inputDatas}
