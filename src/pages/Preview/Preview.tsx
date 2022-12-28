@@ -5,7 +5,6 @@ import {
   Pinyin,
   HanziCompound,
   Note,
-  InputData,
   InputDatas,
 } from "../../components/hanziData";
 import toneConvert from "../../components/pinyinToneConvert";
