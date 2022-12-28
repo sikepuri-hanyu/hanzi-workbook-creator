@@ -183,6 +183,40 @@ function AddButton({
   );
 }
 
+/**
+ * edit button
+ */
+function EditButton({
+  inputData,
+  setEdittingNumber,
+  setEdittingData,
+  index,
+}: {
+  inputData: InputData;
+  setEdittingNumber: Dispatch<SetStateAction<number>>;
+  setEdittingData: Dispatch<SetStateAction<InputStringData>>;
+  index: number;
+}): JSX.Element {
+  return (
+    <>
+      <button
+        onClick={() => {
+          setEdittingNumber(index);
+          setEdittingData({
+            hanzi: inputData.hanzi,
+            pinyin: inputData.pinyin,
+            emphStrokeNumbers: inputData.emphStrokeNumbers.toString(),
+            hanziCompound: inputData.hanziCompound,
+            note: inputData.note,
+          });
+        }}
+      >
+        編集
+      </button>
+    </>
+  );
+}
+
 function RowItem({
   inputDatas,
   setInputDatas,
@@ -271,20 +305,12 @@ function RowItem({
             確定
           </button>
         ) : (
-          <button
-            onClick={() => {
-              setEdittingNumber(index);
-              setEdittingData({
-                hanzi: inputData.hanzi,
-                pinyin: inputData.pinyin,
-                emphStrokeNumbers: inputData.emphStrokeNumbers.toString(),
-                hanziCompound: inputData.hanziCompound,
-                note: inputData.note,
-              });
-            }}
-          >
-            編集
-          </button>
+          <EditButton
+            inputData={inputData}
+            setEdittingNumber={setEdittingNumber}
+            setEdittingData={setEdittingData}
+            index={index}
+          />
         )}
         <UpButton
           inputDatas={inputDatas}
