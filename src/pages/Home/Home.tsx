@@ -14,6 +14,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
+import SaveIcon from "@mui/icons-material/Save";
 import { TextField } from "@mui/material";
 
 const initialDatas: InputDatas = [
@@ -522,6 +523,24 @@ function InputFields({
   );
 }
 
+/**
+ * save button
+ */
+function SaveButton({ inputDatas }: { inputDatas: InputDatas }): JSX.Element {
+  return (
+    <>
+      <IconButton
+        aria-label="save"
+        onClick={() => {
+          localStorage.setItem("savedData", JSON.stringify(inputDatas));
+        }}
+      >
+        <SaveIcon />
+      </IconButton>
+    </>
+  );
+}
+
 export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(
     initialDatas.map((initialData) => ({ ...initialData }))
@@ -564,13 +583,7 @@ export default function Home() {
         newData={newData}
         setNewData={setNewData}
       />
-      <button
-        onClick={() => {
-          localStorage.setItem("savedData", JSON.stringify(inputDatas));
-        }}
-      >
-        ブラウザに保存
-      </button>
+      <SaveButton inputDatas={inputDatas} />
       <button
         onClick={() => {
           const response = localStorage.getItem("savedData");
