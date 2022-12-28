@@ -370,7 +370,10 @@ function HanziOutputField({
   );
 }
 
-function RowItem({
+/**
+ * row of input fields
+ */
+function Row({
   inputDatas,
   setInputDatas,
   index,
@@ -437,6 +440,9 @@ function RowItem({
   );
 }
 
+/**
+ * row of add button
+ */
 function AddRow({
   inputDatas,
   setInputDatas,
@@ -459,6 +465,59 @@ function AddRow({
           setNewData={setNewData}
         />
       </td>
+    </>
+  );
+}
+
+/**
+ * input fields
+ */
+function InputFields({
+  inputDatas,
+  setInputDatas,
+  edittingNumber,
+  setEdittingNumber,
+  edittingData,
+  setEdittingData,
+  newData,
+  setNewData,
+}: {
+  inputDatas: InputDatas;
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+  edittingNumber: number;
+  setEdittingNumber: Dispatch<SetStateAction<number>>;
+  edittingData: InputStringData;
+  setEdittingData: Dispatch<SetStateAction<InputStringData>>;
+  newData: InputStringData;
+  setNewData: Dispatch<SetStateAction<InputStringData>>;
+}): JSX.Element {
+  return (
+    <>
+      <table>
+        <tbody lang="zh-cmn-Hans">
+          {inputDatas.map((inputData, i) => (
+            <tr key={i}>
+              <Row
+                inputDatas={inputDatas}
+                setInputDatas={setInputDatas}
+                index={i}
+                edittingNumber={edittingNumber}
+                setEdittingNumber={setEdittingNumber}
+                edittingData={edittingData}
+                setEdittingData={setEdittingData}
+              />
+            </tr>
+          ))}
+          <tr>
+            <AddRow
+              inputDatas={inputDatas}
+              setInputDatas={setInputDatas}
+              newData={newData}
+              setNewData={setNewData}
+            />
+          </tr>
+        </tbody>
+      </table>
     </>
   );
 }
@@ -495,40 +554,16 @@ export default function Home() {
   return (
     <>
       <Description />
-      <table>
-        <thead>
-          <tr>
-            <th>漢字</th>
-            <th>ピンイン</th>
-            <th>強調する画数</th>
-            <th>熟語</th>
-            <th>メモ</th>
-          </tr>
-        </thead>
-        <tbody lang="zh-cmn-Hans">
-          {inputDatas.map((inputData, i) => (
-            <tr key={i}>
-              <RowItem
-                inputDatas={inputDatas}
-                setInputDatas={setInputDatas}
-                index={i}
-                edittingNumber={edittingNumber}
-                setEdittingNumber={setEdittingNumber}
-                edittingData={edittingData}
-                setEdittingData={setEdittingData}
-              />
-            </tr>
-          ))}
-          <tr>
-            <AddRow
-              inputDatas={inputDatas}
-              setInputDatas={setInputDatas}
-              newData={newData}
-              setNewData={setNewData}
-            />
-          </tr>
-        </tbody>
-      </table>
+      <InputFields
+        inputDatas={inputDatas}
+        setInputDatas={setInputDatas}
+        edittingNumber={edittingNumber}
+        setEdittingNumber={setEdittingNumber}
+        edittingData={edittingData}
+        setEdittingData={setEdittingData}
+        newData={newData}
+        setNewData={setNewData}
+      />
       <button
         onClick={() => {
           localStorage.setItem("savedData", JSON.stringify(inputDatas));
