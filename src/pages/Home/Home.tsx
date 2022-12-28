@@ -15,6 +15,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import SaveIcon from "@mui/icons-material/Save";
+import RestoreIcon from "@mui/icons-material/Restore";
 import { TextField } from "@mui/material";
 
 const initialDatas: InputDatas = [
@@ -541,6 +542,36 @@ function SaveButton({ inputDatas }: { inputDatas: InputDatas }): JSX.Element {
   );
 }
 
+/**
+ * restore button
+ */
+function RestoreButton({
+  setInputDatas,
+}: {
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+}): JSX.Element {
+  return (
+    <>
+      <IconButton
+        aria-label="restore"
+        onClick={() => {
+          const response = localStorage.getItem("savedData");
+          if (response === null) alert("There is no saved data!");
+          else {
+            const tmp = [];
+            for (const item of JSON.parse(response)) {
+              tmp.push(item);
+            }
+            setInputDatas(tmp);
+          }
+        }}
+      >
+        <RestoreIcon />
+      </IconButton>
+    </>
+  );
+}
+
 export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(
     initialDatas.map((initialData) => ({ ...initialData }))
@@ -584,21 +615,7 @@ export default function Home() {
         setNewData={setNewData}
       />
       <SaveButton inputDatas={inputDatas} />
-      <button
-        onClick={() => {
-          const response = localStorage.getItem("savedData");
-          if (response === null) alert("There is no data!");
-          else {
-            const tmp = [];
-            for (const item of JSON.parse(response)) {
-              tmp.push(item);
-            }
-            setInputDatas(tmp);
-          }
-        }}
-      >
-        保存データから復元
-      </button>
+      <RestoreButton setInputDatas={setInputDatas} />
       <button
         onClick={() => {
           localStorage.removeItem("savedData");
