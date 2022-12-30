@@ -662,7 +662,7 @@ function TopAppBar() {
 /**
  * bottom app bar
  */
-function BottomAppBar(): JSX.Element {
+function BottomAppBar({ inputDatas }: { inputDatas: InputDatas }): JSX.Element {
   return (
     <>
       <Paper
@@ -675,6 +675,9 @@ function BottomAppBar(): JSX.Element {
             to="/"
             label="エディター"
             icon={<CreateIcon />}
+            onClick={() => {
+              autoSave(inputDatas);
+            }}
           />
           <BottomNavigationAction
             component={Link}
@@ -741,7 +744,7 @@ export default function Home() {
         <RestoreButton setInputDatas={setInputDatas} />
         <ClearAllButton setInputDatas={setInputDatas} />
         <FileDownloadButton inputDatas={inputDatas} />
-        <BottomAppBar />
+        <BottomAppBar inputDatas={inputDatas} />
       </Box>
     </>
   );
