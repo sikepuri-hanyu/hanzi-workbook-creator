@@ -186,35 +186,6 @@ function App() {
   }, []);
   return (
     <>
-      <input
-        type="file"
-        accept="json"
-        onChange={async (e) => {
-          if (e.target.files !== null) {
-            const reader = new FileReader();
-            const file = e.target.files[0];
-            reader.readAsText(file, "utf-8");
-            reader.onload = () => {
-              setInputDatas(JSON.parse(reader.result as string));
-            };
-          }
-        }}
-      />
-      <button
-        onClick={() => {
-          const response = localStorage.getItem("savedData");
-          if (response === null) alert("There is no data!");
-          else {
-            const tmp = [];
-            for (const item of JSON.parse(response)) {
-              tmp.push(item);
-            }
-            setInputDatas(tmp);
-          }
-        }}
-      >
-        ブラウザへの保存データから復元
-      </button>
       {inputDatas.map((inputData, i) => (
         <React.Fragment key={i}>
           <HanziCard inputData={inputData} />

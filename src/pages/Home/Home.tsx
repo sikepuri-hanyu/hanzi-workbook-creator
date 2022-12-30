@@ -32,6 +32,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import RestoreIcon from "@mui/icons-material/Restore";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import PreviewIcon from "@mui/icons-material/Preview";
 import CreateIcon from "@mui/icons-material/Create";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -636,6 +637,43 @@ function FileDownloadButton({
   );
 }
 
+/**
+ * upload json file
+ */
+function FileUploadButton({
+  setInputDatas,
+}: {
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+}) {
+  return (
+    <>
+      <Button
+        variant="outlined"
+        component="label"
+        startIcon={<FileUploadIcon />}
+        sx={{ m: 0.5 }}
+      >
+        アップロード
+        <input
+          type="file"
+          accept="json"
+          hidden
+          onChange={async (e) => {
+            if (e.target.files !== null) {
+              const reader = new FileReader();
+              const file = e.target.files[0];
+              reader.readAsText(file, "utf-8");
+              reader.onload = () => {
+                setInputDatas(JSON.parse(reader.result as string));
+              };
+            }
+          }}
+        />
+      </Button>
+    </>
+  );
+}
+
 /** top app bar
  */
 function TopAppBar() {
@@ -744,6 +782,7 @@ export default function Home() {
         <RestoreButton setInputDatas={setInputDatas} />
         <ClearAllButton setInputDatas={setInputDatas} />
         <FileDownloadButton inputDatas={inputDatas} />
+        <FileUploadButton setInputDatas={setInputDatas} />
         <BottomAppBar inputDatas={inputDatas} />
       </Box>
     </>
