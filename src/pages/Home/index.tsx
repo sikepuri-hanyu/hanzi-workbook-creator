@@ -230,6 +230,23 @@ function EditButton({
 }
 
 /**
+ * convert InputStringData to InputData
+ * @param inputStringData InputStringData
+ * @returns InputData
+ */
+function toInputData(inputStringData: InputStringData): InputData {
+  return {
+    hanzi: inputStringData.hanzi,
+    pinyin: inputStringData.pinyin,
+    emphStrokeNumbers: inputStringData.emphStrokeNumbers
+      .split(",")
+      .map((item) => Number(item)),
+    hanziCompound: inputStringData.hanziCompound,
+    note: inputStringData.note,
+  };
+}
+
+/**
  * confirm button
  */
 function ConfirmButton({
@@ -253,13 +270,7 @@ function ConfirmButton({
         aria-label="confirm"
         onClick={() => {
           const tmp = [...inputDatas];
-          tmp[index].hanzi = edittingData.hanzi;
-          tmp[index].pinyin = edittingData.pinyin;
-          tmp[index].emphStrokeNumbers = edittingData.emphStrokeNumbers
-            .split(",")
-            .map((item) => Number(item));
-          tmp[index].hanziCompound = edittingData.hanziCompound;
-          tmp[index].note = edittingData.note;
+          tmp[index] = toInputData(edittingData);
           setInputDatas(tmp);
           setEdittingNumber(-1);
           setEdittingData({ ...initialStringData });
