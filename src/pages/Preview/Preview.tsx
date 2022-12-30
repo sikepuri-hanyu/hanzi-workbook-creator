@@ -1,35 +1,41 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import {
+  Hanzi,
   StrokeNumbers,
   Pinyin,
   HanziCompound,
   Note,
   InputDatas,
-  HanziData,
-  HanziDatas,
+  StrokesData,
 } from "../../components/hanziData";
 import toneConvert from "../../components/pinyinToneConvert";
-import getHanziDatas from "../../components/getHanziDatas";
+import getStrokesData from "../../components/getStrokesData";
 
 function TitleHanzi({
-  hanziData,
+  hanzi,
   emphStrokeNumbers,
 }: {
-  hanziData: HanziData;
+  hanzi: Hanzi;
   emphStrokeNumbers: StrokeNumbers;
 }): JSX.Element {
+  const [strokesData, setStrokesData] = useState<StrokesData>([]);
+  useEffect(() => {
+    (async () => {
+      setStrokesData(await getStrokesData(hanzi));
+    })();
+  }, [hanzi]);
   return (
     <>
       <svg
-        key={`${hanziData.hanziCode}`}
+        key={`${hanzi}`}
         className={styles["title-hanzi"]}
         viewBox="0 0 1024 1024"
       >
-        {hanziData.strokesData.map((stroke, j) => (
+        {strokesData.map((strokeData, j) => (
           <path
-            key={`${hanziData.hanziCode}d${j + 1}`}
-            d={stroke}
+            key={`${hanzi}d${j + 1}`}
+            d={strokeData}
             fill={emphStrokeNumbers.includes(j + 1) ? "red" : "black"}
           />
         ))}
@@ -38,18 +44,24 @@ function TitleHanzi({
   );
 }
 
-function StrokeOrder({ hanziData }: { hanziData: HanziData }) {
+function StrokeOrder({ hanzi }: { hanzi: Hanzi }) {
+  const [strokesData, setStrokesData] = useState<StrokesData>([]);
+  useEffect(() => {
+    (async () => {
+      setStrokesData(await getStrokesData(hanzi));
+    })();
+  }, [hanzi]);
   return (
     <div className={styles["stroke-orders"]}>
-      {hanziData.strokesData.map((stroke, i) => (
+      {strokesData.map((_, i) => (
         <svg
-          key={`${hanziData.hanziCode}order${i}`}
+          key={`${hanzi}order${i}`}
           className={styles["stroke-order"]}
           viewBox="0 0 1024 1024"
         >
-          {hanziData.strokesData.map((stroke, j) => (
+          {strokesData.map((stroke, j) => (
             <path
-              key={`${hanziData.hanziCode}order${i}d${j + 1}`}
+              key={`${hanzi}order${i}d${j + 1}`}
               d={stroke}
               fill={i === j ? "red" : i > j ? "black" : "#ccc"}
             />
@@ -60,7 +72,13 @@ function StrokeOrder({ hanziData }: { hanziData: HanziData }) {
   );
 }
 
-function PlayGround({ hanziData }: { hanziData: HanziData }) {
+function PlayGround({ hanzi }: { hanzi: Hanzi }) {
+  const [strokesData, setStrokesData] = useState<StrokesData>([]);
+  useEffect(() => {
+    (async () => {
+      setStrokesData(await getStrokesData(hanzi));
+    })();
+  }, [hanzi]);
   return (
     <>
       <div className={styles.playgrounds}>
@@ -68,14 +86,14 @@ function PlayGround({ hanziData }: { hanziData: HanziData }) {
           <div key={index} className={styles.playground}>
             {index === 0 && (
               <svg
-                key={`playground${hanziData.hanziCode}`}
+                key={`playground${hanzi}`}
                 viewBox="0 0 1024 1024"
                 width="100%"
                 height="100%"
               >
-                {hanziData.strokesData.map((stroke, j) => (
+                {strokesData.map((stroke, j) => (
                   <path
-                    key={`playground${hanziData.hanziCode}d${j + 1}`}
+                    key={`playground${hanzi}d${j + 1}`}
                     d={stroke}
                     fill="#ccc"
                   />
@@ -126,12 +144,6 @@ function HanziCompoundComponent({
 
 function App() {
   const [inputDatas, setInputDatas] = useState<InputDatas>([]);
-  const [hanziDatas, setHanziDatas] = useState<HanziDatas>([]);
-  useEffect(() => {
-    (async () => {
-      getHanziDatas(inputDatas, setHanziDatas);
-    })();
-  }, [inputDatas]);
   useEffect(() => {
     const response = localStorage.getItem("savedBackupData");
     if (response !== null) {
@@ -142,75 +154,62 @@ function App() {
       setInputDatas(tmp);
     }
   }, []);
-  const [shouldDeleteButton, setShouldDeleteButton] = useState<boolean>(false);
   return (
     <>
-      {!shouldDeleteButton && (
-        <>
-          <input
-            type="file"
-            accept="json"
-            onChange={async (e) => {
-              if (e.target.files !== null) {
-                const reader = new FileReader();
-                const file = e.target.files[0];
-                reader.readAsText(file, "utf-8");
-                reader.onload = () => {
-                  setInputDatas(JSON.parse(reader.result as string));
-                };
-              }
-            }}
-          />
-          <button
-            onClick={() => {
-              const response = localStorage.getItem("savedData");
-              if (response === null) alert("There is no data!");
-              else {
-                const tmp = [];
-                for (const item of JSON.parse(response)) {
-                  tmp.push(item);
-                }
-                setInputDatas(tmp);
-              }
-            }}
-          >
-            ブラウザへの保存データから復元
-          </button>
-          <button
-            onClick={() => {
-              setShouldDeleteButton(true);
-            }}
-          >
-            参照ボタンを消す
-          </button>
-        </>
-      )}
+      <input
+        type="file"
+        accept="json"
+        onChange={async (e) => {
+          if (e.target.files !== null) {
+            const reader = new FileReader();
+            const file = e.target.files[0];
+            reader.readAsText(file, "utf-8");
+            reader.onload = () => {
+              setInputDatas(JSON.parse(reader.result as string));
+            };
+          }
+        }}
+      />
+      <button
+        onClick={() => {
+          const response = localStorage.getItem("savedData");
+          if (response === null) alert("There is no data!");
+          else {
+            const tmp = [];
+            for (const item of JSON.parse(response)) {
+              tmp.push(item);
+            }
+            setInputDatas(tmp);
+          }
+        }}
+      >
+        ブラウザへの保存データから復元
+      </button>
       {inputDatas.map((inputData, i) => (
         <React.Fragment key={i}>
-          {hanziDatas[i] !== undefined && (
-            <div className={styles.hanzi}>
-              <div className={styles.title}>
-                <PinyinComponent pinyin={inputData.pinyin} />
-                <TitleHanzi
-                  key={i}
-                  hanziData={hanziDatas[i]}
-                  emphStrokeNumbers={inputData.emphStrokeNumbers}
-                />
-              </div>
-              <div className={styles.content}>
-                <div className={styles.info}>
-                  <div className={styles.info1}>
-                    <HanziCompoundComponent
-                      hanziCompound={inputData.hanziCompound}
-                    />
-                    <StrokeOrder hanziData={hanziDatas[i]} />
-                  </div>
-                  <NoteComponent note={inputData.note} />
-                </div>
-                <PlayGround hanziData={hanziDatas[i]} />
-              </div>
+          <div className={styles.hanzi}>
+            <div className={styles.title}>
+              <PinyinComponent pinyin={inputData.pinyin} />
+
+              <TitleHanzi
+                key={i}
+                hanzi={inputData.hanzi}
+                emphStrokeNumbers={inputData.emphStrokeNumbers}
+              />
             </div>
-          )}
+            <div className={styles.content}>
+              <div className={styles.info}>
+                <div className={styles.info1}>
+                  <HanziCompoundComponent
+                    hanziCompound={inputData.hanziCompound}
+                  />
+                  <StrokeOrder hanzi={inputData.hanzi} />
+                </div>
+                <NoteComponent note={inputData.note} />
+              </div>
+              <PlayGround hanzi={inputData.hanzi} />
+            </div>
+          </div>
         </React.Fragment>
       ))}
     </>

@@ -12,6 +12,7 @@ export type InputData = {
   note: Note;
 };
 export type InputDatas = InputData[];
+
 export type InputStringData = {
   hanzi: Hanzi;
   pinyin: Pinyin;
@@ -20,8 +21,5 @@ export type InputStringData = {
   note: Note;
 };
 
-export type HanziCode = number;
 type StrokeData = string;
 export type StrokesData = [...StrokeData[]];
-export type HanziData = { hanziCode: HanziCode; strokesData: StrokesData };
-export type HanziDatas = HanziData[];
