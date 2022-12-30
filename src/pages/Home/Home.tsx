@@ -729,6 +729,27 @@ function BottomAppBar({ inputDatas }: { inputDatas: InputDatas }): JSX.Element {
   );
 }
 
+/**
+ * UtilButtons
+ */
+function UtilButtons({
+  inputDatas,
+  setInputDatas,
+}: {
+  inputDatas: InputDatas;
+  setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+}) {
+  return (
+    <>
+      <SaveButton inputDatas={inputDatas} />
+      <RestoreButton setInputDatas={setInputDatas} />
+      <ClearAllButton setInputDatas={setInputDatas} />
+      <FileDownloadButton inputDatas={inputDatas} />
+      <FileUploadButton setInputDatas={setInputDatas} />
+    </>
+  );
+}
+
 function autoSave(inputDatas: InputDatas) {
   const timerId = setInterval(() => {
     localStorage.setItem("savedBackupData", JSON.stringify(inputDatas));
@@ -778,11 +799,7 @@ export default function Home() {
           newData={newData}
           setNewData={setNewData}
         />
-        <SaveButton inputDatas={inputDatas} />
-        <RestoreButton setInputDatas={setInputDatas} />
-        <ClearAllButton setInputDatas={setInputDatas} />
-        <FileDownloadButton inputDatas={inputDatas} />
-        <FileUploadButton setInputDatas={setInputDatas} />
+        <UtilButtons inputDatas={inputDatas} setInputDatas={setInputDatas} />
         <BottomAppBar inputDatas={inputDatas} />
       </Box>
     </>
