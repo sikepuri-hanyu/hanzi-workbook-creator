@@ -688,6 +688,15 @@ function BottomAppBar(): JSX.Element {
   );
 }
 
+function autoSave(inputDatas: InputDatas) {
+  const timerId = setInterval(() => {
+    localStorage.setItem("savedBackupData", JSON.stringify(inputDatas));
+  }, 1000);
+  return () => {
+    clearInterval(timerId);
+  };
+}
+
 export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(
     initialDatas.map((initialData) => ({ ...initialData }))
@@ -710,12 +719,7 @@ export default function Home() {
     }
   }, []);
   useEffect(() => {
-    const timerId = setInterval(() => {
-      localStorage.setItem("savedBackupData", JSON.stringify(inputDatas));
-    }, 1000);
-    return () => {
-      clearInterval(timerId);
-    };
+    autoSave(inputDatas);
   }, [inputDatas]);
   return (
     <>
