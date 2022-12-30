@@ -598,7 +598,7 @@ function ClearAllButton({
         }}
         sx={{ m: 0.5 }}
       >
-        すべて削除
+        保存データを削除
       </Button>
     </>
   );
