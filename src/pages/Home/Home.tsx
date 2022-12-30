@@ -636,7 +636,7 @@ function FileDownloadButton({
   );
 }
 
-/** app bar
+/** top app bar
  */
 function TopAppBar() {
   return (
@@ -655,6 +655,35 @@ function TopAppBar() {
           </IconButton>
         </Toolbar>
       </AppBar>
+    </>
+  );
+}
+
+/**
+ * bottom app bar
+ */
+function BottomAppBar(): JSX.Element {
+  return (
+    <>
+      <Paper
+        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+        elevation={3}
+      >
+        <BottomNavigation showLabels>
+          <BottomNavigationAction
+            component={Link}
+            to="/"
+            label="エディター"
+            icon={<CreateIcon />}
+          />
+          <BottomNavigationAction
+            component={Link}
+            to="/preview"
+            label="プレビュー"
+            icon={<PreviewIcon />}
+          />
+        </BottomNavigation>
+      </Paper>
     </>
   );
 }
@@ -708,25 +737,7 @@ export default function Home() {
         <RestoreButton setInputDatas={setInputDatas} />
         <ClearAllButton setInputDatas={setInputDatas} />
         <FileDownloadButton inputDatas={inputDatas} />
-        <Paper
-          sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-          elevation={3}
-        >
-          <BottomNavigation showLabels>
-            <BottomNavigationAction
-              component={Link}
-              to="/"
-              label="エディター"
-              icon={<CreateIcon />}
-            />
-            <BottomNavigationAction
-              component={Link}
-              to="/preview"
-              label="プレビュー"
-              icon={<PreviewIcon />}
-            />
-          </BottomNavigation>
-        </Paper>
+        <BottomAppBar />
       </Box>
     </>
   );
