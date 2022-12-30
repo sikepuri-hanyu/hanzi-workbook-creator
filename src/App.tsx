@@ -1,7 +1,7 @@
 import React, { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import Preview from "./pages/Preview/Preview";
-import Print from "./pages/Print/Print";
+import Home from "./pages/Home";
+import Preview from "./pages/Preview";
+import Print from "./pages/Print";
 
 const ROUTER_BASENAME =
   process.env.NODE_ENV === "development" ? "/" : "/hanzi-workbook-creator";

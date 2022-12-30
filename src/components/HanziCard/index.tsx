@@ -7,9 +7,9 @@ import {
   Note,
   InputData,
   StrokesData,
-} from "./hanziData";
-import toneConvert from "./pinyinToneConvert";
-import getStrokesData from "./getStrokesData";
+} from "./../hanziData";
+import toneConvert from "./../pinyinToneConvert";
+import getStrokesData from "./../getStrokesData";
 import "./style.css";
 
 function TitleHanzi({
