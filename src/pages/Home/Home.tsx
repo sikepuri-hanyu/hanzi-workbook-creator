@@ -9,17 +9,11 @@ import toneConvert from "../../components/pinyinToneConvert";
 import {
   TextField,
   IconButton,
-  Paper,
   Box,
-  BottomNavigation,
-  BottomNavigationAction,
   Table,
   TableRow,
   TableCell,
-  AppBar,
-  Toolbar,
   CssBaseline,
-  Typography,
   Button,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -33,12 +27,9 @@ import RestoreIcon from "@mui/icons-material/Restore";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import PreviewIcon from "@mui/icons-material/Preview";
-import PrintIcon from "@mui/icons-material/Print";
-import CreateIcon from "@mui/icons-material/Create";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import { Link } from "react-router-dom";
 import getSavedData from "../../components/getSavedData";
+import TopAppBar from "../../components/TopAppBar";
+import BottomAppBar from "../../components/BottomAppBar";
 
 const initialDatas: InputDatas = [
   {
@@ -676,67 +667,6 @@ function FileUploadButton({
   );
 }
 
-/** top app bar
- */
-function TopAppBar() {
-  return (
-    <>
-      <AppBar component="nav">
-        <Toolbar>
-          <Typography>漢字練習帳クリエーター</Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <IconButton
-            size="large"
-            aria-label="github"
-            color="inherit"
-            href="https://github.com/sikepuri-hanyu/hanzi-workbook-creator"
-          >
-            <GitHubIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-    </>
-  );
-}
-
-/**
- * bottom app bar
- */
-function BottomAppBar({ inputDatas }: { inputDatas: InputDatas }): JSX.Element {
-  return (
-    <>
-      <Paper
-        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-        elevation={3}
-      >
-        <BottomNavigation showLabels>
-          <BottomNavigationAction
-            component={Link}
-            to="/"
-            label="エディター"
-            icon={<CreateIcon />}
-            onClick={() => {
-              autoSave(inputDatas);
-            }}
-          />
-          <BottomNavigationAction
-            component={Link}
-            to="/preview"
-            label="プレビュー"
-            icon={<PreviewIcon />}
-          />
-          <BottomNavigationAction
-            component={Link}
-            to="/print"
-            label="印刷"
-            icon={<PrintIcon />}
-          />
-        </BottomNavigation>
-      </Paper>
-    </>
-  );
-}
-
 /**
  * UtilButtons
  */
@@ -789,7 +719,6 @@ export default function Home() {
       <Box sx={{ pb: 7 }}>
         <CssBaseline />
         <TopAppBar />
-        <Toolbar />
         <InputFields
           inputDatas={inputDatas}
           setInputDatas={setInputDatas}
@@ -801,7 +730,7 @@ export default function Home() {
           setNewData={setNewData}
         />
         <UtilButtons inputDatas={inputDatas} setInputDatas={setInputDatas} />
-        <BottomAppBar inputDatas={inputDatas} />
+        <BottomAppBar />
       </Box>
     </>
   );
