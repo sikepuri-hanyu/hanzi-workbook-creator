@@ -411,7 +411,7 @@ function Row({
           <HanziOutputField inputData={inputData} />
         </>
       )}
-      <TableCell sx={{ minWidth: 200 }}>
+      <TableCell>
         {edittingNumber === index ? (
           <ConfirmButton
             inputDatas={inputDatas}
