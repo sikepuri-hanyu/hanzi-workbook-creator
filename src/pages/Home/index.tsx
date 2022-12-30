@@ -15,6 +15,7 @@ import {
   TableCell,
   CssBaseline,
   Button,
+  Paper,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -741,7 +742,12 @@ function RealtimePreview({
   }, [edittingNumber, newData, edittingData]);
   return (
     <>
-      <HanziCard inputData={inputData} />
+      <Paper sx={{ position: "fixed", left: 0, right: 0 }} elevation={1}>
+        <HanziCard inputData={inputData} />
+      </Paper>
+      <Paper sx={{ left: 0, right: 0, display: "hidden" }} elevation={1}>
+        <HanziCard inputData={inputData} />
+      </Paper>
     </>
   );
 }
