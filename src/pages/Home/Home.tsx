@@ -37,6 +37,7 @@ import PreviewIcon from "@mui/icons-material/Preview";
 import CreateIcon from "@mui/icons-material/Create";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { Link } from "react-router-dom";
+import getSavedData from "../../components/getSavedData";
 
 const initialDatas: InputDatas = [
   {
@@ -771,14 +772,7 @@ export default function Home() {
     ...initialStringData,
   });
   useEffect(() => {
-    const response = localStorage.getItem("savedBackupData");
-    if (response !== null) {
-      const tmp = [];
-      for (const item of JSON.parse(response)) {
-        tmp.push(item);
-      }
-      setInputDatas(tmp);
-    }
+    getSavedData(setInputDatas);
   }, []);
   useEffect(() => {
     autoSave(inputDatas);

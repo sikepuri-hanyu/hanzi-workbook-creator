@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { InputDatas } from "../../components/hanziData";
 import HanziCard from "../../components/HanziCard";
+import getSavedData from "../../components/getSavedData";
 
 function App() {
   const [inputDatas, setInputDatas] = useState<InputDatas>([]);
   useEffect(() => {
-    const response = localStorage.getItem("savedBackupData");
-    if (response !== null) {
-      const tmp = [];
-      for (const item of JSON.parse(response)) {
-        tmp.push(item);
-      }
-      setInputDatas(tmp);
-    }
+    getSavedData(setInputDatas);
   }, []);
   return (
     <>
