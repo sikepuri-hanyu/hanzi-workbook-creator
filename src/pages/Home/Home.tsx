@@ -35,6 +35,7 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import PreviewIcon from "@mui/icons-material/Preview";
 import CreateIcon from "@mui/icons-material/Create";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import { Link } from "react-router-dom";
 
 const initialDatas: InputDatas = [
   {
@@ -713,12 +714,14 @@ export default function Home() {
         >
           <BottomNavigation showLabels>
             <BottomNavigationAction
-              href="/"
+              component={Link}
+              to="/"
               label="エディター"
               icon={<CreateIcon />}
             />
             <BottomNavigationAction
-              href="/preview"
+              component={Link}
+              to="/preview"
               label="プレビュー"
               icon={<PreviewIcon />}
             />
