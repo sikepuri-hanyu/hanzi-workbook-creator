@@ -6,6 +6,7 @@ import {
   Pinyin,
   HanziCompound,
   Note,
+  InputData,
   InputDatas,
   StrokesData,
 } from "../../components/hanziData";
@@ -142,6 +143,35 @@ function HanziCompoundComponent({
   );
 }
 
+/**
+ * the card of hanzi
+ */
+function HanziCard({ inputData }: { inputData: InputData }) {
+  return (
+    <>
+      <div className={styles.hanzi}>
+        <div className={styles.title}>
+          <PinyinComponent pinyin={inputData.pinyin} />
+          <TitleHanzi
+            hanzi={inputData.hanzi}
+            emphStrokeNumbers={inputData.emphStrokeNumbers}
+          />
+        </div>
+        <div className={styles.content}>
+          <div className={styles.info}>
+            <div className={styles.info1}>
+              <HanziCompoundComponent hanziCompound={inputData.hanziCompound} />
+              <StrokeOrder hanzi={inputData.hanzi} />
+            </div>
+            <NoteComponent note={inputData.note} />
+          </div>
+          <PlayGround hanzi={inputData.hanzi} />
+        </div>
+      </div>
+    </>
+  );
+}
+
 function App() {
   const [inputDatas, setInputDatas] = useState<InputDatas>([]);
   useEffect(() => {
@@ -187,29 +217,7 @@ function App() {
       </button>
       {inputDatas.map((inputData, i) => (
         <React.Fragment key={i}>
-          <div className={styles.hanzi}>
-            <div className={styles.title}>
-              <PinyinComponent pinyin={inputData.pinyin} />
-
-              <TitleHanzi
-                key={i}
-                hanzi={inputData.hanzi}
-                emphStrokeNumbers={inputData.emphStrokeNumbers}
-              />
-            </div>
-            <div className={styles.content}>
-              <div className={styles.info}>
-                <div className={styles.info1}>
-                  <HanziCompoundComponent
-                    hanziCompound={inputData.hanziCompound}
-                  />
-                  <StrokeOrder hanzi={inputData.hanzi} />
-                </div>
-                <NoteComponent note={inputData.note} />
-              </div>
-              <PlayGround hanzi={inputData.hanzi} />
-            </div>
-          </div>
+          <HanziCard inputData={inputData} />
         </React.Fragment>
       ))}
     </>
