@@ -19,3 +19,9 @@ export type InputStringData = {
   hanziCompound: HanziCompound;
   note: Note;
 };
+
+export type HanziCode = number;
+type StrokeData = string;
+export type StrokesData = [...StrokeData[]];
+export type HanziData = { hanziCode: HanziCode; strokesData: StrokesData };
+export type HanziDatas = HanziData[];

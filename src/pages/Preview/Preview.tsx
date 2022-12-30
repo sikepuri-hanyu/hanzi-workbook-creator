@@ -6,41 +6,11 @@ import {
   HanziCompound,
   Note,
   InputDatas,
+  HanziData,
+  HanziDatas,
 } from "../../components/hanziData";
 import toneConvert from "../../components/pinyinToneConvert";
-
-type HanziCode = number;
-type StrokeData = string;
-type StrokesData = [...StrokeData[]];
-type HanziData = { hanziCode: HanziCode; strokesData: StrokesData };
-
-/**
- * Convert character to decimal unicode
- */
-function getDecimalUnicode(character: string): number | undefined {
-  return character[0].codePointAt(0);
-}
-
-/**
- * Get strokes data
- * @param hanziCode the decimal unicode of hanzi
- * @returns the array of strokes data
- */
-async function getStrokesData(hanziCode: HanziCode) {
-  let result: HanziData | undefined = { hanziCode: 0, strokesData: [] };
-  await fetch(
-    `https://raw.githubusercontent.com/parsimonhi/animCJK/master/svgsZhHans/${hanziCode}.svg`
-  )
-    .then(async (response) => await response.text())
-    .then((text) => {
-      const reg = new RegExp(`id="z${hanziCode}d.+" d=".*"`, "g");
-      const strokesData: StrokesData = text
-        .match(reg)
-        ?.map((char) => char.replace(/id=".*" d=/, "").replaceAll('"', ""))!;
-      result = { hanziCode: hanziCode, strokesData: strokesData };
-    });
-  return result;
-}
+import getHanziDatas from "../../components/getHanziDatas";
 
 function TitleHanzi({
   hanziData,
@@ -156,14 +126,10 @@ function HanziCompoundComponent({
 
 function App() {
   const [inputDatas, setInputDatas] = useState<InputDatas>([]);
-  const [hanziDatas, setHanziDatas] = useState<HanziData[]>([]);
+  const [hanziDatas, setHanziDatas] = useState<HanziDatas>([]);
   useEffect(() => {
     (async () => {
-      const tmp = [];
-      for (const inputData of inputDatas) {
-        tmp.push(await getStrokesData(getDecimalUnicode(inputData.hanzi)!));
-      }
-      setHanziDatas(tmp);
+      getHanziDatas(inputDatas, setHanziDatas);
     })();
   }, [inputDatas]);
   useEffect(() => {
