@@ -1,0 +1,37 @@
+.hanzi {
+  display: flex;
+  flex-direction: row;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-pinyin {
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.info1 {
+  display: flex;
+  flex-direction: row;
+}
+
+.hanzi-compound {
+  display: flex;
+  flex-direction: row;
+}
+
+.playgrounds {
+  display: flex;
+}

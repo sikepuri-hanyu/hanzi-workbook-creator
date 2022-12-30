@@ -1,22 +1,13 @@
-input {
-  width: 200px;
-}
-
 .hanzi {
-  display: flex;
-  flex-direction: row;
   margin: 50px 10px;
 }
 
 .title {
-  display: flex;
-  flex-direction: column;
   margin-right: 40px;
 }
 
 .title-pinyin {
   font-size: 20px;
-  text-align: center;
 }
 
 .title-hanzi {
@@ -26,24 +17,7 @@ input {
   margin-top: 10px;
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-}
-
-.info {
-  display: flex;
-  flex-direction: column;
-}
-
-.info1 {
-  display: flex;
-  flex-direction: row;
-}
-
 .hanzi-compound {
-  display: flex;
-  flex-direction: row;
   font-size: 20px;
 }
 
@@ -59,10 +33,6 @@ input {
 .note {
   font-size: 15px;
   margin-bottom: 15px;
-}
-
-.playgrounds {
-  display: flex;
 }
 
 .playground {

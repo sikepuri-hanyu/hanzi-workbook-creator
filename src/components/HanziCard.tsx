@@ -10,7 +10,7 @@ import {
 } from "./hanziData";
 import toneConvert from "./pinyinToneConvert";
 import getStrokesData from "./getStrokesData";
-import styles from "./styles.module.css";
+import "./style.css";
 
 function TitleHanzi({
   hanzi,
@@ -27,11 +27,7 @@ function TitleHanzi({
   }, [hanzi]);
   return (
     <>
-      <svg
-        key={`${hanzi}`}
-        className={styles["title-hanzi"]}
-        viewBox="0 0 1024 1024"
-      >
+      <svg key={`${hanzi}`} className="title-hanzi" viewBox="0 0 1024 1024">
         {strokesData.map((strokeData, j) => (
           <path
             key={`${hanzi}d${j + 1}`}
@@ -52,11 +48,11 @@ function StrokeOrder({ hanzi }: { hanzi: Hanzi }) {
     })();
   }, [hanzi]);
   return (
-    <div className={styles["stroke-orders"]}>
+    <div className="stroke-orders">
       {strokesData.map((_, i) => (
         <svg
           key={`${hanzi}order${i}`}
-          className={styles["stroke-order"]}
+          className="stroke-order"
           viewBox="0 0 1024 1024"
         >
           {strokesData.map((stroke, j) => (
@@ -81,9 +77,9 @@ function PlayGround({ hanzi }: { hanzi: Hanzi }) {
   }, [hanzi]);
   return (
     <>
-      <div className={styles.playgrounds}>
+      <div className="playgrounds">
         {[0, 1, 2, 3, 4, 5].map((index) => (
-          <div key={index} className={styles.playground}>
+          <div key={index} className="playground">
             {index === 0 && (
               <svg
                 key={`playground${hanzi}`}
@@ -110,7 +106,7 @@ function PlayGround({ hanzi }: { hanzi: Hanzi }) {
 function PinyinComponent({ pinyin }: { pinyin: Pinyin }) {
   return (
     <>
-      <div lang="zh-cmn-Hans" className={styles["title-pinyin"]}>
+      <div lang="zh-cmn-Hans" className="title-pinyin">
         {toneConvert(pinyin)}
       </div>
     </>
@@ -120,7 +116,7 @@ function PinyinComponent({ pinyin }: { pinyin: Pinyin }) {
 function NoteComponent({ note }: { note: Note }) {
   return (
     <>
-      <div className={styles.note}>{note}</div>
+      <div className="note">{note}</div>
     </>
   );
 }
@@ -132,7 +128,7 @@ function HanziCompoundComponent({
 }) {
   return (
     <>
-      <div className={styles["hanzi-compound"]}>
+      <div className="hanzi-compound">
         熟語:
         <div lang="zh-cmn-Hans" style={{ marginLeft: "10px" }}>
           {hanziCompound}
@@ -148,17 +144,17 @@ function HanziCompoundComponent({
 export default function HanziCard({ inputData }: { inputData: InputData }) {
   return (
     <>
-      <div className={styles.hanzi}>
-        <div className={styles.title}>
+      <div className="hanzi">
+        <div className="title">
           <PinyinComponent pinyin={inputData.pinyin} />
           <TitleHanzi
             hanzi={inputData.hanzi}
             emphStrokeNumbers={inputData.emphStrokeNumbers}
           />
         </div>
-        <div className={styles.content}>
-          <div className={styles.info}>
-            <div className={styles.info1}>
+        <div className="content">
+          <div className="info">
+            <div className="info1">
               <HanziCompoundComponent hanziCompound={inputData.hanziCompound} />
               <StrokeOrder hanzi={inputData.hanzi} />
             </div>
