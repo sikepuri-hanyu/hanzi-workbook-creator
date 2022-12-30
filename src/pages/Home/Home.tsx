@@ -532,14 +532,16 @@ function InputFields({
 function SaveButton({ inputDatas }: { inputDatas: InputDatas }): JSX.Element {
   return (
     <>
-      <IconButton
-        aria-label="save"
+      <Button
+        variant="outlined"
+        startIcon={<SaveIcon />}
         onClick={() => {
           localStorage.setItem("savedData", JSON.stringify(inputDatas));
         }}
+        sx={{ m: 0.5 }}
       >
-        <SaveIcon />
-      </IconButton>
+        保存
+      </Button>
     </>
   );
 }
@@ -554,8 +556,9 @@ function RestoreButton({
 }): JSX.Element {
   return (
     <>
-      <IconButton
-        aria-label="restore"
+      <Button
+        variant="outlined"
+        startIcon={<RestoreIcon />}
         onClick={() => {
           const response = localStorage.getItem("savedData");
           if (response === null) alert("There is no saved data!");
@@ -567,9 +570,10 @@ function RestoreButton({
             setInputDatas(tmp);
           }
         }}
+        sx={{ m: 0.5 }}
       >
-        <RestoreIcon />
-      </IconButton>
+        復元
+      </Button>
     </>
   );
 }
@@ -584,16 +588,18 @@ function ClearAllButton({
 }): JSX.Element {
   return (
     <>
-      <IconButton
-        aria-label="clear all"
+      <Button
+        variant="outlined"
+        startIcon={<ClearAllIcon />}
         onClick={() => {
           localStorage.removeItem("savedData");
           localStorage.removeItem("savedBackupData");
           setInputDatas([]);
         }}
+        sx={{ m: 0.5 }}
       >
-        <ClearAllIcon />
-      </IconButton>
+        すべて削除
+      </Button>
     </>
   );
 }
@@ -608,8 +614,9 @@ function FileDownloadButton({
 }): JSX.Element {
   return (
     <>
-      <IconButton
-        aria-label="download json file"
+      <Button
+        variant="outlined"
+        startIcon={<FileDownloadIcon />}
         onClick={() => {
           const blob = new Blob([JSON.stringify(inputDatas)], {
             type: "application/json",
@@ -620,9 +627,10 @@ function FileDownloadButton({
           a.click();
           URL.revokeObjectURL(a.href);
         }}
+        sx={{ m: 0.5 }}
       >
-        <FileDownloadIcon />
-      </IconButton>
+        ダウンロード
+      </Button>
     </>
   );
 }
