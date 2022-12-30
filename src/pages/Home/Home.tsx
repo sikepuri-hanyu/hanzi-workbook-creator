@@ -34,6 +34,7 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import PreviewIcon from "@mui/icons-material/Preview";
+import PrintIcon from "@mui/icons-material/Print";
 import CreateIcon from "@mui/icons-material/Create";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { Link } from "react-router-dom";
@@ -723,6 +724,12 @@ function BottomAppBar({ inputDatas }: { inputDatas: InputDatas }): JSX.Element {
             to="/preview"
             label="プレビュー"
             icon={<PreviewIcon />}
+          />
+          <BottomNavigationAction
+            component={Link}
+            to="/print"
+            label="印刷"
+            icon={<PrintIcon />}
           />
         </BottomNavigation>
       </Paper>
