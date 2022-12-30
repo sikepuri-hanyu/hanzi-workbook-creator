@@ -16,6 +16,11 @@ import {
   Table,
   TableRow,
   TableCell,
+  AppBar,
+  Toolbar,
+  CssBaseline,
+  Typography,
+  Button,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -29,6 +34,7 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import PreviewIcon from "@mui/icons-material/Preview";
 import CreateIcon from "@mui/icons-material/Create";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 const initialDatas: InputDatas = [
   {
@@ -54,22 +60,6 @@ const initialStringData: InputStringData = {
   hanziCompound: "",
   note: "",
 };
-
-function Description() {
-  return (
-    <>
-      <p>
-        これは、漢字練習帳の自動作成ツールです。使い方は、次のようになります。
-      </p>
-      <ul>
-        <li>下の入力ボックスに必要な情報を入力してください。</li>
-        <li>
-          プレビューページに移動してください。先程入力したデータを基に漢字練習帳ができているはずです。
-        </li>
-      </ul>
-    </>
-  );
-}
 
 /**
  * remove button
@@ -637,6 +627,29 @@ function FileDownloadButton({
   );
 }
 
+/** app bar
+ */
+function TopAppBar() {
+  return (
+    <>
+      <AppBar component="nav">
+        <Toolbar>
+          <Typography>漢字練習帳クリエーター</Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <IconButton
+            size="large"
+            aria-label="github"
+            color="inherit"
+            href="https://github.com/sikepuri-hanyu/hanzi-workbook-creator"
+          >
+            <GitHubIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+    </>
+  );
+}
+
 export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(
     initialDatas.map((initialData) => ({ ...initialData }))
@@ -669,7 +682,9 @@ export default function Home() {
   return (
     <>
       <Box sx={{ pb: 7 }}>
-        <Description />
+        <CssBaseline />
+        <TopAppBar />
+        <Toolbar />
         <InputFields
           inputDatas={inputDatas}
           setInputDatas={setInputDatas}
