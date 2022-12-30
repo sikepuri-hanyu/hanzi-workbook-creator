@@ -27,3 +27,16 @@ export default async function getStrokesData(hanzi: Hanzi) {
     });
   return strokesData;
 }
+
+export async function isHanziExist(hanzi: Hanzi) {
+  let isExist = false;
+  const hanziCode = getDecimalUnicode(hanzi);
+  await fetch(
+    `https://raw.githubusercontent.com/parsimonhi/animCJK/master/svgsZhHans/${hanziCode}.svg`
+  ).then((response) => {
+    if (response.ok) {
+      isExist = true;
+    }
+  });
+  return isExist;
+}

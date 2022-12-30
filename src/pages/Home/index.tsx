@@ -30,6 +30,16 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import getSavedData from "../../components/getSavedData";
 import TopAppBar from "../../components/TopAppBar";
 import BottomAppBar from "../../components/BottomAppBar";
+import HanziCard from "../../components/HanziCard";
+import { isHanziExist } from "../../components/getStrokesData";
+
+const initialData: InputData = {
+  hanzi: "你",
+  pinyin: "ni3",
+  emphStrokeNumbers: [1, 2],
+  hanziCompound: "你好",
+  note: "sample note",
+};
 
 const initialDatas: InputDatas = [
   {
@@ -708,6 +718,34 @@ function autoSave(inputDatas: InputDatas) {
   };
 }
 
+/**
+ * preview hanzi in realtime
+ */
+function RealtimePreview({
+  edittingNumber,
+  newData,
+  edittingData,
+}: {
+  edittingNumber: number;
+  newData: InputStringData;
+  edittingData: InputStringData;
+}) {
+  const [inputData, setInputData] = useState<InputData>(initialData);
+  useEffect(() => {
+    (async () => {
+      const inputStringData = edittingNumber === -1 ? newData : edittingData;
+      if (await isHanziExist(inputStringData.hanzi)) {
+        setInputData(toInputData(inputStringData));
+      }
+    })();
+  }, [edittingNumber, newData, edittingData]);
+  return (
+    <>
+      <HanziCard inputData={inputData} />
+    </>
+  );
+}
+
 export default function Home() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(
     initialDatas.map((initialData) => ({ ...initialData }))
@@ -730,6 +768,11 @@ export default function Home() {
       <Box sx={{ pb: 7 }}>
         <CssBaseline />
         <TopAppBar />
+        <RealtimePreview
+          edittingNumber={edittingNumber}
+          newData={newData}
+          edittingData={edittingData}
+        />
         <InputFields
           inputDatas={inputDatas}
           setInputDatas={setInputDatas}
