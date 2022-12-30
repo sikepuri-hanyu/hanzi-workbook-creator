@@ -2,7 +2,7 @@
   "name": "practice-hanzi",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://sikepuri-hanyu.github.io/hanzi-workbook-creator/",
+  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
