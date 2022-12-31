@@ -7,7 +7,8 @@ import TopAppBar from "../../components/TopAppBar";
 import BottomAppBar from "../../components/BottomAppBar";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-// import { HanziCard as PrintHanziCard } from "../Print";
+import { BrowserView, MobileView } from "react-device-detect";
+import { HanziCard as PrintHanziCard } from "../Print";
 import { css } from "@emotion/react";
 import {
   TitleHanzi,
@@ -218,14 +219,23 @@ function App() {
       <Box sx={{ pb: 7 }}>
         <CssBaseline />
         <TopAppBar />
-        <Paper elevation={1}>
-          <HanziCard inputData={inputDatas[current]} />
-        </Paper>
-        <NavigateBar
-          current={current}
-          setCurrent={setCurrent}
-          maxLength={inputDatas.length}
-        />
+        <BrowserView>
+          {inputDatas.map((inputData, i) => (
+            <React.Fragment key={i}>
+              <PrintHanziCard inputData={inputData} />
+            </React.Fragment>
+          ))}
+        </BrowserView>
+        <MobileView>
+          <Paper elevation={1}>
+            <HanziCard inputData={inputDatas[current]} />
+          </Paper>
+          <NavigateBar
+            current={current}
+            setCurrent={setCurrent}
+            maxLength={inputDatas.length}
+          />
+        </MobileView>
         <BottomAppBar />
       </Box>
     </>
