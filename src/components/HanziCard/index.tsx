@@ -1,3 +1,4 @@
+/**@jsxImportSource @emotion/react */
 import React, { useState, useEffect } from "react";
 import {
   Hanzi,
@@ -5,19 +6,20 @@ import {
   Pinyin,
   HanziCompound,
   Note,
-  InputData,
   StrokesData,
 } from "./../hanziData";
 import toneConvert from "./../pinyinToneConvert";
 import getStrokesData from "./../getStrokesData";
-import "./style.css";
+import { SerializedStyles } from "@emotion/react";
 
-function TitleHanzi({
+export function TitleHanzi({
   hanzi,
   emphStrokeNumbers,
+  style,
 }: {
   hanzi: Hanzi;
   emphStrokeNumbers: StrokeNumbers;
+  style?: SerializedStyles;
 }): JSX.Element {
   const [strokesData, setStrokesData] = useState<StrokesData>([]);
   useEffect(() => {
@@ -27,7 +29,7 @@ function TitleHanzi({
   }, [hanzi]);
   return (
     <>
-      <svg key={`${hanzi}`} className="title-hanzi" viewBox="0 0 1024 1024">
+      <svg key={`${hanzi}`} css={style} viewBox="0 0 1024 1024">
         {strokesData.map((strokeData, j) => (
           <path
             key={`${hanzi}d${j + 1}`}
@@ -40,7 +42,15 @@ function TitleHanzi({
   );
 }
 
-function StrokeOrder({ hanzi }: { hanzi: Hanzi }) {
+export function StrokeOrder({
+  hanzi,
+  strokeOrderCss,
+  strokeOrdersCss,
+}: {
+  hanzi: Hanzi;
+  strokeOrderCss?: SerializedStyles;
+  strokeOrdersCss?: SerializedStyles;
+}) {
   const [strokesData, setStrokesData] = useState<StrokesData>([]);
   useEffect(() => {
     (async () => {
@@ -48,11 +58,11 @@ function StrokeOrder({ hanzi }: { hanzi: Hanzi }) {
     })();
   }, [hanzi]);
   return (
-    <div className="stroke-orders">
+    <div css={strokeOrdersCss}>
       {strokesData.map((_, i) => (
         <svg
           key={`${hanzi}order${i}`}
-          className="stroke-order"
+          css={strokeOrderCss}
           viewBox="0 0 1024 1024"
         >
           {strokesData.map((stroke, j) => (
@@ -68,7 +78,15 @@ function StrokeOrder({ hanzi }: { hanzi: Hanzi }) {
   );
 }
 
-function PlayGround({ hanzi }: { hanzi: Hanzi }) {
+export function PlayGround({
+  hanzi,
+  playgroundCss,
+  playgroundsCss,
+}: {
+  hanzi: Hanzi;
+  playgroundCss?: SerializedStyles;
+  playgroundsCss?: SerializedStyles;
+}) {
   const [strokesData, setStrokesData] = useState<StrokesData>([]);
   useEffect(() => {
     (async () => {
@@ -77,91 +95,69 @@ function PlayGround({ hanzi }: { hanzi: Hanzi }) {
   }, [hanzi]);
   return (
     <>
-      <div className="playgrounds">
-        {[0, 1, 2, 3, 4, 5].map((index) => (
-          <div key={index} className="playground">
-            {index === 0 && (
-              <svg
-                key={`playground${hanzi}`}
-                viewBox="0 0 1024 1024"
-                width="100%"
-                height="100%"
-              >
-                {strokesData.map((stroke, j) => (
-                  <path
-                    key={`playground${hanzi}d${j + 1}`}
-                    d={stroke}
-                    fill="#ccc"
-                  />
-                ))}
-              </svg>
-            )}
-          </div>
+      <div css={playgroundsCss}>
+        <svg
+          key={`playground${hanzi}0`}
+          viewBox="0 0 1024 1024"
+          css={playgroundCss}
+        >
+          {strokesData.map((stroke, j) => (
+            <path key={`playground${hanzi}d${j + 1}`} d={stroke} fill="#ccc" />
+          ))}
+        </svg>
+        {[1, 2, 3, 4, 5].map((index) => (
+          <svg
+            key={`playground${hanzi}${index}`}
+            viewBox="0 0 1024 1024"
+            css={playgroundCss}
+          ></svg>
         ))}
       </div>
     </>
   );
 }
 
-function PinyinComponent({ pinyin }: { pinyin: Pinyin }) {
+export function PinyinComponent({
+  pinyin,
+  style,
+}: {
+  pinyin: Pinyin;
+  style?: SerializedStyles;
+}) {
   return (
     <>
-      <div lang="zh-cmn-Hans" className="title-pinyin">
+      <div lang="zh-cmn-Hans" css={style}>
         {toneConvert(pinyin)}
       </div>
     </>
   );
 }
 
-function NoteComponent({ note }: { note: Note }) {
-  return (
-    <>
-      <div className="note">{note}</div>
-    </>
-  );
-}
-
-function HanziCompoundComponent({
-  hanziCompound,
+export function NoteComponent({
+  note,
+  style,
 }: {
-  hanziCompound: HanziCompound;
+  note: Note;
+  style?: SerializedStyles;
 }) {
   return (
     <>
-      <div className="hanzi-compound">
-        熟語:
-        <div lang="zh-cmn-Hans" style={{ marginLeft: "10px" }}>
-          {hanziCompound}
-        </div>
-      </div>
+      <div css={style}>{note}</div>
     </>
   );
 }
 
-/**
- * the card of hanzi
- */
-export default function HanziCard({ inputData }: { inputData: InputData }) {
+export function HanziCompoundComponent({
+  hanziCompound,
+  style,
+}: {
+  hanziCompound: HanziCompound;
+  style?: SerializedStyles;
+}) {
   return (
     <>
-      <div className="hanzi">
-        <div className="title">
-          <PinyinComponent pinyin={inputData.pinyin} />
-          <TitleHanzi
-            hanzi={inputData.hanzi}
-            emphStrokeNumbers={inputData.emphStrokeNumbers}
-          />
-        </div>
-        <div className="content">
-          <div className="info">
-            <div className="info1">
-              <HanziCompoundComponent hanziCompound={inputData.hanziCompound} />
-              <StrokeOrder hanzi={inputData.hanzi} />
-            </div>
-            <NoteComponent note={inputData.note} />
-          </div>
-          <PlayGround hanzi={inputData.hanzi} />
-        </div>
+      <div css={style}>
+        熟語：<span lang="zh-cmn-Hans">{hanziCompound}</span>
       </div>
     </>
   );

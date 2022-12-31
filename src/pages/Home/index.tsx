@@ -32,8 +32,16 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import getSavedData from "../../components/getSavedData";
 import TopAppBar from "../../components/TopAppBar";
 import BottomAppBar from "../../components/BottomAppBar";
-import HanziCard from "../../components/HanziCard";
 import { isHanziExist } from "../../components/getStrokesData";
+import { css } from "@emotion/react";
+import {
+  TitleHanzi,
+  StrokeOrder,
+  PlayGround,
+  PinyinComponent,
+  NoteComponent,
+  HanziCompoundComponent,
+} from "../../components/HanziCard";
 
 const initialData: InputData = {
   hanzi: "你",
@@ -748,7 +756,7 @@ function RealtimePreview({
         elevation={1}
       >
         <Toolbar />
-        <HanziCard inputData={inputData} />
+        {/* <HanziCard inputData={inputData} /> */}
       </Paper>
     </>
   );
