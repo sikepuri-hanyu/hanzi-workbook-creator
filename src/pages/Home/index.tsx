@@ -16,6 +16,7 @@ import {
   CssBaseline,
   Button,
   Paper,
+  Toolbar,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -742,10 +743,11 @@ function RealtimePreview({
   }, [edittingNumber, newData, edittingData]);
   return (
     <>
-      <Paper sx={{ position: "fixed", left: 0, right: 0 }} elevation={1}>
-        <HanziCard inputData={inputData} />
-      </Paper>
-      <Paper sx={{ left: 0, right: 0, display: "hidden" }} elevation={1}>
+      <Paper
+        sx={{ position: "sticky", top: 0, left: 0, right: 0, zIndex: 1000 }}
+        elevation={1}
+      >
+        <Toolbar />
         <HanziCard inputData={inputData} />
       </Paper>
     </>
