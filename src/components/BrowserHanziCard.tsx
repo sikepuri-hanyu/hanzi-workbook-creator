@@ -7,7 +7,7 @@ import {
   PinyinComponent,
   NoteComponent,
   HanziCompoundComponent,
-} from "./HanziCard";
+} from "./HanziCardComponents";
 
 const hanziCard = css`
   display: flex;

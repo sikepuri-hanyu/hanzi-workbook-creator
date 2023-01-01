@@ -34,7 +34,7 @@ import TopAppBar from "../../components/TopAppBar";
 import BottomAppBar from "../../components/BottomAppBar";
 import { isHanziExist } from "../../components/getStrokesData";
 import { css } from "@emotion/react";
-import { TitleHanzi } from "../../components/HanziCard";
+import { TitleHanzi } from "../../components/HanziCardComponents";
 import { BrowserView, MobileView } from "react-device-detect";
 import { HanziCard as BrowserHanziCard } from "../Print";
 

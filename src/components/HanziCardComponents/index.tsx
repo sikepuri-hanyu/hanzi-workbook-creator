@@ -7,9 +7,9 @@ import {
   HanziCompound,
   Note,
   StrokesData,
-} from "./../hanziData";
-import toneConvert from "./../pinyinToneConvert";
-import getStrokesData from "./../getStrokesData";
+} from "../hanziData";
+import toneConvert from "../pinyinToneConvert";
+import getStrokesData from "../getStrokesData";
 import { SerializedStyles } from "@emotion/react";
 
 export function TitleHanzi({
