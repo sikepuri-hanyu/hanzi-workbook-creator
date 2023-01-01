@@ -49,19 +49,19 @@ const title = css`
 `;
 
 const titlePinyin = css`
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-align: center;
 `;
 
 const titleHanzi = css`
-  width: 25vw;
+  width: 20vw;
   aspect-ratio: 1/1;
   border: solid 1vw lightskyblue;
   margin: 1vw auto;
 `;
 
 const hanziCompound = css`
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 `;
 
 const strokeOrders = css`
@@ -69,13 +69,13 @@ const strokeOrders = css`
 `;
 
 const strokeOrder = css`
-  width: 13vw;
+  width: 10vw;
   aspect-ratio: 1/1;
   margin: 1vw;
 `;
 
 const note = css`
-  font-size: 1.3rem;
+  font-size: 1rem;
   margin: 1vw;
 `;
 
@@ -84,7 +84,7 @@ const playgrounds = css`
 `;
 
 const playground = css`
-  width: 20vw;
+  width: 9vw;
   aspect-ratio: 1/1;
   border: 1vw solid skyblue;
   margin: 0.5vw;
@@ -143,7 +143,7 @@ function NavigateBeforeButton({
           display: current === 0 ? "none" : "block",
           position: "fixed",
           top: "50vh",
-          left: "-2vw",
+          left: 0,
         }}
       >
         <NavigateBeforeIcon
@@ -177,7 +177,7 @@ function NavigateNextButton({
           display: current === maxLength - 1 ? "none" : "block",
           position: "fixed",
           top: "50vh",
-          right: "-2vw",
+          right: 0,
         }}
       >
         <NavigateNextIcon
@@ -235,7 +235,7 @@ function App() {
           ))}
         </BrowserView>
         <MobileView>
-          <Paper elevation={1} sx={{ m: "8vw" }}>
+          <Paper elevation={1} sx={{ m: "12vw" }}>
             <HanziCard inputData={inputDatas[current]} />
           </Paper>
           <NavigateBar
