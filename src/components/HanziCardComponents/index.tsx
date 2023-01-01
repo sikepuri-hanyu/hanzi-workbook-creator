@@ -31,10 +31,13 @@ export function TitleHanzi({
     <>
       <svg key={`${hanzi}`} css={style} viewBox="0 0 1024 1024">
         {strokesData.map((strokeData, j) => (
+          <path key={`${hanzi}d${j + 1}`} d={strokeData} fill={"black"} />
+        ))}
+        {strokesData.map((strokeData, j) => (
           <path
             key={`${hanzi}d${j + 1}`}
             d={strokeData}
-            fill={emphStrokeNumbers.includes(j + 1) ? "red" : "black"}
+            fill={emphStrokeNumbers.includes(j + 1) ? "red" : "none"}
           />
         ))}
       </svg>
@@ -70,7 +73,21 @@ export function StrokeOrder({
               <path
                 key={`${hanzi}order${i}d${j + 1}`}
                 d={stroke}
-                fill={i === j ? "red" : i > j ? "black" : "#ccc"}
+                fill={"#ccc"}
+              />
+            ))}
+            {strokesData.map((stroke, j) => (
+              <path
+                key={`${hanzi}order${i}d${j + 1}`}
+                d={stroke}
+                fill={i > j ? "black" : "none"}
+              />
+            ))}
+            {strokesData.map((stroke, j) => (
+              <path
+                key={`${hanzi}order${i}d${j + 1}`}
+                d={stroke}
+                fill={i === j ? "red" : "none"}
               />
             ))}
           </svg>
