@@ -36,7 +36,7 @@ import { isHanziExist } from "../../components/getStrokesData";
 import { css } from "@emotion/react";
 import { TitleHanzi } from "../../components/HanziCardComponents";
 import { BrowserView, MobileView } from "react-device-detect";
-import { HanziCard as BrowserHanziCard } from "../Print";
+import BrowserHanziCard from "../../components/BrowserHanziCard";
 
 const initialData: InputData = {
   hanzi: "你",
