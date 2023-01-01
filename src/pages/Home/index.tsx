@@ -801,7 +801,7 @@ export default function Home() {
   }, []);
   useEffect(() => {
     if (didGetSavedData) saveData(inputDatas);
-  }, [inputDatas]);
+  }, [inputDatas, didGetSavedData]);
   return (
     <>
       <Box sx={{ pb: 7 }}>
