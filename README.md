@@ -10,10 +10,6 @@ Node.js のインストール
 npm ci
 ```
 
-```shell
-npm install
-```
-
 ## 開発
 
 ```shell
