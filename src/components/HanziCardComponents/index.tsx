@@ -9,7 +9,7 @@ import {
   StrokesData,
 } from "../hanziData";
 import toneConvert from "../pinyinToneConvert";
-import getStrokesData from "../getStrokesData";
+import getStrokesData, { isHanziExist } from "../getStrokesData";
 import { SerializedStyles } from "@emotion/react";
 
 export function TitleHanzi({
@@ -24,7 +24,8 @@ export function TitleHanzi({
   const [strokesData, setStrokesData] = useState<StrokesData>([]);
   useEffect(() => {
     (async () => {
-      setStrokesData(await getStrokesData(hanzi));
+      if (await isHanziExist(hanzi))
+        setStrokesData(await getStrokesData(hanzi));
     })();
   }, [hanzi]);
   return (
@@ -57,7 +58,8 @@ export function StrokeOrder({
   const [strokesData, setStrokesData] = useState<StrokesData>([]);
   useEffect(() => {
     (async () => {
-      setStrokesData(await getStrokesData(hanzi));
+      if (await isHanziExist(hanzi))
+        setStrokesData(await getStrokesData(hanzi));
     })();
   }, [hanzi]);
   return (
@@ -109,7 +111,8 @@ export function PlayGround({
   const [strokesData, setStrokesData] = useState<StrokesData>([]);
   useEffect(() => {
     (async () => {
-      setStrokesData(await getStrokesData(hanzi));
+      if (await isHanziExist(hanzi))
+        setStrokesData(await getStrokesData(hanzi));
     })();
   }, [hanzi]);
   return (
