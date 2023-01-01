@@ -1,6 +1,6 @@
 /**@jsxImportSource @emotion/react */
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { InputData, InputDatas } from "../../components/hanziData";
+import { InputDatas } from "../../components/hanziData";
 import getSavedData from "../../components/getSavedData";
 import { Box, CssBaseline, Paper, IconButton, Toolbar } from "@mui/material";
 import TopAppBar from "../../components/TopAppBar";
@@ -9,15 +9,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { BrowserView, MobileView } from "react-device-detect";
 import { HanziCard as BrowserHanziCard } from "../Print";
-import { css } from "@emotion/react";
-import {
-  TitleHanzi,
-  StrokeOrder,
-  PlayGround,
-  PinyinComponent,
-  NoteComponent,
-  HanziCompoundComponent,
-} from "../../components/HanziCard";
+import MobileHanziCard from "../../components/MobileHanziCard";
 
 const initialDatas: InputDatas = [
   {
@@ -35,95 +27,6 @@ const initialDatas: InputDatas = [
     note: "sample note",
   },
 ];
-
-const hanziCard = css`
-  display: flex;
-  flex-direction: column;
-  margin: 2vh 5vw;
-`;
-
-const title = css`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const titlePinyin = css`
-  font-size: 1.3rem;
-  text-align: center;
-`;
-
-const titleHanzi = css`
-  width: 20vw;
-  aspect-ratio: 1/1;
-  border: solid 1vw lightskyblue;
-  margin: 1vw auto;
-`;
-
-const hanziCompound = css`
-  font-size: 1.3rem;
-`;
-
-const strokeOrders = css`
-  margin: 1vw;
-`;
-
-const strokeOrder = css`
-  width: 10vw;
-  aspect-ratio: 1/1;
-  margin: 1vw;
-`;
-
-const note = css`
-  font-size: 1rem;
-  margin: 1vw;
-`;
-
-const playgrounds = css`
-  margin: 1vw;
-`;
-
-const playground = css`
-  width: 9vw;
-  aspect-ratio: 1/1;
-  border: 1vw solid skyblue;
-  margin: 0.5vw;
-`;
-
-/**
- * the card of hanzi
- */
-function HanziCard({ inputData }: { inputData: InputData }) {
-  return (
-    <>
-      <div css={hanziCard}>
-        <div css={title}>
-          <PinyinComponent pinyin={inputData.pinyin} style={titlePinyin} />
-          <TitleHanzi
-            hanzi={inputData.hanzi}
-            emphStrokeNumbers={inputData.emphStrokeNumbers}
-            style={titleHanzi}
-          />
-        </div>
-        <HanziCompoundComponent
-          hanziCompound={inputData.hanziCompound}
-          style={hanziCompound}
-        />
-        <StrokeOrder
-          hanzi={inputData.hanzi}
-          strokeOrdersCss={strokeOrders}
-          strokeOrderCss={strokeOrder}
-        />
-        <NoteComponent note={inputData.note} style={note} />
-        <PlayGround
-          hanzi={inputData.hanzi}
-          playgroundsCss={playgrounds}
-          playgroundCss={playground}
-        />
-      </div>
-    </>
-  );
-}
 
 /**
  * navigate before button
@@ -236,7 +139,7 @@ function App() {
         </BrowserView>
         <MobileView>
           <Paper elevation={1} sx={{ m: "12vw" }}>
-            <HanziCard inputData={inputDatas[current]} />
+            <MobileHanziCard inputData={inputDatas[current]} />
           </Paper>
           <NavigateBar
             current={current}
