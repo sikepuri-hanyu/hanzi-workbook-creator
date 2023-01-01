@@ -34,14 +34,9 @@ import TopAppBar from "../../components/TopAppBar";
 import BottomAppBar from "../../components/BottomAppBar";
 import { isHanziExist } from "../../components/getStrokesData";
 import { css } from "@emotion/react";
-import {
-  TitleHanzi,
-  StrokeOrder,
-  PlayGround,
-  PinyinComponent,
-  NoteComponent,
-  HanziCompoundComponent,
-} from "../../components/HanziCard";
+import { TitleHanzi } from "../../components/HanziCard";
+import { BrowserView, MobileView } from "react-device-detect";
+import { HanziCard as BrowserHanziCard } from "../Print";
 
 const initialData: InputData = {
   hanzi: "你",
@@ -728,6 +723,27 @@ function autoSave(inputDatas: InputDatas) {
   };
 }
 
+const titleHanzi = css`
+  width: 20vw;
+  aspect-ratio: 1/1;
+  border: solid 1vw lightskyblue;
+  margin: 2vw 0;
+`;
+
+function MobileHanziCard({ inputData }: { inputData: InputData }) {
+  return (
+    <>
+      <div style={{ width: "100%", textAlign: "center" }}>
+        <TitleHanzi
+          hanzi={inputData.hanzi}
+          emphStrokeNumbers={inputData.emphStrokeNumbers}
+          style={titleHanzi}
+        />
+      </div>
+    </>
+  );
+}
+
 /**
  * preview hanzi in realtime
  */
@@ -756,7 +772,12 @@ function RealtimePreview({
         elevation={1}
       >
         <Toolbar />
-        {/* <HanziCard inputData={inputData} /> */}
+        <MobileView>
+          <MobileHanziCard inputData={inputData} />
+        </MobileView>
+        <BrowserView>
+          <BrowserHanziCard inputData={inputData} />
+        </BrowserView>
       </Paper>
     </>
   );

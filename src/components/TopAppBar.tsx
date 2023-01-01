@@ -20,7 +20,6 @@ export default function TopAppBar() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Toolbar />
     </>
   );
 }

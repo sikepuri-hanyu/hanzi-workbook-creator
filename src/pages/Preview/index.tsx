@@ -2,13 +2,13 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { InputData, InputDatas } from "../../components/hanziData";
 import getSavedData from "../../components/getSavedData";
-import { Box, CssBaseline, Paper, IconButton } from "@mui/material";
+import { Box, CssBaseline, Paper, IconButton, Toolbar } from "@mui/material";
 import TopAppBar from "../../components/TopAppBar";
 import BottomAppBar from "../../components/BottomAppBar";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { BrowserView, MobileView } from "react-device-detect";
-import { HanziCard as PrintHanziCard } from "../Print";
+import { HanziCard as BrowserHanziCard } from "../Print";
 import { css } from "@emotion/react";
 import {
   TitleHanzi,
@@ -226,10 +226,11 @@ function App() {
       <Box sx={{ pb: 7 }}>
         <CssBaseline />
         <TopAppBar />
+        <Toolbar />
         <BrowserView>
           {inputDatas.map((inputData, i) => (
             <React.Fragment key={i}>
-              <PrintHanziCard inputData={inputData} />
+              <BrowserHanziCard inputData={inputData} />
             </React.Fragment>
           ))}
         </BrowserView>
