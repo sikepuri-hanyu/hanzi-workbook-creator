@@ -121,7 +121,8 @@ function App() {
   const [inputDatas, setInputDatas] = useState<InputDatas>(initialDatas);
   const [current, setCurrent] = useState<number>(0);
   useEffect(() => {
-    getSavedData(setInputDatas);
+    const savedData = getSavedData();
+    if (savedData !== null) setInputDatas(savedData);
   }, []);
   return (
     <>

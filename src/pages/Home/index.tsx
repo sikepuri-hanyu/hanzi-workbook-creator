@@ -715,13 +715,8 @@ function UtilButtons({
   );
 }
 
-function autoSave(inputDatas: InputDatas) {
-  const timerId = setInterval(() => {
-    localStorage.setItem("savedBackupData", JSON.stringify(inputDatas));
-  }, 1000);
-  return () => {
-    clearInterval(timerId);
-  };
+function saveData(inputDatas: InputDatas) {
+  localStorage.setItem("savedBackupData", JSON.stringify(inputDatas));
 }
 
 const titleHanzi = css`
@@ -795,11 +790,14 @@ export default function Home() {
   const [edittingData, setEdittingData] = useState<InputStringData>({
     ...initialStringData,
   });
+  const [didGetSavedData, setDidGetSavedData] = useState<boolean>(false);
   useEffect(() => {
-    getSavedData(setInputDatas);
+    const savedData = getSavedData();
+    if (savedData !== null) setInputDatas(savedData);
+    setDidGetSavedData(true);
   }, []);
   useEffect(() => {
-    autoSave(inputDatas);
+    if (didGetSavedData) saveData(inputDatas);
   }, [inputDatas]);
   return (
     <>

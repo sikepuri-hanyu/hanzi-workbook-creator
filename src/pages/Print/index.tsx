@@ -6,7 +6,8 @@ import BrowserHanziCard from "../../components/BrowserHanziCard";
 function App() {
   const [inputDatas, setInputDatas] = useState<InputDatas>([]);
   useEffect(() => {
-    getSavedData(setInputDatas);
+    const savedData = getSavedData();
+    if (savedData !== null) setInputDatas(savedData);
   }, []);
   return (
     <>
