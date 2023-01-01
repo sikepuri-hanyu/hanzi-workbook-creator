@@ -8,7 +8,7 @@ import BottomAppBar from "../../components/BottomAppBar";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { BrowserView, MobileView } from "react-device-detect";
-import { HanziCard as BrowserHanziCard } from "../Print";
+import BrowserHanziCard from "../../components/BrowserHanziCard";
 import MobileHanziCard from "../../components/MobileHanziCard";
 
 const initialDatas: InputDatas = [
