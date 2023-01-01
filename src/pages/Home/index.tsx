@@ -12,6 +12,7 @@ import {
   IconButton,
   Box,
   Table,
+  TableBody,
   TableRow,
   TableCell,
   CssBaseline,
@@ -522,27 +523,29 @@ function InputFields({
   return (
     <>
       <Table>
-        {inputDatas.map((inputData, i) => (
-          <TableRow key={i}>
-            <Row
+        <TableBody>
+          {inputDatas.map((inputData, i) => (
+            <TableRow key={i}>
+              <Row
+                inputDatas={inputDatas}
+                setInputDatas={setInputDatas}
+                index={i}
+                edittingNumber={edittingNumber}
+                setEdittingNumber={setEdittingNumber}
+                edittingData={edittingData}
+                setEdittingData={setEdittingData}
+              />
+            </TableRow>
+          ))}
+          <TableRow>
+            <AddRow
               inputDatas={inputDatas}
               setInputDatas={setInputDatas}
-              index={i}
-              edittingNumber={edittingNumber}
-              setEdittingNumber={setEdittingNumber}
-              edittingData={edittingData}
-              setEdittingData={setEdittingData}
+              newData={newData}
+              setNewData={setNewData}
             />
           </TableRow>
-        ))}
-        <TableRow>
-          <AddRow
-            inputDatas={inputDatas}
-            setInputDatas={setInputDatas}
-            newData={newData}
-            setNewData={setNewData}
-          />
-        </TableRow>
+        </TableBody>
       </Table>
     </>
   );
