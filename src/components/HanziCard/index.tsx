@@ -58,23 +58,25 @@ export function StrokeOrder({
     })();
   }, [hanzi]);
   return (
-    <div css={strokeOrdersCss}>
-      {strokesData.map((_, i) => (
-        <svg
-          key={`${hanzi}order${i}`}
-          css={strokeOrderCss}
-          viewBox="0 0 1024 1024"
-        >
-          {strokesData.map((stroke, j) => (
-            <path
-              key={`${hanzi}order${i}d${j + 1}`}
-              d={stroke}
-              fill={i === j ? "red" : i > j ? "black" : "#ccc"}
-            />
-          ))}
-        </svg>
-      ))}
-    </div>
+    <>
+      <div css={strokeOrdersCss}>
+        {strokesData.map((_, i) => (
+          <svg
+            key={`${hanzi}order${i}`}
+            css={strokeOrderCss}
+            viewBox="0 0 1024 1024"
+          >
+            {strokesData.map((stroke, j) => (
+              <path
+                key={`${hanzi}order${i}d${j + 1}`}
+                d={stroke}
+                fill={i === j ? "red" : i > j ? "black" : "#ccc"}
+              />
+            ))}
+          </svg>
+        ))}
+      </div>
+    </>
   );
 }
 

@@ -54,37 +54,40 @@ const titlePinyin = css`
 `;
 
 const titleHanzi = css`
-  width: 20vw;
+  width: 25vw;
   aspect-ratio: 1/1;
   border: solid 1vw lightskyblue;
   margin: 1vw auto;
 `;
 
 const hanziCompound = css`
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+`;
+
+const strokeOrders = css`
+  margin: 1vw;
 `;
 
 const strokeOrder = css`
-  width: 10vw;
+  width: 13vw;
   aspect-ratio: 1/1;
   margin: 1vw;
 `;
 
 const note = css`
-  font-size: 1rem;
+  font-size: 1.3rem;
   margin: 1vw;
 `;
 
 const playgrounds = css`
-  display: flex;
   margin: 1vw;
 `;
 
 const playground = css`
-  width: 10vw;
+  width: 20vw;
   aspect-ratio: 1/1;
   border: 1vw solid skyblue;
-  margin: 1vw;
+  margin: 0.5vw;
 `;
 
 /**
@@ -106,7 +109,11 @@ function HanziCard({ inputData }: { inputData: InputData }) {
           hanziCompound={inputData.hanziCompound}
           style={hanziCompound}
         />
-        <StrokeOrder hanzi={inputData.hanzi} strokeOrderCss={strokeOrder} />
+        <StrokeOrder
+          hanzi={inputData.hanzi}
+          strokeOrdersCss={strokeOrders}
+          strokeOrderCss={strokeOrder}
+        />
         <NoteComponent note={inputData.note} style={note} />
         <PlayGround
           hanzi={inputData.hanzi}
@@ -136,7 +143,7 @@ function NavigateBeforeButton({
           display: current === 0 ? "none" : "block",
           position: "fixed",
           top: "50vh",
-          left: 0,
+          left: "-2vw",
         }}
       >
         <NavigateBeforeIcon
@@ -170,7 +177,7 @@ function NavigateNextButton({
           display: current === maxLength - 1 ? "none" : "block",
           position: "fixed",
           top: "50vh",
-          right: 0,
+          right: "-2vw",
         }}
       >
         <NavigateNextIcon
@@ -227,7 +234,7 @@ function App() {
           ))}
         </BrowserView>
         <MobileView>
-          <Paper elevation={1}>
+          <Paper elevation={1} sx={{ m: "8vw" }}>
             <HanziCard inputData={inputDatas[current]} />
           </Paper>
           <NavigateBar
