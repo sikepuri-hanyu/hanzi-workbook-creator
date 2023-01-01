@@ -158,9 +158,11 @@ export function HanziCompoundComponent({
 }) {
   return (
     <>
-      <div css={style}>
-        熟語：<span lang="zh-cmn-Hans">{hanziCompound}</span>
-      </div>
+      {hanziCompound !== "" && (
+        <div css={style}>
+          熟語：<span lang="zh-cmn-Hans">{hanziCompound}</span>
+        </div>
+      )}
     </>
   );
 }

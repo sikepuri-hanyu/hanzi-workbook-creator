@@ -43,22 +43,20 @@ const content = css`
 `;
 
 const info = css`
-  display: flex;
-  flex-direction: column;
-`;
-
-const info1 = css`
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 200px auto;
+  grid-template-rows: auto auto;
 `;
 
 const hanziCompound = css`
-  display: flex;
-  flex-direction: row;
+  grid-column: 1/2;
+  grid-row: 1/2;
   font-size: 20px;
 `;
 
 const strokeOrders = css`
+  grid-column: 2/3;
+  grid-row: 1/2;
   margin-left: 20px;
 `;
 
@@ -68,6 +66,8 @@ const strokeOrder = css`
 `;
 
 const note = css`
+  grid-column: 1/3;
+  grid-row: 2/3;
   font-size: 15px;
   margin-bottom: 15px;
 `;
@@ -100,17 +100,15 @@ export function HanziCard({ inputData }: { inputData: InputData }) {
         </div>
         <div css={content}>
           <div css={info}>
-            <div css={info1}>
-              <HanziCompoundComponent
-                hanziCompound={inputData.hanziCompound}
-                style={hanziCompound}
-              />
-              <StrokeOrder
-                hanzi={inputData.hanzi}
-                strokeOrdersCss={strokeOrders}
-                strokeOrderCss={strokeOrder}
-              />
-            </div>
+            <HanziCompoundComponent
+              hanziCompound={inputData.hanziCompound}
+              style={hanziCompound}
+            />
+            <StrokeOrder
+              hanzi={inputData.hanzi}
+              strokeOrdersCss={strokeOrders}
+              strokeOrderCss={strokeOrder}
+            />
             <NoteComponent note={inputData.note} style={note} />
           </div>
           <PlayGround
