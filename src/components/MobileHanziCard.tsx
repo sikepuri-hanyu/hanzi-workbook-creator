@@ -1,3 +1,4 @@
+/**@jsxImportSource @emotion/react */
 import { InputData } from "./hanziData";
 import { css } from "@emotion/react";
 import {

@@ -1,4 +1,3 @@
-/**@jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import { InputDatas } from "../../components/hanziData";
 import getSavedData from "../../components/getSavedData";
