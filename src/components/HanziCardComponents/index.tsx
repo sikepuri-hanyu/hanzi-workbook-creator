@@ -149,7 +149,7 @@ export function PinyinComponent({
   return (
     <>
       <div lang="zh-cmn-Hans" css={style}>
-        {toneConvert(pinyin)}
+        {pinyin.match(/^[0-4a-zA-Z]*$/) && toneConvert(pinyin)}
       </div>
     </>
   );
