@@ -40,7 +40,7 @@ import BottomAppBar from "../../components/BottomAppBar";
 import { isHanziExist } from "../../components/getStrokesData";
 import { css } from "@emotion/react";
 import { TitleHanzi } from "../../components/HanziCardComponents";
-import { BrowserView, MobileView } from "react-device-detect";
+import { isMobile } from "react-device-detect";
 import BrowserHanziCard from "../../components/BrowserHanziCard";
 
 const initialData: InputData = {
@@ -836,12 +836,11 @@ function RealtimePreview({
         elevation={1}
       >
         <Toolbar />
-        <MobileView>
+        {isMobile ? (
           <MobileHanziCard inputData={inputData} />
-        </MobileView>
-        <BrowserView>
+        ) : (
           <BrowserHanziCard inputData={inputData} />
-        </BrowserView>
+        )}
       </Paper>
     </>
   );

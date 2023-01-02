@@ -6,7 +6,7 @@ import TopAppBar from "../../components/TopAppBar";
 import BottomAppBar from "../../components/BottomAppBar";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import { BrowserView, MobileView } from "react-device-detect";
+import { isMobile } from "react-device-detect";
 import BrowserHanziCard from "../../components/BrowserHanziCard";
 import MobileHanziCard from "../../components/MobileHanziCard";
 
@@ -136,23 +136,26 @@ function App() {
         <CssBaseline />
         <TopAppBar />
         <Toolbar />
-        <BrowserView>
-          {inputDatas.map((inputData, i) => (
-            <React.Fragment key={i}>
-              <BrowserHanziCard inputData={inputData} />
-            </React.Fragment>
-          ))}
-        </BrowserView>
-        <MobileView>
-          <Paper elevation={1} sx={{ m: "12vw" }}>
-            <MobileHanziCard inputData={inputDatas[current]} />
-          </Paper>
-          <NavigateBar
-            current={current}
-            setCurrent={setCurrent}
-            maxLength={inputDatas.length}
-          />
-        </MobileView>
+        {isMobile ? (
+          <>
+            <Paper elevation={1} sx={{ m: "12vw" }}>
+              <MobileHanziCard inputData={inputDatas[current]} />
+            </Paper>
+            <NavigateBar
+              current={current}
+              setCurrent={setCurrent}
+              maxLength={inputDatas.length}
+            />
+          </>
+        ) : (
+          <>
+            {inputDatas.map((inputData, i) => (
+              <React.Fragment key={i}>
+                <BrowserHanziCard inputData={inputData} />
+              </React.Fragment>
+            ))}
+          </>
+        )}
         <BottomAppBar />
       </Box>
     </>
