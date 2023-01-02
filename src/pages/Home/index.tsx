@@ -841,6 +841,10 @@ export default function Home() {
         savedData.filter((inputData) => inputData.deckNumber === deckNumber)
       );
     setDidGetSavedData(true);
+    const response = localStorage.getItem("deckNumber");
+    if (response !== null) {
+      setDeckNumber(JSON.parse(response));
+    }
   }, []);
   const [deckNumber, setDeckNumber] = useState<number>(1);
   useEffect(() => {
