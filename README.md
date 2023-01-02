@@ -1,21 +1,23 @@
-# 漢字練習帳クリエーター
+# Hanzi Workbook Creator
 
-これは、漢字練習帳自動作成ツールです。
+This is a hanzi workbook creator.
 
-## 環境構築
+https://user-images.githubusercontent.com/104971044/210233417-31447eaa-01de-4a6e-a858-af9b85a94825.mp4
 
-Node.js のインストール
+## Installation
 
 ```shell
 npm ci
 ```
 
-## 開発
+## Local Development
 
 ```shell
 npm start
 ```
 
-## その他
+and open [http://localhost:3000/](http://localhost:3000/)
 
-間違いや要望などがありましたら、気軽に Issue や PR などで教えてください。
+## Contributions
+
+Issue or PR is always welcome.
