@@ -369,6 +369,18 @@ function HanziInputField({
       </TableCell>
       <TableCell lang="zh-cmn-Hans">
         <TextField
+          error={
+            !inputStringData.emphStrokeNumbers.match(
+              /^([1-9][0-9]*)?(,[1-9][0-9]*)*$/
+            )
+          }
+          helperText={
+            inputStringData.emphStrokeNumbers.match(
+              /^([1-9][0-9]*)?(,[1-9][0-9]*)*$/
+            )
+              ? undefined
+              : "Incorrect entry"
+          }
           label="強調する画数"
           variant="standard"
           value={inputStringData.emphStrokeNumbers}
