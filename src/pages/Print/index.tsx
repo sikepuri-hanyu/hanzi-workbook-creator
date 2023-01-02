@@ -7,7 +7,11 @@ function App() {
   const [inputDatas, setInputDatas] = useState<InputDatas>([]);
   useEffect(() => {
     const savedData = getSavedData();
-    if (savedData !== null) setInputDatas(savedData);
+    const response = localStorage.getItem("deckNumber");
+    if (savedData !== null && response !== null) {
+      const deckNumber: number = JSON.parse(response);
+      setInputDatas(savedData.filter((data) => data.deckNumber === deckNumber));
+    }
   }, []);
   return (
     <>
