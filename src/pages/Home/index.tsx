@@ -321,10 +321,21 @@ function HanziInputField({
   inputStringData: InputStringData;
   setInputStringData: Dispatch<SetStateAction<InputStringData>>;
 }): JSX.Element {
+  const [hanziValidation, setHanziValidation] = useState<boolean>(true);
+  useEffect(() => {
+    (async () => {
+      setHanziValidation(
+        (await isHanziExist(inputStringData.hanzi)) &&
+          inputStringData.hanzi.length < 2
+      );
+    })();
+  }, [inputStringData.hanzi]);
   return (
     <>
       <TableCell lang="zh-cmn-Hans">
         <TextField
+          error={!hanziValidation}
+          helperText={hanziValidation ? undefined : "Incorrect entry."}
           label="漢字"
           variant="standard"
           value={inputStringData.hanzi}
