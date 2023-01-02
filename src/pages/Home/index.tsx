@@ -370,14 +370,10 @@ function HanziInputField({
       <TableCell lang="zh-cmn-Hans">
         <TextField
           error={
-            !inputStringData.emphStrokeNumbers.match(
-              /^([1-9][0-9]*)?(,[1-9][0-9]*)*$/
-            )
+            !inputStringData.emphStrokeNumbers.match(/^([0-9]*)?(,[0-9]*)*$/)
           }
           helperText={
-            inputStringData.emphStrokeNumbers.match(
-              /^([1-9][0-9]*)?(,[1-9][0-9]*)*$/
-            )
+            inputStringData.emphStrokeNumbers.match(/^([0-9]*)?(,[0-9]*)*$/)
               ? undefined
               : "Incorrect entry"
           }
