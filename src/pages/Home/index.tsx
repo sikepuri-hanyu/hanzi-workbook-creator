@@ -351,6 +351,12 @@ function HanziInputField({
       </TableCell>
       <TableCell lang="zh-cmn-Hans">
         <TextField
+          error={!inputStringData.pinyin.match(/^[0-4a-zA-Z]*$/)}
+          helperText={
+            inputStringData.pinyin.match(/^[0-4a-zA-Z]*$/)
+              ? undefined
+              : "Incorrect entry."
+          }
           label="ピンイン"
           variant="standard"
           value={inputStringData.pinyin}
