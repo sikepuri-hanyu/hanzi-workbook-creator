@@ -12,6 +12,7 @@ import MobileHanziCard from "../../components/MobileHanziCard";
 
 const initialDatas: InputDatas = [
   {
+    deckNumber: 1,
     hanzi: "你",
     pinyin: "ni3",
     emphStrokeNumbers: [1, 2],
@@ -19,6 +20,7 @@ const initialDatas: InputDatas = [
     note: "sample note",
   },
   {
+    deckNumber: 1,
     hanzi: "好",
     pinyin: "hao3",
     emphStrokeNumbers: [2, 3, 4],
@@ -122,7 +124,11 @@ function App() {
   const [current, setCurrent] = useState<number>(0);
   useEffect(() => {
     const savedData = getSavedData();
-    if (savedData !== null) setInputDatas(savedData);
+    const response = localStorage.getItem("deckNumber");
+    if (savedData !== null && response !== null) {
+      const deckNumber: number = JSON.parse(response);
+      setInputDatas(savedData.filter((data) => data.deckNumber === deckNumber));
+    }
   }, []);
   return (
     <>

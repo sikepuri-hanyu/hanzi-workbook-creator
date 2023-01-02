@@ -5,6 +5,7 @@ export type Pinyin = string;
 export type HanziCompound = string;
 export type Note = string;
 export type InputData = {
+  deckNumber: number;
   hanzi: Hanzi;
   pinyin: Pinyin;
   emphStrokeNumbers: StrokeNumbers;
@@ -14,6 +15,7 @@ export type InputData = {
 export type InputDatas = InputData[];
 
 export type InputStringData = {
+  deckNumber: number;
   hanzi: Hanzi;
   pinyin: Pinyin;
   emphStrokeNumbers: string;

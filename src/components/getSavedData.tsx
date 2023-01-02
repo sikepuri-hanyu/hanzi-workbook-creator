@@ -1,4 +1,6 @@
-export default function getSavedData() {
+import { InputDatas } from "./hanziData";
+
+export default function getSavedData(): InputDatas | null {
   const response = localStorage.getItem("savedBackupData");
   if (response !== null) {
     const tmp = [];

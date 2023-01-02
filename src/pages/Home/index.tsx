@@ -19,6 +19,9 @@ import {
   Button,
   Paper,
   Toolbar,
+  Select,
+  MenuItem,
+  InputLabel,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -41,6 +44,7 @@ import { BrowserView, MobileView } from "react-device-detect";
 import BrowserHanziCard from "../../components/BrowserHanziCard";
 
 const initialData: InputData = {
+  deckNumber: 1,
   hanzi: "你",
   pinyin: "ni3",
   emphStrokeNumbers: [1, 2],
@@ -50,6 +54,7 @@ const initialData: InputData = {
 
 const initialDatas: InputDatas = [
   {
+    deckNumber: 1,
     hanzi: "你",
     pinyin: "ni3",
     emphStrokeNumbers: [1, 2],
@@ -57,6 +62,7 @@ const initialDatas: InputDatas = [
     note: "sample note",
   },
   {
+    deckNumber: 1,
     hanzi: "好",
     pinyin: "hao3",
     emphStrokeNumbers: [2, 3, 4],
@@ -66,6 +72,7 @@ const initialDatas: InputDatas = [
 ];
 
 const initialStringData: InputStringData = {
+  deckNumber: 1,
   hanzi: "",
   pinyin: "",
   emphStrokeNumbers: "",
@@ -179,11 +186,13 @@ function AddButton({
   setInputDatas,
   newData,
   setNewData,
+  deckNumber,
 }: {
   inputDatas: InputDatas;
   setInputDatas: Dispatch<SetStateAction<InputDatas>>;
   newData: InputStringData;
   setNewData: Dispatch<SetStateAction<InputStringData>>;
+  deckNumber: number;
 }): JSX.Element {
   return (
     <>
@@ -193,6 +202,7 @@ function AddButton({
           setInputDatas([
             ...inputDatas,
             {
+              deckNumber: deckNumber,
               hanzi: newData.hanzi,
               pinyin: newData.pinyin,
               emphStrokeNumbers: newData.emphStrokeNumbers
@@ -232,6 +242,7 @@ function EditButton({
         onClick={() => {
           setEdittingNumber(index);
           setEdittingData({
+            deckNumber: inputData.deckNumber,
             hanzi: inputData.hanzi,
             pinyin: inputData.pinyin,
             emphStrokeNumbers: inputData.emphStrokeNumbers.toString(),
@@ -253,6 +264,7 @@ function EditButton({
  */
 function toInputData(inputStringData: InputStringData): InputData {
   return {
+    deckNumber: inputStringData.deckNumber,
     hanzi: inputStringData.hanzi,
     pinyin: inputStringData.pinyin,
     emphStrokeNumbers: inputStringData.emphStrokeNumbers
@@ -303,11 +315,11 @@ function ConfirmButton({
  * input field of hanzi data
  */
 function HanziInputField({
-  data,
-  setData,
+  inputStringData,
+  setInputStringData,
 }: {
-  data: InputStringData;
-  setData: Dispatch<SetStateAction<InputStringData>>;
+  inputStringData: InputStringData;
+  setInputStringData: Dispatch<SetStateAction<InputStringData>>;
 }): JSX.Element {
   return (
     <>
@@ -315,14 +327,14 @@ function HanziInputField({
         <TextField
           label="漢字"
           variant="standard"
-          value={data.hanzi}
+          value={inputStringData.hanzi}
           onChange={(e) => {
-            const tmp = { ...data };
+            const tmp = { ...inputStringData };
             tmp.hanzi = e.target.value;
             tmp.pinyin = pinyin(e.target.value, {
               style: pinyin.STYLE_TONE2,
             }).join("");
-            setData(tmp);
+            setInputStringData(tmp);
           }}
         />
       </TableCell>
@@ -330,11 +342,11 @@ function HanziInputField({
         <TextField
           label="ピンイン"
           variant="standard"
-          value={data.pinyin}
+          value={inputStringData.pinyin}
           onChange={(e) => {
-            const tmp = { ...data };
+            const tmp = { ...inputStringData };
             tmp.pinyin = e.target.value;
-            setData(tmp);
+            setInputStringData(tmp);
           }}
         />
       </TableCell>
@@ -342,11 +354,11 @@ function HanziInputField({
         <TextField
           label="強調する画数"
           variant="standard"
-          value={data.emphStrokeNumbers}
+          value={inputStringData.emphStrokeNumbers}
           onChange={(e) => {
-            const tmp = { ...data };
+            const tmp = { ...inputStringData };
             tmp.emphStrokeNumbers = e.target.value;
-            setData(tmp);
+            setInputStringData(tmp);
           }}
         />
       </TableCell>
@@ -354,11 +366,11 @@ function HanziInputField({
         <TextField
           label="熟語"
           variant="standard"
-          value={data.hanziCompound}
+          value={inputStringData.hanziCompound}
           onChange={(e) => {
-            const tmp = { ...data };
+            const tmp = { ...inputStringData };
             tmp.hanziCompound = e.target.value;
-            setData(tmp);
+            setInputStringData(tmp);
           }}
         />
       </TableCell>
@@ -366,11 +378,11 @@ function HanziInputField({
         <TextField
           label="メモ"
           variant="standard"
-          value={data.note}
+          value={inputStringData.note}
           onChange={(e) => {
-            const tmp = { ...data };
+            const tmp = { ...inputStringData };
             tmp.note = e.target.value;
-            setData(tmp);
+            setInputStringData(tmp);
           }}
         />
       </TableCell>
@@ -424,7 +436,10 @@ function Row({
     <>
       {edittingNumber === index ? (
         <>
-          <HanziInputField data={edittingData} setData={setEdittingData} />
+          <HanziInputField
+            inputStringData={edittingData}
+            setInputStringData={setEdittingData}
+          />
         </>
       ) : (
         <>
@@ -477,21 +492,27 @@ function AddRow({
   setInputDatas,
   newData,
   setNewData,
+  deckNumber,
 }: {
   inputDatas: InputDatas;
   setInputDatas: Dispatch<SetStateAction<InputDatas>>;
   newData: InputStringData;
   setNewData: Dispatch<SetStateAction<InputStringData>>;
+  deckNumber: number;
 }) {
   return (
     <>
-      <HanziInputField data={newData} setData={setNewData} />
+      <HanziInputField
+        inputStringData={newData}
+        setInputStringData={setNewData}
+      />
       <TableCell sx={{ minWidth: 200 }}>
         <AddButton
           inputDatas={inputDatas}
           setInputDatas={setInputDatas}
           newData={newData}
           setNewData={setNewData}
+          deckNumber={deckNumber}
         />
       </TableCell>
     </>
@@ -510,6 +531,7 @@ function InputFields({
   setEdittingData,
   newData,
   setNewData,
+  deckNumber,
 }: {
   inputDatas: InputDatas;
   setInputDatas: Dispatch<SetStateAction<InputDatas>>;
@@ -519,6 +541,7 @@ function InputFields({
   setEdittingData: Dispatch<SetStateAction<InputStringData>>;
   newData: InputStringData;
   setNewData: Dispatch<SetStateAction<InputStringData>>;
+  deckNumber: number;
 }): JSX.Element {
   return (
     <>
@@ -543,6 +566,7 @@ function InputFields({
               setInputDatas={setInputDatas}
               newData={newData}
               setNewData={setNewData}
+              deckNumber={deckNumber}
             />
           </TableRow>
         </TableBody>
@@ -554,14 +578,16 @@ function InputFields({
 /**
  * save button
  */
-function SaveButton({ inputDatas }: { inputDatas: InputDatas }): JSX.Element {
+function SaveButton(): JSX.Element {
   return (
     <>
       <Button
         variant="outlined"
         startIcon={<SaveIcon />}
         onClick={() => {
-          localStorage.setItem("savedData", JSON.stringify(inputDatas));
+          const response = getSavedData();
+          if (response !== null)
+            localStorage.setItem("savedData", JSON.stringify(response));
         }}
         sx={{ m: 0.5 }}
       >
@@ -576,8 +602,10 @@ function SaveButton({ inputDatas }: { inputDatas: InputDatas }): JSX.Element {
  */
 function RestoreButton({
   setInputDatas,
+  deckNumber,
 }: {
   setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+  deckNumber: number;
 }): JSX.Element {
   return (
     <>
@@ -592,7 +620,8 @@ function RestoreButton({
             for (const item of JSON.parse(response)) {
               tmp.push(item);
             }
-            setInputDatas(tmp);
+            saveData(tmp);
+            setInputDatas(tmp.filter((item) => item.deckNumber === deckNumber));
           }
         }}
         sx={{ m: 0.5 }}
@@ -632,25 +661,26 @@ function ClearAllButton({
 /**
  * download json file
  */
-function FileDownloadButton({
-  inputDatas,
-}: {
-  inputDatas: InputDatas;
-}): JSX.Element {
+function FileDownloadButton(): JSX.Element {
   return (
     <>
       <Button
         variant="outlined"
         startIcon={<FileDownloadIcon />}
         onClick={() => {
-          const blob = new Blob([JSON.stringify(inputDatas)], {
-            type: "application/json",
-          });
-          const a = document.createElement("a");
-          a.href = URL.createObjectURL(blob);
-          a.download = "hanzi_data.json";
-          a.click();
-          URL.revokeObjectURL(a.href);
+          const savedData = getSavedData();
+          if (savedData === null) {
+            alert("No data!");
+          } else {
+            const blob = new Blob([JSON.stringify(savedData)], {
+              type: "application/json",
+            });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "hanzi_data.json";
+            a.click();
+            URL.revokeObjectURL(a.href);
+          }
         }}
         sx={{ m: 0.5 }}
       >
@@ -665,8 +695,10 @@ function FileDownloadButton({
  */
 function FileUploadButton({
   setInputDatas,
+  deckNumber,
 }: {
   setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+  deckNumber: number;
 }) {
   return (
     <>
@@ -687,7 +719,15 @@ function FileUploadButton({
               const file = e.target.files[0];
               reader.readAsText(file, "utf-8");
               reader.onload = () => {
-                setInputDatas(JSON.parse(reader.result as string));
+                const inputDatas: InputDatas = JSON.parse(
+                  reader.result as string
+                );
+                saveData(inputDatas);
+                setInputDatas(
+                  inputDatas.filter(
+                    (inputData) => inputData.deckNumber === deckNumber
+                  )
+                );
               };
             }
           }}
@@ -701,19 +741,19 @@ function FileUploadButton({
  * UtilButtons
  */
 function UtilButtons({
-  inputDatas,
   setInputDatas,
+  deckNumber,
 }: {
-  inputDatas: InputDatas;
   setInputDatas: Dispatch<SetStateAction<InputDatas>>;
+  deckNumber: number;
 }) {
   return (
     <>
-      <SaveButton inputDatas={inputDatas} />
-      <RestoreButton setInputDatas={setInputDatas} />
+      <SaveButton />
+      <RestoreButton setInputDatas={setInputDatas} deckNumber={deckNumber} />
       <ClearAllButton setInputDatas={setInputDatas} />
-      <FileDownloadButton inputDatas={inputDatas} />
-      <FileUploadButton setInputDatas={setInputDatas} />
+      <FileDownloadButton />
+      <FileUploadButton setInputDatas={setInputDatas} deckNumber={deckNumber} />
     </>
   );
 }
@@ -796,12 +836,26 @@ export default function Home() {
   const [didGetSavedData, setDidGetSavedData] = useState<boolean>(false);
   useEffect(() => {
     const savedData = getSavedData();
-    if (savedData !== null) setInputDatas(savedData);
+    if (savedData !== null)
+      setInputDatas(
+        savedData.filter((inputData) => inputData.deckNumber === deckNumber)
+      );
     setDidGetSavedData(true);
   }, []);
+  const [deckNumber, setDeckNumber] = useState<number>(1);
   useEffect(() => {
-    if (didGetSavedData) saveData(inputDatas);
-  }, [inputDatas, didGetSavedData]);
+    let response = getSavedData();
+    if (response === null) response = [];
+    if (didGetSavedData) {
+      saveData([
+        ...response.filter((inputData) => inputData.deckNumber !== deckNumber),
+        ...inputDatas,
+      ]);
+    }
+  }, [inputDatas, didGetSavedData, deckNumber]);
+  useEffect(() => {
+    localStorage.setItem("deckNumber", JSON.stringify(deckNumber));
+  }, [deckNumber]);
   return (
     <>
       <Box sx={{ pb: 7 }}>
@@ -812,6 +866,25 @@ export default function Home() {
           newData={newData}
           edittingData={edittingData}
         />
+        <InputLabel>セクション番号</InputLabel>
+        <Select
+          value={deckNumber}
+          onChange={(e) => {
+            const response = localStorage.getItem("savedBackupData");
+            const savedData: InputDatas =
+              response === null ? [] : JSON.parse(response);
+            setInputDatas(
+              savedData.filter(
+                (item) => item.deckNumber === Number(e.target.value)
+              )
+            );
+            setDeckNumber(Number(e.target.value));
+          }}
+        >
+          {[...Array(21)].map((_, i) => (
+            <MenuItem value={i + 1}>{i + 1}</MenuItem>
+          ))}
+        </Select>
         <InputFields
           inputDatas={inputDatas}
           setInputDatas={setInputDatas}
@@ -821,8 +894,9 @@ export default function Home() {
           setEdittingData={setEdittingData}
           newData={newData}
           setNewData={setNewData}
+          deckNumber={deckNumber}
         />
-        <UtilButtons inputDatas={inputDatas} setInputDatas={setInputDatas} />
+        <UtilButtons setInputDatas={setInputDatas} deckNumber={deckNumber} />
         <BottomAppBar />
       </Box>
     </>
