@@ -859,6 +859,10 @@ export default function Home() {
     ...initialStringData,
   });
   const [didGetSavedData, setDidGetSavedData] = useState<boolean>(false);
+  const [deckNumber, setDeckNumber] = useState<number>(1);
+  useEffect(() => {
+    localStorage.setItem("deckNumber", JSON.stringify(deckNumber));
+  }, [deckNumber]);
   useEffect(() => {
     const savedData = getSavedData();
     if (savedData !== null)
@@ -870,8 +874,8 @@ export default function Home() {
     if (response !== null) {
       setDeckNumber(JSON.parse(response));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const [deckNumber, setDeckNumber] = useState<number>(1);
   useEffect(() => {
     let response = getSavedData();
     if (response === null) response = [];
@@ -882,9 +886,6 @@ export default function Home() {
       ]);
     }
   }, [inputDatas, didGetSavedData, deckNumber]);
-  useEffect(() => {
-    localStorage.setItem("deckNumber", JSON.stringify(deckNumber));
-  }, [deckNumber]);
   return (
     <>
       <Box sx={{ pb: 7 }}>
