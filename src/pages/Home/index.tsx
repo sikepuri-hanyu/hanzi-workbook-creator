@@ -697,12 +697,15 @@ function FileDownloadButton(): JSX.Element {
           if (savedData === null) {
             alert("No data!");
           } else {
-            const blob = new Blob([JSON.stringify(savedData)], {
-              type: "application/json",
-            });
+            const blob = new Blob(
+              [Papa.unparse(savedData, { header: true, quotes: true })],
+              {
+                type: "text/csv",
+              }
+            );
             const a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
-            a.download = "hanzi_data.json";
+            a.download = "hanzi_data.csv";
             a.click();
             URL.revokeObjectURL(a.href);
           }
