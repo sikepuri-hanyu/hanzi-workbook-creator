@@ -42,6 +42,7 @@ import { css } from "@emotion/react";
 import { TitleHanzi } from "../../components/HanziCardComponents";
 import { isMobile } from "react-device-detect";
 import BrowserHanziCard from "../../components/BrowserHanziCard";
+import Papa from "papaparse";
 
 const initialData: InputData = {
   deckNumber: 1,
@@ -739,7 +740,7 @@ function FileUploadButton({
         アップロード
         <input
           type="file"
-          accept="json"
+          accept="csv"
           hidden
           onChange={async (e) => {
             if (e.target.files !== null) {
@@ -747,15 +748,29 @@ function FileUploadButton({
               const file = e.target.files[0];
               reader.readAsText(file, "utf-8");
               reader.onload = () => {
-                const inputDatas: InputDatas = JSON.parse(
-                  reader.result as string
-                );
-                saveData(inputDatas);
-                setInputDatas(
-                  inputDatas.filter(
-                    (inputData) => inputData.deckNumber === deckNumber
-                  )
-                );
+                const data = reader.result as string;
+                Papa.parse(data, {
+                  header: true,
+                  complete: (result) => {
+                    const response = result.data;
+                    const inputStringDatas: InputStringData[] = response.map(
+                      (item) => ({
+                        // @ts-ignore
+                        ...item, // @ts-ignore
+                        deckNumber: Number(item.deckNumber),
+                      })
+                    );
+                    const inputDatas = inputStringDatas.map((inputStringData) =>
+                      toInputData(inputStringData)
+                    );
+                    saveData(inputDatas);
+                    setInputDatas(
+                      inputDatas.filter(
+                        (inputData) => inputData.deckNumber === deckNumber
+                      )
+                    );
+                  },
+                });
               };
             }
           }}
